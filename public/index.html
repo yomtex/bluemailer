@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Blue Mailer v3.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --void:#03060d;
+  --bg1:#080e1a;
+  --bg2:#0c1424;
+  --bg3:#101c30;
+  --bg4:#152238;
+  --panel:#0a1220;
+  --glass:rgba(12,20,36,.85);
+  --border:#1a2e48;
+  --border2:#243d5e;
+  --border3:#2e5080;
+  --blue:#1a7fff;
+  --blue2:#4da3ff;
+  --blue3:#0055bb;
+  --cyan:#00c8ff;
+  --cyan2:#0099cc;
+  --green:#00e87a;
+  --green2:#00b860;
+  --red:#ff3c5a;
+  --red2:#cc2244;
+  --yellow:#ffcc00;
+  --orange:#ff8c42;
+  --purple:#8b5cf6;
+  --text0:#ddeeff;
+  --text1:#8baec8;
+  --text2:#4a6880;
+  --text3:#2a4060;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Inter',sans-serif;
+  --r:8px;--r2:12px;--r3:16px;
+  --shadow:0 16px 48px rgba(0,0,0,.8);
+  --glow:0 0 24px rgba(26,127,255,.18);
+  --glow2:0 0 40px rgba(0,200,255,.08);
+}
+html,body{height:100%;font-family:var(--sans);background:var(--void);color:var(--text0);overflow:hidden}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border3);border-radius:2px}
+
+/* ── GRID BACKGROUND ──────────────────────────────────────── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(26,127,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(26,127,255,.03) 1px,transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;z-index:0;
+}
+body::after{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(26,127,255,.06) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+/* ╔══════════════════════════════════════════════════════════╗
+   LICENSE GATE
+╚══════════════════════════════════════════════════════════╝ */
+#gate{
+  position:fixed;inset:0;z-index:9000;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--void);
+}
+.gate-inner{
+  width:420px;max-width:95vw;
+  text-align:center;
+  animation:gateIn .4s ease both;
+}
+@keyframes gateIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.gate-logo{
+  margin-bottom:36px;
+}
+.gate-logo-mark{
+  font-family:var(--mono);font-size:11px;letter-spacing:.3em;
+  color:var(--text2);text-transform:uppercase;margin-bottom:12px;
+}
+.gate-logo-title{
+  font-family:var(--mono);font-size:38px;font-weight:700;
+  color:var(--blue2);letter-spacing:-.02em;line-height:1;
+  text-shadow:0 0 40px rgba(77,163,255,.4),0 0 80px rgba(77,163,255,.15);
+}
+.gate-logo-title span{color:var(--cyan);}
+.gate-logo-version{
+  font-family:var(--mono);font-size:11px;color:var(--text2);
+  letter-spacing:.2em;margin-top:8px;
+}
+.gate-lock{
+  width:64px;height:64px;margin:0 auto 28px;
+  border:2px solid var(--border2);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;
+  background:radial-gradient(circle,rgba(26,127,255,.08) 0%,transparent 70%);
+  animation:lockPulse 2.5s ease-in-out infinite;
+}
+@keyframes lockPulse{0%,100%{box-shadow:0 0 0 0 rgba(26,127,255,.15)}50%{box-shadow:0 0 0 16px rgba(26,127,255,0)}}
+.gate-card{
+  background:var(--glass);
+  border:1px solid var(--border2);
+  border-radius:var(--r2);
+  padding:28px;
+  backdrop-filter:blur(20px);
+  box-shadow:var(--shadow),var(--glow);
+}
+.gate-label{
+  font-size:12px;font-family:var(--mono);color:var(--text2);
+  text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;text-align:left;
+}
+.gate-input{
+  width:100%;background:var(--bg1);
+  border:1px solid var(--border2);border-radius:var(--r);
+  color:var(--text0);font-family:var(--mono);font-size:13px;
+  padding:12px 14px;outline:none;
+  transition:border-color .15s,box-shadow .15s;
+  letter-spacing:.04em;
+}
+.gate-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,127,255,.12);}
+.gate-btn{
+  width:100%;margin-top:16px;
+  background:linear-gradient(135deg,var(--blue3),var(--blue));
+  border:1px solid var(--blue);border-radius:var(--r);
+  color:#fff;font-size:13.5px;font-weight:600;font-family:var(--sans);
+  padding:13px;cursor:pointer;
+  transition:all .15s;letter-spacing:.03em;
+}
+.gate-btn:hover{background:linear-gradient(135deg,var(--blue),var(--blue2));transform:translateY(-1px);box-shadow:0 8px 20px rgba(26,127,255,.3);}
+.gate-btn:active{transform:none;}
+.gate-btn:disabled{opacity:.4;pointer-events:none;}
+.gate-err{
+  margin-top:12px;padding:10px 14px;
+  background:rgba(255,60,90,.08);border:1px solid rgba(255,60,90,.2);border-radius:var(--r);
+  color:var(--red);font-size:12px;font-family:var(--mono);text-align:left;
+  display:none;
+}
+.gate-demo{
+  margin-top:16px;
+  font-size:11px;color:var(--text3);font-family:var(--mono);
+  cursor:pointer;transition:color .15s;
+}
+.gate-demo:hover{color:var(--text2);}
+.gate-demo span{color:var(--blue);cursor:pointer;}
+
+/* ╔══════════════════════════════════════════════════════════╗
+   APP LAYOUT
+╚══════════════════════════════════════════════════════════╝ */
+#app{display:flex;height:100vh;position:relative;z-index:1;}
+
+/* ── SIDEBAR ──────────────────────────────────────────────── */
+#sidebar{
+  width:220px;min-width:220px;
+  background:var(--bg1);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+}
+.sb-nav-wrap{flex:1;overflow-y:auto;padding-bottom:4px;}
+#sidebar::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--blue),var(--cyan),transparent);
+}
+.sb-logo{
+  padding:18px 16px 14px;
+  border-bottom:1px solid var(--border);
+}
+.sb-logo-name{
+  font-family:var(--mono);font-size:15px;font-weight:700;
+  color:var(--blue2);letter-spacing:.04em;
+}
+.sb-logo-name span{color:var(--cyan);}
+.sb-logo-ver{font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:2px;letter-spacing:.1em;}
+
+.sb-section{
+  padding:12px 12px 3px;
+  font-size:9.5px;font-family:var(--mono);letter-spacing:.16em;
+  color:var(--text3);text-transform:uppercase;
+}
+.nav{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 12px;margin:1px 6px;
+  border-radius:var(--r);cursor:pointer;
+  font-size:12.5px;color:var(--text1);
+  border:1px solid transparent;
+  transition:all .12s;
+  position:relative;
+}
+.nav:hover{background:var(--bg3);color:var(--text0);}
+.nav.active{background:rgba(26,127,255,.1);border-color:rgba(26,127,255,.2);color:var(--blue2);}
+.nav.active::before{content:'';position:absolute;left:-6px;top:50%;transform:translateY(-50%);width:2px;height:16px;background:var(--blue);border-radius:1px;}
+.nav-ico{width:15px;text-align:center;font-size:13px;opacity:.85;}
+.nav-badge{margin-left:auto;background:rgba(26,127,255,.15);color:var(--blue2);font-size:9px;font-family:var(--mono);padding:1px 5px;border-radius:3px;font-weight:700;}
+.nav.locked{opacity:.4;pointer-events:none;}
+.nav.locked::after{content:'🔒';margin-left:auto;font-size:9px;}
+
+.sb-bottom{margin-top:auto;padding:10px 6px 12px;border-top:1px solid var(--border);}
+.lic-pill{
+  display:flex;align-items:center;gap:8px;padding:9px 10px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  cursor:pointer;transition:border-color .15s;
+}
+.lic-pill:hover{border-color:var(--border2);}
+.lic-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);flex-shrink:0;}
+.lic-dot.on{background:var(--green);box-shadow:0 0 6px rgba(0,232,122,.5);}
+.lic-info{flex:1;min-width:0;}
+.lic-tier{font-size:11.5px;font-weight:600;color:var(--text0);}
+.lic-key{font-size:9.5px;color:var(--text2);font-family:var(--mono);}
+.device-btn{
+  display:flex;align-items:center;gap:7px;padding:7px 10px;
+  background:transparent;border:1px solid var(--border);border-radius:var(--r);
+  color:var(--text1);font-size:11.5px;cursor:pointer;
+  margin-top:6px;transition:all .12s;width:100%;
+}
+.device-btn:hover{background:var(--bg2);border-color:var(--border2);color:var(--text0);}
+.device-online{display:flex;align-items:center;gap:5px;margin-left:auto;}
+.pulse-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green);position:relative;
+}
+.pulse-dot::after{
+  content:'';position:absolute;inset:-3px;border-radius:50%;
+  border:1px solid var(--green);
+  animation:pulseRing 1.5s ease-in-out infinite;
+}
+@keyframes pulseRing{0%{transform:scale(1);opacity:.5}100%{transform:scale(2.2);opacity:0}}
+
+/* ── TOPBAR ───────────────────────────────────────────────── */
+#topbar{
+  height:50px;min-height:50px;
+  background:var(--bg1);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 22px;gap:14px;
+}
+.tb-title{font-size:14px;font-weight:600;color:var(--text0);}
+.tb-sub{font-size:11px;color:var(--text2);font-family:var(--mono);margin-left:3px;}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:14px;}
+.tb-stat{display:flex;align-items:center;gap:6px;font-size:11px;font-family:var(--mono);color:var(--text2);}
+.tb-stat-val{font-weight:700;color:var(--text0);}
+.tb-sep{width:1px;height:18px;background:var(--border);}
+.conn-indicator{display:flex;align-items:center;gap:6px;font-size:11px;font-family:var(--mono);}
+.conn-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 5px rgba(0,232,122,.5);}
+
+/* ── MAIN / PAGES ─────────────────────────────────────────── */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+#content{flex:1;overflow-y:auto;padding:24px;}
+.page{display:none;}
+.page.active{display:block;animation:pgIn .16s ease both;}
+@keyframes pgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── CARDS ────────────────────────────────────────────────── */
+.card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:var(--r2);margin-bottom:16px;overflow:hidden;
+}
+.card:hover{border-color:var(--border2);box-shadow:var(--glow);}
+.card-head{
+  padding:12px 18px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.card-title{font-size:11.5px;font-family:var(--mono);font-weight:700;color:var(--text0);letter-spacing:.06em;text-transform:uppercase;}
+.card-body{padding:18px;}
+.card-body.p0{padding:0;}
+
+/* ── STATS GRID ───────────────────────────────────────────── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+.stat{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);
+  padding:16px 18px;transition:border-color .15s,box-shadow .15s;
+}
+.stat:hover{border-color:var(--border2);box-shadow:var(--glow);}
+.stat-lbl{font-size:10px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;}
+.stat-val{font-size:26px;font-family:var(--mono);font-weight:700;line-height:1;}
+.stat-val.c-blue{color:var(--blue2);}
+.stat-val.c-green{color:var(--green);}
+.stat-val.c-red{color:var(--red);}
+.stat-val.c-yellow{color:var(--yellow);}
+.stat-meta{font-size:10.5px;color:var(--text2);margin-top:5px;font-family:var(--mono);}
+
+/* ── QA GRID ──────────────────────────────────────────────── */
+.qa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.qa{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);
+  padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:13px;
+  transition:all .15s;
+}
+.qa:hover{border-color:var(--blue);background:rgba(26,127,255,.06);transform:translateY(-2px);box-shadow:var(--glow);}
+.qa-ico{
+  width:40px;height:40px;border-radius:var(--r);background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+}
+.qa-tit{font-size:13px;font-weight:600;color:var(--text0);margin-bottom:2px;}
+.qa-desc{font-size:11px;color:var(--text2);}
+
+/* ── FORMS ────────────────────────────────────────────────── */
+.frow{display:grid;gap:12px;margin-bottom:12px;}
+.frow.c2{grid-template-columns:1fr 1fr;}
+.frow.c3{grid-template-columns:1fr 1fr 1fr;}
+.frow.c4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.fg{display:flex;flex-direction:column;gap:5px;}
+label{font-size:10.5px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.08em;}
+input[type=text],input[type=email],input[type=password],input[type=number],select,textarea{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  color:var(--text0);font-size:12.5px;font-family:var(--sans);
+  padding:9px 11px;outline:none;width:100%;
+  transition:border-color .12s,box-shadow .12s;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(26,127,255,.1);}
+textarea{resize:vertical;min-height:90px;line-height:1.6;font-family:var(--mono);font-size:12px;}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='%234a6880'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;}
+
+/* ── BUTTONS ──────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r);font-size:12.5px;font-family:var(--sans);font-weight:500;cursor:pointer;transition:all .12s;border:1px solid transparent;white-space:nowrap;}
+.btn:disabled{opacity:.35;pointer-events:none;}
+.btn-primary{background:var(--blue);color:#fff;border-color:var(--blue);}
+.btn-primary:hover{background:var(--blue2);border-color:var(--blue2);}
+.btn-outline{background:transparent;color:var(--text1);border-color:var(--border2);}
+.btn-outline:hover{background:var(--bg3);color:var(--text0);border-color:var(--blue);}
+.btn-success{background:var(--green2);color:#001f10;border-color:var(--green2);font-weight:600;}
+.btn-success:hover{background:var(--green);border-color:var(--green);}
+.btn-danger{background:var(--red2);color:#fff;border-color:var(--red2);}
+.btn-danger:hover{background:var(--red);}
+.btn-ghost{background:transparent;color:var(--text2);border-color:transparent;}
+.btn-ghost:hover{color:var(--text0);background:var(--bg3);}
+.btn-sm{padding:5px 11px;font-size:11.5px;}
+.btn-lg{padding:11px 24px;font-size:13.5px;}
+.btn-full{width:100%;justify-content:center;}
+.btn-icon{width:30px;height:30px;padding:0;justify-content:center;}
+
+/* ── DROP ZONE ────────────────────────────────────────────── */
+.dz{
+  border:1.5px dashed var(--border2);border-radius:var(--r);
+  padding:14px;text-align:center;cursor:pointer;
+  transition:all .15s;font-size:12px;color:var(--text2);
+  background:rgba(255,255,255,.01);margin-bottom:10px;
+}
+.dz:hover,.dz.drag{border-color:var(--blue);background:rgba(26,127,255,.04);color:var(--blue2);}
+.dz input[type=file]{display:none;}
+
+/* ── LOG CONSOLE ──────────────────────────────────────────── */
+.log{
+  background:var(--void);border:1px solid var(--border);border-radius:var(--r);
+  padding:12px;font-family:var(--mono);font-size:11.5px;line-height:1.75;
+  height:200px;overflow-y:auto;color:var(--text1);
+}
+.le{display:flex;gap:8px;}
+.le-ts{color:var(--text3);flex-shrink:0;user-select:none;}
+.c-ok{color:var(--green);}
+.c-er{color:var(--red);}
+.c-wa{color:var(--yellow);}
+.c-in{color:var(--cyan);}
+.c-dm{color:var(--text2);}
+
+/* ── PROGRESS ─────────────────────────────────────────────── */
+.prog-wrap{margin:10px 0;}
+.prog-meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--text2);margin-bottom:5px;}
+.prog-bar{height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:3px;transition:width .3s ease;width:0%;background:linear-gradient(90deg,var(--blue3),var(--blue2));}
+.prog-fill.done{background:linear-gradient(90deg,var(--green2),var(--green));}
+
+/* ── RESULT SUMMARY ───────────────────────────────────────── */
+.res-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0;}
+.ri{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;text-align:center;}
+.ri-val{font-size:22px;font-family:var(--mono);font-weight:700;line-height:1;}
+.ri-lbl{font-size:9.5px;color:var(--text2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-top:3px;}
+
+/* ── TABS ─────────────────────────────────────────────────── */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:16px;}
+.tab-btn{padding:8px 16px;font-size:11.5px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--mono);transition:all .12s;}
+.tab-btn:hover{color:var(--text0);}
+.tab-btn.active{color:var(--blue2);border-bottom-color:var(--blue);}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;}
+
+/* ── TABLE ────────────────────────────────────────────────── */
+.tbl-wrap{overflow-x:auto;}
+table.tbl{width:100%;border-collapse:collapse;font-size:12px;}
+table.tbl th{padding:9px 14px;text-align:left;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);border-bottom:1px solid var(--border);background:rgba(255,255,255,.01);}
+table.tbl td{padding:8px 14px;border-bottom:1px solid rgba(26,46,72,.4);color:var(--text1);font-family:var(--mono);font-size:11.5px;}
+table.tbl tr:hover td{background:rgba(255,255,255,.015);}
+.tag{display:inline-block;padding:1.5px 6px;border-radius:3px;font-size:10px;font-family:var(--mono);font-weight:700;}
+.tag-ok{background:rgba(0,232,122,.1);color:var(--green);border:1px solid rgba(0,232,122,.18);}
+.tag-er{background:rgba(255,60,90,.1);color:var(--red);border:1px solid rgba(255,60,90,.18);}
+.tag-wa{background:rgba(255,204,0,.1);color:var(--yellow);border:1px solid rgba(255,204,0,.18);}
+.tag-bl{background:rgba(26,127,255,.1);color:var(--blue2);border:1px solid rgba(26,127,255,.18);}
+.tag-pu{background:rgba(139,92,246,.1);color:var(--purple);border:1px solid rgba(139,92,246,.18);}
+
+/* ── BAR CHART ────────────────────────────────────────────── */
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;font-size:11.5px;}
+.bar-lbl{width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--mono);color:var(--text1);text-align:right;font-size:11px;}
+.bar-track{flex:1;height:10px;background:var(--bg3);border-radius:5px;overflow:hidden;}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--blue3),var(--blue2));border-radius:5px;transition:width .4s ease;}
+.bar-cnt{width:60px;text-align:right;font-family:var(--mono);color:var(--text2);font-size:10.5px;}
+
+/* ── SMTP ROWS ────────────────────────────────────────────── */
+.smtp-row{
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  padding:10px 13px;font-family:var(--mono);font-size:11.5px;margin-bottom:6px;
+  transition:border-color .12s;
+}
+.smtp-row.ok{border-color:rgba(0,232,122,.25);background:rgba(0,232,122,.03);}
+.smtp-row.fail{border-color:rgba(255,60,90,.2);}
+
+/* ── DEVICE PANEL (SLIDE-IN) ──────────────────────────────── */
+#dev-panel{
+  position:fixed;top:0;right:0;bottom:0;width:380px;
+  background:var(--bg1);border-left:1px solid var(--border2);
+  z-index:2000;
+  transform:translateX(100%);
+  transition:transform .25s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  box-shadow:-16px 0 48px rgba(0,0,0,.5);
+}
+#dev-panel.open{transform:translateX(0);}
+.dp-head{
+  padding:18px 18px 14px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.dp-title{font-size:14px;font-weight:600;color:var(--text0);flex:1;}
+.dp-close{background:none;border:none;color:var(--text2);cursor:pointer;font-size:18px;padding:4px;transition:color .12s;}
+.dp-close:hover{color:var(--text0);}
+.dp-body{flex:1;overflow-y:auto;padding:16px;}
+.device-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  padding:12px 14px;margin-bottom:10px;
+  transition:border-color .12s;
+}
+.device-card:hover{border-color:var(--border2);}
+.device-card.self{border-color:rgba(26,127,255,.25);background:rgba(26,127,255,.04);}
+.device-card.flagged{border-color:rgba(255,60,90,.25);}
+.dc-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.dc-name{font-size:12.5px;font-weight:600;color:var(--text0);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dc-online{display:flex;align-items:center;gap:4px;font-size:10px;font-family:var(--mono);color:var(--green);}
+.dc-offline{color:var(--text3);}
+.dc-info{font-size:11px;font-family:var(--mono);color:var(--text2);line-height:1.8;}
+.dc-actions{display:flex;gap:6px;margin-top:10px;}
+.dp-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;
+}
+.dp-stat{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  padding:10px 12px;text-align:center;
+}
+.dp-stat-val{font-size:20px;font-family:var(--mono);font-weight:700;}
+.dp-stat-lbl{font-size:9.5px;color:var(--text2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-top:2px;}
+
+/* ── TEMPLATE EDITOR ──────────────────────────────────────── */
+.tpl-editor-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;height:500px;}
+.tpl-editor-wrap textarea{height:100%;font-family:var(--mono);font-size:12px;resize:none;}
+.tpl-preview{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;display:flex;flex-direction:column;
+}
+.tpl-preview-bar{
+  padding:6px 12px;background:var(--bg3);border-bottom:1px solid var(--border);
+  font-size:10.5px;font-family:var(--mono);color:var(--text2);
+  display:flex;align-items:center;gap:8px;
+}
+.tpl-preview-bar .dot{width:9px;height:9px;border-radius:50%;}
+.tpl-preview iframe{flex:1;border:none;background:#fff;}
+.tpl-list{display:flex;flex-direction:column;gap:8px;}
+.tpl-item{
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  padding:10px 14px;
+}
+.tpl-item-name{font-size:12.5px;font-weight:500;color:var(--text0);flex:1;}
+.tpl-item-meta{font-size:10.5px;font-family:var(--mono);color:var(--text2);}
+
+/* ── SECTION HEADER ───────────────────────────────────────── */
+.pg-title{font-size:18px;font-weight:700;color:var(--text0);margin-bottom:4px;}
+.pg-sub{font-size:12.5px;color:var(--text2);margin-bottom:20px;}
+
+/* ── MISC ─────────────────────────────────────────────────── */
+.flex{display:flex;}.flex-1{flex:1;}.gap8{gap:8px;}.gap12{gap:12px;}.gap16{gap:16px;}
+.items-end{align-items:flex-end;}.items-center{align-items:center;}
+.mt8{margin-top:8px;}.mt12{margin-top:12px;}.mt16{margin-top:16px;}
+.ml-auto{margin-left:auto;}
+.dn{display:none!important;}
+.mono{font-family:var(--mono);}
+.xs{font-size:11px;color:var(--text2);}
+.divider{border:none;border-top:1px solid var(--border);margin:14px 0;}
+.info-box{background:rgba(26,127,255,.06);border:1px solid rgba(26,127,255,.15);border-radius:var(--r);padding:10px 14px;font-size:12px;color:var(--blue2);font-family:var(--mono);}
+.warn-box{background:rgba(255,204,0,.06);border:1px solid rgba(255,204,0,.15);border-radius:var(--r);padding:10px 14px;font-size:12px;color:var(--yellow);}
+
+/* ── TOAST ────────────────────────────────────────────────── */
+#toasts{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:6px;z-index:9999;}
+.toast{
+  background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);
+  padding:10px 16px;font-size:12.5px;color:var(--text0);
+  box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;
+  max-width:300px;animation:tIn .2s ease;
+}
+.toast.ok{border-left:3px solid var(--green);}
+.toast.er{border-left:3px solid var(--red);}
+.toast.wa{border-left:3px solid var(--yellow);}
+@keyframes tIn{from{transform:translateX(20px);opacity:0}to{transform:none;opacity:1}}
+
+/* ── MODAL ────────────────────────────────────────────────── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:3000;display:none;align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:var(--bg1);border:1px solid var(--border2);border-radius:var(--r2);padding:26px;width:440px;max-width:95vw;box-shadow:var(--shadow);}
+.modal-title{font-size:15px;font-weight:600;margin-bottom:16px;font-family:var(--mono);}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;}
+
+/* Scanlines */
+#app::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.025) 0px,rgba(0,0,0,.025) 1px,transparent 1px,transparent 2px);pointer-events:none;z-index:9990;}
+</style>
+</head>
+<body>
+
+<!-- ╔══ LICENSE GATE ══╗ -->
+<div id="gate">
+  <div class="gate-inner">
+    <div class="gate-logo">
+      <div class="gate-logo-mark">⬡ SECURE ACCESS TERMINAL</div>
+      <div class="gate-logo-title">BLUE<span>MAILER</span></div>
+      <div class="gate-logo-version">v3.0 // ENTERPRISE EDITION</div>
+    </div>
+    <div class="gate-lock">🔑</div>
+    <div class="gate-card">
+      <div class="gate-label">License Key</div>
+      <input id="gate-key" class="gate-input" type="text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" autocomplete="off" spellcheck="false"/>
+      <div id="gate-err" class="gate-err"></div>
+      <button class="gate-btn" onclick="activateGate()">ACTIVATE LICENSE</button>
+      <div class="gate-demo" id="gate-demo-hint">Demo keys — click to fill: <span onclick="fillDemo('9f4b7e2a-6c13-4a8f-9d12-3b2e8f1d5a6c')">Premium</span> · <span onclick="fillDemo('d3a8cfae-2b04-4f2e-8b34-7a9f0d6e1c2b')">Business</span> · <span onclick="fillDemo('t-6e5d4c3b-2a19-4f8e-9a7b-1c2d3e4f5a6b')">Trial</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══ APP ══╗ -->
+<div id="app" style="display:none;">
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-name">BLUE<span>MAILER</span></div>
+      <div class="sb-logo-ver">v3.1 // ENTERPRISE</div>
+    </div>
+    <div class="sb-nav-wrap">
+    <div class="sb-section">Overview</div>
+    <div class="nav active" data-page="dashboard"><span class="nav-ico">⬛</span>Dashboard</div>
+    <div class="sb-section">Sending</div>
+    <div class="nav feat" data-page="smtp" data-feat="smtp_test"><span class="nav-ico">⚡</span>SMTP Tester</div>
+    <div class="nav feat" data-page="send-bulk" data-feat="send_bulk"><span class="nav-ico">📤</span>Bulk Sender</div>
+    <div class="nav feat" data-page="send-personal" data-feat="send_personal"><span class="nav-ico">👤</span>Personalized</div>
+    <div class="sb-section">Tools</div>
+    <div class="nav feat" data-page="validate" data-feat="validate"><span class="nav-ico">✅</span>Validator</div>
+    <div class="nav feat" data-page="sorter" data-feat="sort"><span class="nav-ico">🗂</span>Sorter</div>
+    <div class="nav feat" data-page="dedupe" data-feat="dedupe"><span class="nav-ico">🔁</span>Deduplicator</div>
+    <div class="nav feat" data-page="spf" data-feat="spf_dkim"><span class="nav-ico">🛡</span>SPF / DKIM</div>
+    <div class="nav feat" data-page="blacklist" data-feat="blacklist"><span class="nav-ico">🚫</span>Blacklist Check</div>
+    <div class="nav feat" data-page="scanner" data-feat="inbox_scan"><span class="nav-ico">🔍</span>Inbox Scanner</div>
+    <div class="sb-section">Content</div>
+    <div class="nav feat" data-page="templates" data-feat="templates"><span class="nav-ico">📝</span>Templates</div>
+    </div><!-- /sb-nav-wrap -->
+    <div class="sb-bottom">
+      <button class="device-btn" onclick="openDevPanel()">
+        📡 Connected Devices
+        <div class="device-online"><div class="pulse-dot"></div><span id="sb-online-count" style="font-size:10px;font-family:var(--mono);color:var(--green)">—</span></div>
+      </button>
+      <div class="lic-pill" style="margin-top:6px;">
+        <div class="lic-dot on" id="lic-dot"></div>
+        <div class="lic-info">
+          <div class="lic-tier" id="lic-tier">—</div>
+          <div class="lic-key" id="lic-key-hint">—</div>
+          <div id="lic-cred-bar" style="display:none;margin-top:4px">
+            <div style="font-size:9px;font-family:var(--mono);color:var(--text2);margin-bottom:2px"><span id="lic-cred-used">0</span>/<span id="lic-cred-total">0</span> credits used</div>
+            <div style="height:3px;background:var(--bg3);border-radius:2px"><div id="lic-cred-fill" style="height:100%;border-radius:2px;background:var(--green);transition:width .3s;width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div id="main">
+    <div id="topbar">
+      <div><span class="tb-title" id="tb-title">Dashboard</span><span class="tb-sub" id="tb-sub">// overview</span></div>
+      <div class="tb-right">
+        <div class="tb-stat">SENT <span class="tb-stat-val" id="tb-sent">0</span></div>
+        <div class="tb-sep"></div>
+        <div class="tb-stat">VALIDATED <span class="tb-stat-val" id="tb-val">0</span></div>
+        <div class="tb-sep"></div>
+        <div class="tb-stat">SMTP <span class="tb-stat-val" id="tb-smtp">0</span></div>
+        <div class="tb-sep"></div>
+        <div class="tb-stat" id="tb-cred-wrap" style="display:none">CREDITS <span class="tb-stat-val" id="tb-cred" style="color:var(--green)">∞</span></div>
+        <div class="tb-sep" id="tb-cred-sep" style="display:none"></div>
+        <div class="conn-indicator"><div class="conn-dot"></div><span style="font-size:10.5px;font-family:var(--mono);color:var(--text2)">LIVE</span></div>
+      </div>
+    </div>
+    <div id="content">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <div class="pg-title">Welcome back</div>
+        <div class="pg-sub" id="dash-sub">Blue Mailer v3.1 — Initializing...</div>
+        <div class="stats-grid">
+          <div class="stat"><div class="stat-lbl">Emails Sent</div><div class="stat-val c-blue" id="ds-sent">0</div><div class="stat-meta">this session</div></div>
+          <div class="stat"><div class="stat-lbl">Validated</div><div class="stat-val c-green" id="ds-val">0</div><div class="stat-meta">emails checked</div></div>
+          <div class="stat"><div class="stat-lbl">SMTP Working</div><div class="stat-val c-yellow" id="ds-smtp">0</div><div class="stat-meta">verified this session</div></div>
+          <div class="stat"><div class="stat-lbl">Inbox Matches</div><div class="stat-val" id="ds-match">0</div><div class="stat-meta">keywords found</div></div>
+        </div>
+        <div class="qa-grid">
+          <div class="qa" onclick="navTo('smtp')"><div class="qa-ico">⚡</div><div><div class="qa-tit">SMTP Tester</div><div class="qa-desc">Verify credentials</div></div></div>
+          <div class="qa" onclick="navTo('send-bulk')"><div class="qa-ico">📤</div><div><div class="qa-tit">Bulk Sender</div><div class="qa-desc">Mass email campaigns</div></div></div>
+          <div class="qa" onclick="navTo('send-personal')"><div class="qa-ico">👤</div><div><div class="qa-tit">Personalized</div><div class="qa-desc">{{name}} substitution</div></div></div>
+          <div class="qa" onclick="navTo('validate')"><div class="qa-ico">✅</div><div><div class="qa-tit">Validate List</div><div class="qa-desc">MX + disposable check</div></div></div>
+          <div class="qa" onclick="navTo('templates')"><div class="qa-ico">📝</div><div><div class="qa-tit">Templates</div><div class="qa-desc">Create & preview HTML</div></div></div>
+          <div class="qa" onclick="openDevPanel()"><div class="qa-ico">📡</div><div><div class="qa-tit">Devices</div><div class="qa-desc">Manage active devices</div></div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">SMTP QUICK CONNECT</span><span class="xs ml-auto">Saved across all tools</span></div>
+          <div class="card-body">
+            <div class="frow c4">
+              <div class="fg"><label>Host</label><input id="g-smtp-host" type="text" placeholder="smtp.gmail.com"/></div>
+              <div class="fg"><label>Username</label><input id="g-smtp-user" type="text" placeholder="user@domain.com"/></div>
+              <div class="fg"><label>Password</label><input id="g-smtp-pass" type="password" placeholder="••••••••"/></div>
+              <div class="fg"><label>Port</label>
+                <select id="g-smtp-port"><option value="465">465 (SSL)</option><option value="587">587 (TLS)</option><option value="25">25 (SMTP)</option></select>
+              </div>
+            </div>
+            <div class="flex gap8">
+              <button class="btn btn-primary" onclick="saveGlobalSMTP()">💾 Save SMTP</button>
+              <button class="btn btn-outline" onclick="testGlobalSMTP()" id="g-test-btn">⚡ Quick Test</button>
+              <span class="xs items-center flex ml-auto" id="g-smtp-status"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SMTP TESTER -->
+      <div class="page" id="page-smtp">
+        <div class="pg-title">SMTP Tester</div>
+        <div class="pg-sub">Format: <span class="mono" style="color:var(--blue2)">host|user|pass|port</span></div>
+        <div class="tabs">
+          <div class="tab-btn active" onclick="tab(this,'smtp-manual')">Manual Entry</div>
+          <div class="tab-btn" onclick="tab(this,'smtp-file')">Upload File</div>
+        </div>
+        <div class="tab-pane active" id="smtp-manual">
+          <div class="card">
+            <div class="card-head"><span class="card-title">ADD ENTRY</span></div>
+            <div class="card-body">
+              <div class="frow c4">
+                <div class="fg"><label>Host</label><input id="s-host" type="text" placeholder="smtp.gmail.com"/></div>
+                <div class="fg"><label>User</label><input id="s-user" type="text" placeholder="user@gmail.com"/></div>
+                <div class="fg"><label>Pass</label><input id="s-pass" type="password" placeholder="••••"/></div>
+                <div class="fg"><label>Port</label><select id="s-port"><option value="465">465</option><option value="587">587</option><option value="25">25</option></select></div>
+              </div>
+              <div class="flex gap8">
+                <button class="btn btn-outline" onclick="smtpAdd()">+ Add</button>
+                <button class="btn btn-primary" id="smtp-run-btn" onclick="smtpRun()">▶ Test All</button>
+                <button class="btn btn-ghost btn-sm ml-auto" onclick="smtpEntries=[];renderSmtp()">Clear</button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="card-title">QUEUE</span><span id="smtp-qcount" class="xs ml-auto">0 entries</span></div>
+            <div class="card-body" id="smtp-entry-list"></div>
+          </div>
+        </div>
+        <div class="tab-pane" id="smtp-file">
+          <div class="card">
+            <div class="card-head"><span class="card-title">UPLOAD SMTP FILE</span></div>
+            <div class="card-body">
+              <div class="dz" onclick="$('smtp-fup').click()">
+                <input type="file" id="smtp-fup" accept=".txt" onchange="smtpFileUp(this)">
+                📁 Drop or click to upload — <span class="mono" style="color:var(--blue2)">host|user|pass|port</span> per line
+              </div>
+              <div id="smtp-file-info" class="xs mt8"></div>
+              <button class="btn btn-primary mt8" onclick="smtpRun()">▶ Test Uploaded</button>
+            </div>
+          </div>
+        </div>
+        <div class="card dn" id="smtp-results">
+          <div class="card-head"><span class="card-title">RESULTS</span></div>
+          <div class="card-body">
+            <div class="prog-wrap"><div class="prog-meta"><span id="smtp-plbl">Ready</span><span id="smtp-ppct">0%</span></div><div class="prog-bar"><div class="prog-fill" id="smtp-pbar"></div></div></div>
+            <div class="log mt8" id="smtp-log"></div>
+            <div class="res-sum dn mt8" id="smtp-sum">
+              <div class="ri"><div class="ri-val c-blue" id="smtp-tot">0</div><div class="ri-lbl">Total</div></div>
+              <div class="ri"><div class="ri-val c-green" id="smtp-ok">0</div><div class="ri-lbl">Working</div></div>
+              <div class="ri"><div class="ri-val c-red" id="smtp-fail">0</div><div class="ri-lbl">Failed</div></div>
+            </div>
+            <div id="smtp-working-list" class="mt8"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BULK SENDER -->
+      <div class="page" id="page-send-bulk">
+        <div class="pg-title">Bulk Email Sender</div>
+        <div class="pg-sub">Send one email to a large list of recipients</div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">SMTP</span><button class="btn btn-outline btn-sm ml-auto" onclick="loadGlobalSMTP('bulk')">↓ Load Saved SMTP</button></div>
+          <div class="card-body">
+            <div class="frow c4">
+              <div class="fg"><label>Host</label><input id="bulk-host" type="text" placeholder="smtp.example.com"/></div>
+              <div class="fg"><label>User</label><input id="bulk-user" type="text"/></div>
+              <div class="fg"><label>Pass</label><input id="bulk-pass" type="password" placeholder="••••"/></div>
+              <div class="fg"><label>Port</label><select id="bulk-port"><option value="465">465</option><option value="587">587</option><option value="25">25</option></select></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">CAMPAIGN</span></div>
+          <div class="card-body">
+            <div class="frow c3">
+              <div class="fg"><label>From Name</label><input id="bulk-from" type="text" placeholder="My Company"/></div>
+              <div class="fg"><label>Subject</label><input id="bulk-subj" type="text" placeholder="Email subject"/></div>
+              <div class="fg"><label>Reply-To (optional)</label><input id="bulk-replyto" type="text" placeholder="replies@domain.com"/></div>
+            </div>
+            <div class="frow c2">
+              <div class="fg"><label>Throttle (emails before pause)</label><input id="bulk-throttle" type="number" value="5" min="1"/></div>
+              <div class="fg"><label>Pause (ms)</label><input id="bulk-delay" type="number" value="2000"/></div>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap16">
+          <div style="flex:1">
+            <div class="card" style="height:100%">
+              <div class="card-head"><span class="card-title">RECIPIENTS</span><span class="xs ml-auto" id="bulk-rcount">0</span></div>
+              <div class="card-body">
+                <div class="dz" onclick="$('bulk-fup').click()"><input type="file" id="bulk-fup" accept=".txt" onchange="loadTxt(this,'bulk-recip')">📁 Upload .txt list</div>
+                <textarea id="bulk-recip" style="min-height:180px" placeholder="user@example.com&#10;other@domain.com" oninput="countLines(this,'bulk-rcount')"></textarea>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1.3">
+            <div class="card">
+              <div class="card-head">
+                <span class="card-title">HTML BODY</span>
+                <button class="btn btn-outline btn-sm ml-auto" onclick="loadTplInto('bulk-html')">📝 Load Template</button>
+              </div>
+              <div class="card-body">
+                <div class="dz" onclick="$('bulk-html-fup').click()"><input type="file" id="bulk-html-fup" accept=".html,.htm" onchange="loadTxt(this,'bulk-html')">📁 Upload .html file</div>
+                <textarea id="bulk-html" style="min-height:160px" placeholder="&lt;p&gt;Your email content...&lt;/p&gt;"></textarea>
+                <button class="btn btn-ghost btn-sm mt8" onclick="previewHtml('bulk-html')">👁 Preview HTML</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap8 mt8" style="margin-bottom:16px">
+          <button class="btn btn-success btn-lg" id="bulk-send-btn" onclick="bulkSend()">▶ Start Sending</button>
+          <button class="btn btn-danger dn" id="bulk-stop-btn" onclick="abortOp()">⏹ Stop</button>
+        </div>
+        <div class="card dn" id="bulk-result-card">
+          <div class="card-head"><span class="card-title">SEND LOG</span></div>
+          <div class="card-body">
+            <div class="prog-wrap"><div class="prog-meta"><span id="bulk-plbl">Ready</span><span id="bulk-ppct">0%</span></div><div class="prog-bar"><div class="prog-fill" id="bulk-pbar"></div></div></div>
+            <div class="log mt8" id="bulk-log"></div>
+            <div class="res-sum dn mt8" id="bulk-sum">
+              <div class="ri"><div class="ri-val c-blue" id="bulk-tot">0</div><div class="ri-lbl">Total</div></div>
+              <div class="ri"><div class="ri-val c-green" id="bulk-ok">0</div><div class="ri-lbl">Sent</div></div>
+              <div class="ri"><div class="ri-val c-red" id="bulk-fail">0</div><div class="ri-lbl">Failed</div></div>
+            </div>
+            <div class="flex gap8 mt8 dn" id="bulk-exports">
+              <button class="btn btn-outline btn-sm" onclick="dl(S.bulk.sent,'sent')">⬇ Sent</button>
+              <button class="btn btn-outline btn-sm" onclick="dl(S.bulk.failed.map(x=>x.email||x),'failed')">⬇ Failed</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERSONALIZED -->
+      <div class="page" id="page-send-personal">
+        <div class="pg-title">Personalized Email Sender</div>
+        <div class="pg-sub">Use <span class="mono" style="color:var(--cyan)">{{name}}</span> <span class="mono" style="color:var(--cyan)">{{email}}</span> <span class="mono" style="color:var(--cyan)">{{first_name}}</span> in subject & body</div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">SMTP</span><button class="btn btn-outline btn-sm ml-auto" onclick="loadGlobalSMTP('pers')">↓ Load Saved SMTP</button></div>
+          <div class="card-body">
+            <div class="frow c4">
+              <div class="fg"><label>Host</label><input id="pers-host" type="text"/></div>
+              <div class="fg"><label>User</label><input id="pers-user" type="text"/></div>
+              <div class="fg"><label>Pass</label><input id="pers-pass" type="password" placeholder="••••"/></div>
+              <div class="fg"><label>Port</label><select id="pers-port"><option value="465">465</option><option value="587">587</option></select></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">CAMPAIGN</span></div>
+          <div class="card-body">
+            <div class="frow c3">
+              <div class="fg"><label>From Name</label><input id="pers-from" type="text" placeholder="My Brand"/></div>
+              <div class="fg"><label>Subject (supports {{name}})</label><input id="pers-subj" type="text" placeholder="Hello {{name}}!"/></div>
+              <div class="fg"><label>Reply-To</label><input id="pers-replyto" type="text" placeholder="optional"/></div>
+            </div>
+            <div class="frow c2">
+              <div class="fg"><label>Throttle</label><input id="pers-throttle" type="number" value="5"/></div>
+              <div class="fg"><label>Pause (ms)</label><input id="pers-delay" type="number" value="2000"/></div>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap16">
+          <div style="flex:1">
+            <div class="card">
+              <div class="card-head"><span class="card-title">LEADS</span><span class="xs ml-auto" id="pers-lcount">0</span></div>
+              <div class="card-body">
+                <div class="xs" style="margin-bottom:8px">Format: <span class="mono">email</span> or <span class="mono">email,Full Name</span></div>
+                <div class="dz" onclick="$('pers-fup').click()"><input type="file" id="pers-fup" accept=".txt" onchange="loadTxt(this,'pers-leads')">📁 Upload leads .txt</div>
+                <textarea id="pers-leads" style="min-height:160px" placeholder="user@example.com&#10;jane@corp.com,Jane Smith" oninput="countLines(this,'pers-lcount')"></textarea>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1.3">
+            <div class="card">
+              <div class="card-head">
+                <span class="card-title">HTML TEMPLATE</span>
+                <button class="btn btn-outline btn-sm ml-auto" onclick="loadTplInto('pers-html')">📝 Load Template</button>
+              </div>
+              <div class="card-body">
+                <div class="dz" onclick="$('pers-html-fup').click()"><input type="file" id="pers-html-fup" accept=".html" onchange="loadTxt(this,'pers-html')">📁 Upload .html</div>
+                <textarea id="pers-html" style="min-height:160px" placeholder="&lt;p&gt;Hello {{name}}...&lt;/p&gt;"></textarea>
+                <button class="btn btn-ghost btn-sm mt8" onclick="previewHtml('pers-html')">👁 Preview</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap8 mt8 mb16">
+          <button class="btn btn-success btn-lg" id="pers-send-btn" onclick="persSend()">▶ Start Sending</button>
+          <button class="btn btn-danger dn" id="pers-stop-btn" onclick="abortOp()">⏹ Stop</button>
+        </div>
+        <div class="card dn" id="pers-result-card">
+          <div class="card-head"><span class="card-title">LOG</span></div>
+          <div class="card-body">
+            <div class="prog-wrap"><div class="prog-meta"><span id="pers-plbl">Ready</span><span id="pers-ppct">0%</span></div><div class="prog-bar"><div class="prog-fill" id="pers-pbar"></div></div></div>
+            <div class="log mt8" id="pers-log"></div>
+            <div class="res-sum dn mt8" id="pers-sum">
+              <div class="ri"><div class="ri-val c-blue" id="pers-tot">0</div><div class="ri-lbl">Total</div></div>
+              <div class="ri"><div class="ri-val c-green" id="pers-ok">0</div><div class="ri-lbl">Sent</div></div>
+              <div class="ri"><div class="ri-val c-red" id="pers-fail">0</div><div class="ri-lbl">Failed</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VALIDATOR -->
+      <div class="page" id="page-validate">
+        <div class="pg-title">Blue Debounce — Validator</div>
+        <div class="pg-sub">MX record check · Regex pre-filter · Disposable domain detection · Concurrent batch processing</div>
+        <div class="flex gap16">
+          <div style="flex:1">
+            <div class="card">
+              <div class="card-head"><span class="card-title">INPUT</span><span class="xs ml-auto" id="val-icount">0 emails</span></div>
+              <div class="card-body">
+                <div class="dz" onclick="$('val-fup').click()"><input type="file" id="val-fup" accept=".txt" onchange="loadTxt(this,'val-emails')">📁 Upload email list</div>
+                <textarea id="val-emails" style="min-height:220px" placeholder="one email per line" oninput="countLines(this,'val-icount')"></textarea>
+                <div class="flex gap8 mt8 items-end">
+                  <div class="fg" style="width:110px"><label>Concurrency</label><input id="val-con" type="number" value="15" min="1" max="50"/></div>
+                  <button class="btn btn-success btn-lg" id="val-run" onclick="valRun()">▶ Validate</button>
+                  <button class="btn btn-danger dn" id="val-stop" onclick="abortOp()">⏹</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1.2">
+            <div class="card">
+              <div class="card-head"><span class="card-title">RESULTS</span></div>
+              <div class="card-body">
+                <div class="prog-wrap"><div class="prog-meta"><span id="val-plbl">Ready</span><span id="val-ppct">0%</span></div><div class="prog-bar"><div class="prog-fill" id="val-pbar"></div></div></div>
+                <div class="res-sum">
+                  <div class="ri"><div class="ri-val c-blue" id="val-tot">0</div><div class="ri-lbl">Total</div></div>
+                  <div class="ri"><div class="ri-val c-green" id="val-ok">0</div><div class="ri-lbl">Valid</div></div>
+                  <div class="ri"><div class="ri-val c-red" id="val-bad">0</div><div class="ri-lbl">Invalid</div></div>
+                </div>
+                <div class="log" id="val-log" style="height:180px"></div>
+                <div class="flex gap8 mt8 dn" id="val-exports">
+                  <button class="btn btn-success btn-sm" onclick="dl(S.val.valid,'valid_emails')">⬇ Valid List</button>
+                  <button class="btn btn-danger btn-sm" onclick="dl(S.val.invalid.map(x=>x.email||x),'invalid_emails')">⬇ Invalid List</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SORTER -->
+      <div class="page" id="page-sorter">
+        <div class="pg-title">Email Sorter</div>
+        <div class="pg-sub">Group emails by domain with visual distribution</div>
+        <div class="flex gap16">
+          <div style="flex:1">
+            <div class="card">
+              <div class="card-head"><span class="card-title">INPUT</span></div>
+              <div class="card-body">
+                <div class="dz" onclick="$('sort-fup').click()"><input type="file" id="sort-fup" accept=".txt" onchange="loadTxt(this,'sort-emails')">📁 Upload list</div>
+                <textarea id="sort-emails" style="min-height:220px" placeholder="one email per line"></textarea>
+                <button class="btn btn-primary btn-lg mt8" onclick="sortRun()">⚡ Sort</button>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1.4">
+            <div class="card">
+              <div class="card-head">
+                <span class="card-title">DOMAIN DISTRIBUTION</span>
+                <button class="btn btn-outline btn-sm ml-auto dn" id="sort-export-btn" onclick="dl(S.sort.flat,'sorted_emails')">⬇ Export</button>
+              </div>
+              <div class="card-body" id="sort-results" style="min-height:200px">
+                <p class="xs" style="text-align:center;padding:30px 0">Enter emails and click Sort</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEDUPLICATOR -->
+      <div class="page" id="page-dedupe">
+        <div class="pg-title">Email Deduplicator</div>
+        <div class="pg-sub">Remove duplicate emails and get a clean unique list</div>
+        <div class="flex gap16">
+          <div style="flex:1">
+            <div class="card">
+              <div class="card-head"><span class="card-title">INPUT</span></div>
+              <div class="card-body">
+                <div class="dz" onclick="$('ded-fup').click()"><input type="file" id="ded-fup" accept=".txt" onchange="loadTxt(this,'ded-emails')">📁 Upload list</div>
+                <textarea id="ded-emails" style="min-height:220px" placeholder="one email per line (may contain duplicates)"></textarea>
+                <button class="btn btn-primary btn-lg mt8" onclick="dedupeRun()">🔁 Deduplicate</button>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1">
+            <div class="card">
+              <div class="card-head"><span class="card-title">RESULTS</span></div>
+              <div class="card-body">
+                <div class="res-sum" id="ded-sum" style="margin-bottom:16px">
+                  <div class="ri"><div class="ri-val c-blue" id="ded-tot">0</div><div class="ri-lbl">Total</div></div>
+                  <div class="ri"><div class="ri-val c-green" id="ded-uni">0</div><div class="ri-lbl">Unique</div></div>
+                  <div class="ri"><div class="ri-val c-red" id="ded-dup">0</div><div class="ri-lbl">Duplicates</div></div>
+                </div>
+                <div class="flex gap8 dn" id="ded-exports">
+                  <button class="btn btn-success btn-sm" onclick="dl(S.dedupe.unique,'unique_emails')">⬇ Export Unique</button>
+                  <button class="btn btn-outline btn-sm" onclick="dl(S.dedupe.dupes,'duplicate_emails')">⬇ Export Dupes</button>
+                </div>
+                <div class="info-box mt8 dn" id="ded-info"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPF / DKIM -->
+      <div class="page" id="page-spf">
+        <div class="pg-title">SPF / DKIM / DMARC Checker</div>
+        <div class="pg-sub">Verify domain DNS records for email authentication</div>
+        <div class="flex gap16">
+          <div style="flex:1">
+            <div class="card">
+              <div class="card-head"><span class="card-title">DOMAINS</span></div>
+              <div class="card-body">
+                <textarea id="spf-domains" style="min-height:200px" placeholder="example.com&#10;anotherdomain.org&#10;(one domain per line)"></textarea>
+                <button class="btn btn-primary btn-lg mt8" onclick="spfRun()">🛡 Check</button>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1.6">
+            <div class="card">
+              <div class="card-head"><span class="card-title">RESULTS</span></div>
+              <div class="card-body p0">
+                <div class="tbl-wrap">
+                  <table class="tbl">
+                    <thead><tr><th>Domain</th><th>SPF</th><th>DKIM</th><th>DMARC</th><th>MX</th></tr></thead>
+                    <tbody id="spf-tbody"><tr><td colspan="5" style="text-align:center;color:var(--text3);padding:20px">Enter domains to check</td></tr></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLACKLIST -->
+      <div class="page" id="page-blacklist">
+        <div class="pg-title">Blacklist Checker</div>
+        <div class="pg-sub">Check domains against 9 major DNSBL servers</div>
+        <div class="flex gap16">
+          <div style="flex:1">
+            <div class="card">
+              <div class="card-head"><span class="card-title">DOMAINS / IPs</span></div>
+              <div class="card-body">
+                <textarea id="bl-domains" style="min-height:200px" placeholder="example.com&#10;1.2.3.4&#10;(one per line)"></textarea>
+                <button class="btn btn-primary btn-lg mt8" onclick="blRun()">🚫 Check Blacklists</button>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1.6">
+            <div class="card">
+              <div class="card-head"><span class="card-title">RESULTS</span></div>
+              <div class="card-body p0">
+                <div class="tbl-wrap">
+                  <table class="tbl">
+                    <thead><tr><th>Domain/IP</th><th>Status</th><th>Listed On</th><th>Clean</th></tr></thead>
+                    <tbody id="bl-tbody"><tr><td colspan="4" style="text-align:center;color:var(--text3);padding:20px">Enter domains to check</td></tr></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INBOX SCANNER -->
+      <div class="page" id="page-scanner">
+        <div class="pg-title">Inbox Scanner</div>
+        <div class="pg-sub">IMAP keyword scan — auto-detects server from email domain</div>
+        <div class="flex gap16">
+          <div style="flex:1">
+            <div class="card">
+              <div class="card-head"><span class="card-title">ACCOUNTS</span></div>
+              <div class="card-body">
+                <div class="xs" style="margin-bottom:6px">Format: <span class="mono">email|password</span> per line</div>
+                <div class="dz" onclick="$('scan-fup').click()"><input type="file" id="scan-fup" accept=".txt" onchange="loadTxt(this,'scan-accs')">📁 Upload accounts</div>
+                <textarea id="scan-accs" style="min-height:130px" placeholder="user@gmail.com|apppassword&#10;other@yahoo.com|pass123"></textarea>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-head"><span class="card-title">SETTINGS</span></div>
+              <div class="card-body">
+                <div class="fg" style="margin-bottom:10px"><label>Keywords (one per line)</label>
+                  <textarea id="scan-kw" style="min-height:100px" placeholder="paypal&#10;invoice&#10;login&#10;password reset"></textarea>
+                </div>
+                <div class="frow c2">
+                  <div class="fg"><label>Max messages/account</label><input id="scan-max" type="number" value="100"/></div>
+                  <div class="fg"><label>Manual IMAP host (optional)</label><input id="scan-imap" type="text" placeholder="auto-detect"/></div>
+                </div>
+                <div class="flex gap8 mt8">
+                  <button class="btn btn-primary btn-lg" id="scan-run-btn" onclick="scanRun()">🔍 Start Scan</button>
+                  <button class="btn btn-danger dn" id="scan-stop-btn" onclick="abortOp()">⏹ Stop</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1.4">
+            <div class="card" style="margin-bottom:12px">
+              <div class="card-head"><span class="card-title">SCAN LOG</span></div>
+              <div class="card-body">
+                <div class="prog-wrap"><div class="prog-meta"><span id="scan-plbl">Ready</span><span id="scan-ppct">0%</span></div><div class="prog-bar"><div class="prog-fill" id="scan-pbar"></div></div></div>
+                <div class="log" id="scan-log" style="height:140px"></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-head">
+                <span class="card-title">MATCHES</span>
+                <span class="xs ml-auto" id="scan-mcount" style="color:var(--green)">0 found</span>
+                <button class="btn btn-outline btn-sm dn" id="scan-export-btn" style="margin-left:8px" onclick="dl(S.scan.txt,'scan_results',true)">⬇ Export</button>
+              </div>
+              <div class="card-body p0">
+                <div class="tbl-wrap" style="max-height:260px;overflow-y:auto">
+                  <table class="tbl">
+                    <thead><tr><th>Account</th><th>From</th><th>Subject</th><th>Keywords</th><th>Date</th></tr></thead>
+                    <tbody id="scan-tbody"><tr><td colspan="5" style="text-align:center;color:var(--text3);padding:20px">No matches yet</td></tr></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEMPLATES -->
+      <div class="page" id="page-templates">
+        <div class="pg-title">Template Manager</div>
+        <div class="pg-sub">Create, edit and preview HTML email templates. Use <span class="mono" style="color:var(--cyan)">{{name}}</span> <span class="mono" style="color:var(--cyan)">{{email}}</span> as placeholders.</div>
+        <div class="tabs">
+          <div class="tab-btn active" onclick="tab(this,'tpl-editor')">Editor</div>
+          <div class="tab-btn" onclick="tab(this,'tpl-list');loadTemplates()">Saved Templates</div>
+        </div>
+        <div class="tab-pane active" id="tpl-editor">
+          <div class="card">
+            <div class="card-head"><span class="card-title">TEMPLATE DETAILS</span></div>
+            <div class="card-body">
+              <div class="frow c3">
+                <div class="fg"><label>Template Name</label><input id="tpl-name" type="text" placeholder="My Newsletter"/></div>
+                <div class="fg"><label>Subject Line</label><input id="tpl-subj" type="text" placeholder="Hello {{name}}!"/></div>
+                <div class="fg"><label>Tags (comma separated)</label><input id="tpl-tags" type="text" placeholder="newsletter, promo"/></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="card-title">HTML EDITOR & LIVE PREVIEW</span>
+              <div class="flex gap8 ml-auto">
+                <button class="btn btn-outline btn-sm" onclick="$('tpl-fup').click()">📁 Load File</button>
+                <input type="file" id="tpl-fup" accept=".html" style="display:none" onchange="loadTxt(this,'tpl-html');setTimeout(()=>refreshPreview(),100)">
+                <button class="btn btn-outline btn-sm" onclick="refreshPreview()">↺ Refresh</button>
+                <button class="btn btn-primary btn-sm" onclick="saveTpl()">💾 Save</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="tpl-editor-wrap">
+                <textarea id="tpl-html" oninput="debouncePreview()" placeholder="&lt;!DOCTYPE html&gt;&#10;&lt;html&gt;&#10;  &lt;body&gt;&#10;    &lt;h1&gt;Hello {{name}}!&lt;/h1&gt;&#10;    &lt;p&gt;This is your personalized email.&lt;/p&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;"></textarea>
+                <div class="tpl-preview">
+                  <div class="tpl-preview-bar">
+                    <div class="dot" style="background:#ff5f56"></div>
+                    <div class="dot" style="background:#ffbd2e;margin-left:4px"></div>
+                    <div class="dot" style="background:#27c93f;margin-left:4px"></div>
+                    <span style="margin-left:8px">Preview — <a href="/cdn-cgi/l/email-protection" preview@example.com</a></span>
+                  </div>
+                  <iframe id="tpl-preview-frame" title="Template Preview"></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="tpl-list">
+          <div class="card">
+            <div class="card-head"><span class="card-title">SAVED TEMPLATES</span><button class="btn btn-primary btn-sm ml-auto" onclick="tab(document.querySelector('.tab-btn'),'tpl-editor')">+ New</button></div>
+            <div class="card-body">
+              <div id="tpl-list-body" class="tpl-list"><p class="xs" style="text-align:center;padding:20px">No templates saved yet</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- DEVICE PANEL -->
+<div id="dev-panel">
+  <div class="dp-head">
+    <span>📡</span>
+    <div class="dp-title">Connected Devices</div>
+    <button class="dp-close" onclick="closeDevPanel()">✕</button>
+  </div>
+  <div class="dp-body">
+    <div class="dp-stats">
+      <div class="dp-stat"><div class="dp-stat-val c-blue" id="dp-total">0</div><div class="dp-stat-lbl">Total</div></div>
+      <div class="dp-stat"><div class="dp-stat-val c-green" id="dp-online">0</div><div class="dp-stat-lbl">Online</div></div>
+      <div class="dp-stat"><div class="dp-stat-val c-red" id="dp-flagged">0</div><div class="dp-stat-lbl">Flagged</div></div>
+    </div>
+    <div id="dp-devices"></div>
+  </div>
+</div>
+
+<!-- HTML PREVIEW MODAL -->
+<div class="modal-bg" id="preview-modal">
+  <div class="modal" style="width:700px;max-width:95vw">
+    <div class="modal-title">📧 HTML Preview</div>
+    <div style="border:1px solid var(--border);border-radius:var(--r);overflow:hidden;height:400px">
+      <iframe id="preview-iframe" style="width:100%;height:100%;border:none;background:#fff" title="Preview"></iframe>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('preview-modal')">Close</button></div>
+  </div>
+</div>
+
+<!-- LOAD TEMPLATE MODAL -->
+<div class="modal-bg" id="tpl-load-modal">
+  <div class="modal">
+    <div class="modal-title">📝 Load Template</div>
+    <div id="tpl-load-list" style="max-height:300px;overflow-y:auto"></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('tpl-load-modal')">Cancel</button></div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+
+<script>
+'use strict';
+
+// ── STATE ────────────────────────────────────────────────────
+const S = {
+  token: null, deviceId: null, license: null, features: [],
+  globalSmtp: null, currentAbort: null,
+  bulk:  { sent:[], failed:[] },
+  val:   { valid:[], invalid:[] },
+  dedupe:{ unique:[], dupes:[] },
+  sort:  { flat:'' },
+  scan:  { matches:[], txt:'' },
+  stats: { sent:0, val:0, smtp:0, match:0 },
+  tplTarget: null
+};
+
+// ── HELPERS ──────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const show = id => $(id)?.classList.remove('dn');
+const hide = id => $(id)?.classList.add('dn');
+const val  = id => $(id)?.value || '';
+
+function toast(msg, type='ok', dur=3500) {
+  const icons = {ok:'✓',er:'✗',wa:'⚠'};
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<span>${icons[type]||'ℹ'}</span><span>${msg}</span>`;
+  $('toasts').appendChild(el);
+  setTimeout(() => el.remove(), dur);
+}
+
+function log(cid, txt, cls='dm') {
+  const el = $(cid); if (!el) return;
+  const ts = new Date().toLocaleTimeString('en',{hour12:false});
+  const d = document.createElement('div');
+  d.className = 'le';
+  d.innerHTML = `<span class="le-ts">[${ts}]</span><span class="c-${cls}">${txt}</span>`;
+  el.appendChild(d);
+  el.scrollTop = el.scrollHeight;
+}
+
+function setP(pfx, pct, lbl, done=false) {
+  const bar = $(`${pfx}-pbar`), pctEl = $(`${pfx}-ppct`), lblEl = $(`${pfx}-plbl`);
+  if (bar)  { bar.style.width = Math.min(100,pct).toFixed(1)+'%'; if(done) bar.classList.add('done'); else bar.classList.remove('done'); }
+  if (pctEl) pctEl.textContent = Math.min(100,Math.floor(pct))+'%';
+  if (lblEl) lblEl.textContent = lbl;
+}
+
+function loadTxt(inp, targetId) {
+  const f = inp.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = e => { const ta = $(targetId); if(ta){ ta.value = e.target.result; ta.dispatchEvent(new Event('input')); } };
+  r.readAsText(f);
+  toast(`Loaded ${f.name}`, 'ok');
+}
+
+function countLines(ta, countId) {
+  const n = ta.value.split('\n').map(l=>l.trim()).filter(Boolean).length;
+  const el = $(countId); if (el) el.textContent = `${n} entries`;
+}
+
+function dl(data, name, raw=false) {
+  const text = raw ? data : (Array.isArray(data) ? data.join('\n') : data);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text||''], {type:'text/plain'}));
+  a.download = name + (name.endsWith('.txt')?'':'.txt');
+  a.click();
+}
+
+function updateStats() {
+  $('ds-sent').textContent  = S.stats.sent;
+  $('ds-val').textContent   = S.stats.val;
+  $('ds-smtp').textContent  = S.stats.smtp;
+  $('ds-match').textContent = S.stats.match;
+  $('tb-sent').textContent  = S.stats.sent;
+  $('tb-val').textContent   = S.stats.val;
+  $('tb-smtp').textContent  = S.stats.smtp;
+}
+
+// ── API ───────────────────────────────────────────────────────
+async function api(path, body, method='POST') {
+  const r = await fetch('/api' + path, {
+    method, headers: {'Content-Type':'application/json','x-session-token': S.token||''},
+    ...(method!=='GET' ? {body: JSON.stringify(body)} : {})
+  });
+  if (r.status === 401) { logout(); return null; }
+  return r.json();
+}
+
+async function consumeSSE(path, body, onMsg) {
+  const ctrl = new AbortController();
+  S.currentAbort = ctrl;
+  const resp = await fetch('/api' + path, {
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-session-token':S.token||''},
+    body: JSON.stringify(body),
+    signal: ctrl.signal
+  });
+  const reader = resp.body.getReader();
+  const dec = new TextDecoder();
+  let buf = '';
+  while (true) {
+    const {value, done} = await reader.read();
+    if (done) break;
+    buf += dec.decode(value, {stream:true});
+    const lines = buf.split('\n');
+    buf = lines.pop();
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        try { onMsg(JSON.parse(line.slice(6))); } catch {}
+      }
+    }
+  }
+  S.currentAbort = null;
+}
+
+function abortOp() {
+  if (S.currentAbort) { S.currentAbort.abort(); S.currentAbort = null; }
+  toast('Operation stopped', 'wa');
+}
+
+// ── NAVIGATION ───────────────────────────────────────────────
+const PAGE_META = {
+  dashboard:    ['Dashboard',        '// overview'],
+  smtp:         ['SMTP Tester',      '// verify credentials'],
+  'send-bulk':  ['Bulk Sender',      '// mass email'],
+  'send-personal':['Personalized',   '// {{name}} templates'],
+  validate:     ['Validator',        '// blue debounce'],
+  sorter:       ['Email Sorter',     '// domain grouping'],
+  dedupe:       ['Deduplicator',     '// remove duplicates'],
+  spf:          ['SPF / DKIM',       '// dns auth check'],
+  blacklist:    ['Blacklist Check',  '// dnsbl lookup'],
+  scanner:      ['Inbox Scanner',    '// imap keyword scan'],
+  templates:    ['Templates',        '// html editor']
+};
+
+function navTo(pg) {
+  document.querySelectorAll('.nav').forEach(el => el.classList.toggle('active', el.dataset.page===pg));
+  document.querySelectorAll('.page').forEach(el => el.classList.toggle('active', el.id==='page-'+pg));
+  const [t,s] = PAGE_META[pg]||['',''];
+  $('tb-title').textContent = t;
+  $('tb-sub').textContent   = s;
+}
+
+document.querySelectorAll('.nav[data-page]').forEach(el => {
+  el.addEventListener('click', () => {
+    if (el.classList.contains('locked')) { toast('This feature is not available on your plan.','wa'); return; }
+    navTo(el.dataset.page);
+  });
+});
+
+// Lock nav items based on features
+function applyFeatureLocks() {
+  document.querySelectorAll('.nav.feat[data-feat]').forEach(el => {
+    const feat = el.dataset.feat;
+    if (!S.features.includes(feat)) el.classList.add('locked');
+    else el.classList.remove('locked');
+  });
+}
+
+// ── TABS ─────────────────────────────────────────────────────
+function tab(btn, paneId) {
+  const parent = btn.closest('.tabs') || btn.parentElement;
+  parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const content = parent.nextElementSibling || document.getElementById(paneId)?.parentElement;
+  document.querySelectorAll(`[id^="${paneId.split('-')[0]}-"]`).forEach(p => {
+    if (p.classList.contains('tab-pane')) p.classList.remove('active');
+  });
+  const pane = $(paneId);
+  if (pane) pane.classList.add('active');
+}
+
+// ── MODALS ────────────────────────────────────────────────────
+function closeModal(id) { $(id).classList.remove('open'); }
+
+// ── GATE ─────────────────────────────────────────────────────
+function fillDemo(key) { $('gate-key').value = key; }
+
+async function activateGate() {
+  const key = $('gate-key').value.trim();
+  if (!key) return;
+  const btn = document.querySelector('.gate-btn');
+  btn.disabled = true; btn.textContent = 'VERIFYING...';
+  $('gate-err').style.display = 'none';
+
+  try {
+    const r = await fetch('/api/license/activate', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ licenseKey: key, deviceId: S.deviceId, deviceName: navigator.platform + ' / ' + (navigator.userAgent.includes('Chrome')?'Chrome':'Browser') })
+    });
+    const data = await r.json();
+    if (data.success) {
+      S.token   = data.token;
+      S.license = data;
+      S.features = data.features || [];
+      localStorage.setItem('bm_token', data.token);
+      localStorage.setItem('bm_license_key', key);
+      launchApp(data);
+    } else {
+      $('gate-err').textContent = data.error || 'Activation failed.';
+      $('gate-err').style.display = 'block';
+    }
+  } catch (e) {
+    $('gate-err').textContent = 'Cannot reach server. Is it running?';
+    $('gate-err').style.display = 'block';
+  }
+
+  btn.disabled = false; btn.textContent = 'ACTIVATE LICENSE';
+}
+
+async function checkExistingSession() {
+  const token = localStorage.getItem('bm_token');
+  if (!token) return false;
+
+  try {
+    const r = await fetch('/api/session/verify', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-session-token':token},
+      body: JSON.stringify({token})
+    });
+    const data = await r.json();
+    if (data.valid) {
+      S.token    = token;
+      S.license  = data;
+      S.features = data.features || [];
+      launchApp(data);
+      return true;
+    }
+  } catch {}
+  return false;
+}
+
+function launchApp(data) {
+  $('gate').style.display = 'none';
+  $('app').style.display  = 'flex';
+
+  // Update license UI
+  $('lic-dot').classList.add('on');
+  $('lic-tier').textContent    = data.tier || data.label || '—';
+  $('lic-tier').style.color    = data.color || 'var(--text0)';
+  $('lic-key-hint').textContent = (localStorage.getItem('bm_license_key')||'').slice(0,12)+'...';
+
+  $('dash-sub').textContent = `${data.tier} License — ${data.features?.length || 0} features enabled`;
+
+  // Update credits UI
+  if (data.creditsEnabled && data.creditsRemaining !== null) {
+    S.license = S.license || {};
+    S.license.creditsTotal = data.creditsTotal;
+    updateCreditsUI(data.creditsRemaining, data.creditsTotal);
+  }
+
+  applyFeatureLocks();
+  loadGlobalSmtpFromStorage();
+  startHeartbeat();
+  refreshDevPanel();
+
+  toast(`${data.tier} license activated — welcome!`, 'ok', 4000);
+}
+
+function logout() {
+  if (S.token) fetch('/api/session/logout', {method:'POST',headers:{'Content-Type':'application/json','x-session-token':S.token},body:JSON.stringify({token:S.token})}).catch(()=>{});
+  localStorage.removeItem('bm_token');
+  S.token = null;
+  $('app').style.display = 'none';
+  $('gate').style.display = 'flex';
+  toast('Logged out', 'wa');
+}
+
+// ── HEARTBEAT ─────────────────────────────────────────────────
+function startHeartbeat() {
+  setInterval(async () => {
+    if (!S.token) return;
+    try {
+      const d = await api('/session/heartbeat', {});
+      if (d && d.creditsRemaining !== undefined && d.creditsRemaining !== null) {
+        updateCreditsUI(d.creditsRemaining, S.license?.creditsTotal);
+      }
+    } catch {}
+  }, 30000);
+}
+
+function updateCreditsUI(remaining, total) {
+  const wrap = $('tb-cred-wrap'), sep = $('tb-cred-sep'), el = $('tb-cred');
+  const bar = $('lic-cred-bar'), fill = $('lic-cred-fill');
+  const usedEl = $('lic-cred-used'), totEl = $('lic-cred-total');
+  if (!wrap) return;
+  wrap.style.display = 'flex'; sep.style.display = 'block';
+  if (el) {
+    el.textContent = remaining;
+    el.style.color = remaining < 50 ? 'var(--red)' : remaining < 200 ? 'var(--yellow)' : 'var(--green)';
+  }
+  if (bar && total > 0) {
+    bar.style.display = 'block';
+    const used = total - remaining;
+    const pct  = Math.min(100, (used / total) * 100).toFixed(1);
+    if (fill) { fill.style.width = pct + '%'; fill.style.background = pct > 80 ? 'var(--red)' : pct > 50 ? 'var(--yellow)' : 'var(--green)'; }
+    if (usedEl) usedEl.textContent = used;
+    if (totEl)  totEl.textContent  = total;
+  }
+}
+
+// ── GLOBAL SMTP ───────────────────────────────────────────────
+function saveGlobalSMTP() {
+  const smtp = { host: val('g-smtp-host'), user: val('g-smtp-user'), pass: val('g-smtp-pass'), port: val('g-smtp-port') };
+  if (!smtp.host || !smtp.user || !smtp.pass) return toast('Fill in all SMTP fields', 'wa');
+  S.globalSmtp = smtp;
+  localStorage.setItem('bm_smtp', JSON.stringify({host:smtp.host,user:smtp.user,port:smtp.port}));
+  toast('SMTP saved — available in all pages', 'ok');
+  $('g-smtp-status').innerHTML = `<span style="color:var(--green)">✓ Saved: ${smtp.user}</span>`;
+}
+
+function loadGlobalSmtpFromStorage() {
+  const stored = localStorage.getItem('bm_smtp');
+  if (stored) {
+    try {
+      const d = JSON.parse(stored);
+      $('g-smtp-host').value = d.host||'';
+      $('g-smtp-user').value = d.user||'';
+      $('g-smtp-port').value = d.port||'465';
+      $('g-smtp-status').innerHTML = `<span style="color:var(--text2)">↑ Loaded: ${d.user}</span>`;
+    } catch {}
+  }
+}
+
+async function testGlobalSMTP() {
+  const smtp = { host: val('g-smtp-host'), user: val('g-smtp-user'), pass: val('g-smtp-pass'), port: val('g-smtp-port') };
+  if (!smtp.host || !smtp.user || !smtp.pass) return toast('Fill SMTP fields first', 'wa');
+  $('g-test-btn').disabled = true;
+  $('g-smtp-status').innerHTML = `<span style="color:var(--yellow)">⏳ Testing...</span>`;
+  try {
+    await consumeSSE('/smtp/test', { entries: [smtp] }, msg => {
+      if (msg.type==='result') {
+        if (msg.status==='ok') {
+          $('g-smtp-status').innerHTML = `<span style="color:var(--green)">✓ Working!</span>`;
+          S.globalSmtp = smtp;
+          localStorage.setItem('bm_smtp', JSON.stringify({host:smtp.host,user:smtp.user,port:smtp.port}));
+          toast(`SMTP verified: ${smtp.user}`, 'ok');
+        } else {
+          $('g-smtp-status').innerHTML = `<span style="color:var(--red)">✗ Failed: ${msg.error}</span>`;
+        }
+      }
+    });
+  } catch(e) { $('g-smtp-status').innerHTML = `<span style="color:var(--red)">Error</span>`; }
+  $('g-test-btn').disabled = false;
+}
+
+function loadGlobalSMTP(prefix) {
+  const stored = localStorage.getItem('bm_smtp');
+  if (!stored) return toast('No saved SMTP — save one from Dashboard first', 'wa');
+  const d = JSON.parse(stored);
+  $(`${prefix}-host`).value = d.host||'';
+  $(`${prefix}-user`).value = d.user||'';
+  $(`${prefix}-port`).value = d.port||'465';
+  // pass is not stored for security — user must enter it
+  toast('SMTP config loaded (re-enter password)', 'ok');
+}
+
+// ── SMTP TESTER ───────────────────────────────────────────────
+let smtpEntries = [];
+
+function smtpAdd() {
+  const e = {host:val('s-host'),user:val('s-user'),pass:val('s-pass'),port:val('s-port')};
+  if (!e.host||!e.user||!e.pass) return toast('Fill host, user, pass', 'wa');
+  smtpEntries.push(e); renderSmtp();
+  $('s-host').value=$('s-user').value=$('s-pass').value='';
+}
+
+function renderSmtp() {
+  $('smtp-qcount').textContent = `${smtpEntries.length} entries`;
+  $('smtp-entry-list').innerHTML = smtpEntries.map((e,i) => `
+    <div class="smtp-row" id="sr-${i}">
+      <span class="mono" style="color:var(--text2)">${e.host}</span>
+      <span style="color:var(--text3)">|</span>
+      <span class="mono" style="color:var(--blue2)">${e.user}</span>
+      <span style="color:var(--text3)">|</span>
+      <span class="mono xs">port ${e.port}</span>
+      <span class="tag ml-auto" id="sr-tag-${i}">QUEUED</span>
+      <button class="btn btn-ghost btn-icon" onclick="smtpEntries.splice(${i},1);renderSmtp()">✕</button>
+    </div>`).join('');
+}
+
+async function smtpFileUp(inp) {
+  const f = inp.files[0]; if(!f) return;
+  const fd = new FormData(); fd.append('file', f);
+  const r = await fetch('/api/smtp/parse-file', {method:'POST',headers:{'x-session-token':S.token},body:fd});
+  const d = await r.json();
+  if (d.error) return toast(d.error, 'er');
+  smtpEntries = d.entries; renderSmtp();
+  $('smtp-file-info').textContent = `${f.name} — ${d.count} entries loaded${d.errors.length ? `, ${d.errors.length} skipped` : ''}`;
+  toast(`Loaded ${d.count} SMTP entries`, 'ok');
+}
+
+async function smtpRun() {
+  if (!smtpEntries.length) return toast('Add entries first', 'wa');
+  show('smtp-results'); hide('smtp-sum');
+  $('smtp-log').innerHTML = '';
+  $('smtp-run-btn').disabled = true;
+  let ok=0, fail=0;
+
+  try {
+    await consumeSSE('/smtp/test', {entries:smtpEntries}, msg => {
+      if (msg.type==='progress') log('smtp-log',`Testing ${msg.user}@${msg.host}:${msg.port}...`,'in');
+      else if (msg.type==='result') {
+        const pct = ((msg.index+1)/msg.total)*100;
+        setP('smtp', pct, `${msg.index+1}/${msg.total}`);
+        const row = $(`sr-${msg.index}`), tag = $(`sr-tag-${msg.index}`);
+        if (msg.status==='ok') {
+          ok++; S.stats.smtp++; updateStats();
+          log('smtp-log',`✓ WORKING: ${msg.user}@${msg.host}:${msg.port}`,'ok');
+          if(row) row.classList.add('ok');
+          if(tag){tag.className='tag tag-ok';tag.textContent='OK';}
+        } else {
+          fail++;
+          log('smtp-log',`✗ FAILED: ${msg.user}@${msg.host}:${msg.port} — ${msg.error}`,'er');
+          if(row) row.classList.add('fail');
+          if(tag){tag.className='tag tag-er';tag.textContent='FAIL';}
+        }
+      } else if (msg.type==='done') {
+        setP('smtp',100,'Done',true); show('smtp-sum');
+        $('smtp-tot').textContent=msg.total;
+        $('smtp-ok').textContent=msg.workingCount;
+        $('smtp-fail').textContent=msg.failedCount;
+        log('smtp-log',`─── Complete: ${msg.workingCount}/${msg.total} working ───`,'in');
+        if (msg.working.length) {
+          $('smtp-working-list').innerHTML = `<p class="xs" style="margin-bottom:8px;color:var(--green)">Working SMTPs — click to set as global:</p>`
+            + msg.working.map(w=>`<div class="smtp-row ok" style="cursor:pointer" onclick="setWorkingSmtp(${JSON.stringify(w).replace(/"/g,'&quot;')})">
+              <span class="mono" style="color:var(--blue2)">${w.user}@${w.host}:${w.port}</span>
+              <span class="tag tag-ok ml-auto">USE THIS</span></div>`).join('');
+        }
+        toast(`${msg.workingCount}/${msg.total} SMTP working`, msg.workingCount?'ok':'wa');
+      }
+    });
+  } catch(e) { if(e.name!=='AbortError') log('smtp-log','Error: '+e.message,'er'); }
+  $('smtp-run-btn').disabled = false;
+}
+
+function setWorkingSmtp(w) {
+  $('g-smtp-host').value = w.host;
+  $('g-smtp-user').value = w.user;
+  $('g-smtp-pass').value = w.pass;
+  $('g-smtp-port').value = w.port;
+  S.globalSmtp = w;
+  localStorage.setItem('bm_smtp', JSON.stringify({host:w.host,user:w.user,port:w.port}));
+  $('g-smtp-status').innerHTML = `<span style="color:var(--green)">✓ Set: ${w.user}</span>`;
+  toast(`SMTP set: ${w.user}`, 'ok');
+}
+
+// ── BULK SEND ─────────────────────────────────────────────────
+async function bulkSend() {
+  const smtp = { host:val('bulk-host'),user:val('bulk-user'),pass:val('bulk-pass'),port:val('bulk-port') };
+  if (!smtp.host||!smtp.user||!smtp.pass) return toast('Fill SMTP fields', 'wa');
+  const recipText = val('bulk-recip');
+  const htmlBody  = val('bulk-html');
+  const subject   = val('bulk-subj');
+  if (!recipText||!htmlBody||!subject) return toast('Fill all required fields', 'wa');
+  const recipients = recipText.split('\n').map(l=>l.trim()).filter(l=>l.includes('@'));
+  if (!recipients.length) return toast('No valid emails', 'wa');
+
+  show('bulk-result-card'); hide('bulk-sum'); hide('bulk-exports');
+  $('bulk-log').innerHTML = '';
+  hide('bulk-send-btn'); show('bulk-stop-btn');
+  S.bulk = {sent:[],failed:[]};
+
+  try {
+    await consumeSSE('/send/bulk', {
+      smtp, recipients, subject, htmlBody,
+      fromName: val('bulk-from'), replyTo: val('bulk-replyto'),
+      throttle: parseInt(val('bulk-throttle')||'5'),
+      delayMs:  parseInt(val('bulk-delay')||'2000')
+    }, msg => {
+      if (msg.type==='start') log('bulk-log',`Starting → ${msg.total} recipients`,'in');
+      else if (msg.type==='sent') {
+        S.bulk.sent.push(msg.email); S.stats.sent++; updateStats();
+        setP('bulk', ((msg.index+1)/msg.total)*100, `${msg.sentCount}/${msg.total}`);
+        log('bulk-log',`✓ ${msg.email}`,'ok');
+      } else if (msg.type==='failed') {
+        S.bulk.failed.push({email:msg.email,error:msg.error});
+        log('bulk-log',`✗ ${msg.email} — ${msg.error}`,'er');
+      } else if (msg.type==='throttle') {
+        log('bulk-log',`⏸ Pausing ${msg.delayMs}ms...`,'wa');
+      } else if (msg.type==='done') {
+        setP('bulk',100,'Done',true); show('bulk-sum'); show('bulk-exports');
+        $('bulk-tot').textContent=msg.total;$('bulk-ok').textContent=msg.sentCount;$('bulk-fail').textContent=msg.failCount;
+        log('bulk-log',`─── Done: ${msg.sentCount}/${msg.total} sent ───`,'in');
+        toast(`Sent ${msg.sentCount}/${msg.total}`, msg.failCount===0?'ok':'wa');
+      }
+    });
+  } catch(e) { if(e.name!=='AbortError') toast(e.message,'er'); }
+  show('bulk-send-btn'); hide('bulk-stop-btn');
+}
+
+// ── PERSONALIZED ──────────────────────────────────────────────
+async function persSend() {
+  const smtp = { host:val('pers-host'),user:val('pers-user'),pass:val('pers-pass'),port:val('pers-port') };
+  if (!smtp.host||!smtp.user||!smtp.pass) return toast('Fill SMTP', 'wa');
+  if (!val('pers-leads')||!val('pers-html')||!val('pers-subj')) return toast('Fill all fields', 'wa');
+
+  show('pers-result-card'); hide('pers-sum');
+  $('pers-log').innerHTML = '';
+  hide('pers-send-btn'); show('pers-stop-btn');
+
+  try {
+    await consumeSSE('/send/personalized', {
+      smtp, leadsText:val('pers-leads'), subject:val('pers-subj'),
+      fromName:val('pers-from'), htmlTemplate:val('pers-html'),
+      replyTo:val('pers-replyto'),
+      throttle:parseInt(val('pers-throttle')||'5'),
+      delayMs:parseInt(val('pers-delay')||'2000')
+    }, msg => {
+      if (msg.type==='start') log('pers-log',`Personalized send → ${msg.total} leads`,'in');
+      else if (msg.type==='sent') {
+        S.stats.sent++; updateStats();
+        setP('pers',((msg.index+1)/msg.total)*100,`${msg.sentCount}/${msg.total}`);
+        log('pers-log',`✓ ${msg.email} (${msg.name})`,'ok');
+      } else if (msg.type==='failed') {
+        log('pers-log',`✗ ${msg.email} — ${msg.error}`,'er');
+      } else if (msg.type==='done') {
+        setP('pers',100,'Done',true); show('pers-sum');
+        $('pers-tot').textContent=msg.total;$('pers-ok').textContent=msg.sentCount;$('pers-fail').textContent=msg.failCount;
+        toast(`Personalized: ${msg.sentCount}/${msg.total} sent`,'ok');
+      }
+    });
+  } catch(e) { if(e.name!=='AbortError') toast(e.message,'er'); }
+  show('pers-send-btn'); hide('pers-stop-btn');
+}
+
+// ── VALIDATOR ─────────────────────────────────────────────────
+async function valRun() {
+  const emailsText = val('val-emails');
+  if (!emailsText.trim()) return toast('Enter emails', 'wa');
+  $('val-log').innerHTML = '';
+  hide('val-exports');
+  hide('val-run'); show('val-stop');
+  S.val = {valid:[],invalid:[]};
+  $('val-tot').textContent=$('val-ok').textContent=$('val-bad').textContent=0;
+
+  try {
+    await consumeSSE('/emails/validate', {emailsText, concurrency:parseInt(val('val-con')||'15')}, msg => {
+      if (msg.type==='start') log('val-log',`Validating ${msg.total} emails (${msg.dedupedFrom} incl dupes) | concurrency ${val('val-con')}`,'in');
+      else if (msg.type==='result') {
+        setP('val',((msg.index+1)/msg.total)*100,`${msg.index+1}/${msg.total}`);
+        $('val-tot').textContent = msg.total;
+        if (msg.status==='valid') {
+          S.val.valid.push(msg.email); S.stats.val++; updateStats();
+          $('val-ok').textContent = S.val.valid.length;
+          log('val-log',`✓ ${msg.email}`,'ok');
+        } else {
+          S.val.invalid.push({email:msg.email,reason:msg.reason});
+          $('val-bad').textContent = S.val.invalid.length;
+          const reason = msg.isDisposable?'disposable':msg.reason;
+          log('val-log',`✗ ${msg.email} [${reason}]`,'er');
+        }
+      } else if (msg.type==='done') {
+        setP('val',100,'Done',true); show('val-exports');
+        log('val-log',`─── ${msg.validPercent}% valid | ${msg.validCount} ok / ${msg.invalidCount} invalid ───`,'in');
+        toast(`Validation complete: ${msg.validPercent}% valid`,'ok');
+      }
+    });
+  } catch(e) { if(e.name!=='AbortError') toast(e.message,'er'); }
+  show('val-run'); hide('val-stop');
+}
+
+// ── SORTER ─────────────────────────────────────────────────────
+async function sortRun() {
+  const emailsText = val('sort-emails');
+  if (!emailsText.trim()) return toast('Enter emails', 'wa');
+  const d = await api('/emails/sort', {emailsText});
+  if (!d||d.error) return toast(d?.error||'Error','er');
+  S.sort.flat = d.sorted.flatMap(x=>['# '+x.domain+' ('+x.count+')',...x.emails]).join('\n');
+  show('sort-export-btn');
+  const max = d.sorted[0]?.count||1;
+  $('sort-results').innerHTML = `
+    <div class="xs" style="margin-bottom:10px">
+      <span style="color:var(--blue2)">${d.total}</span> emails · <span style="color:var(--cyan)">${d.domainCount}</span> domains
+    </div>
+    ${d.sorted.map(x=>`
+      <div class="bar-row">
+        <div class="bar-lbl" title="${x.domain}">${x.domain}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${(x.count/max*100).toFixed(1)}%"></div></div>
+        <div class="bar-cnt">${x.count} <span style="color:var(--text3)">(${x.percent}%)</span></div>
+      </div>`).join('')}`;
+  toast(`Sorted: ${d.domainCount} domains`,'ok');
+}
+
+// ── DEDUPLICATOR ──────────────────────────────────────────────
+async function dedupeRun() {
+  const emailsText = val('ded-emails');
+  if (!emailsText.trim()) return toast('Enter emails', 'wa');
+  const d = await api('/emails/dedupe', {emailsText});
+  if (!d||d.error) return toast(d?.error||'Error','er');
+  S.dedupe = {unique:d.unique, dupes:d.dupes};
+  $('ded-tot').textContent=d.total; $('ded-uni').textContent=d.uniqueCount; $('ded-dup').textContent=d.dupeCount;
+  show('ded-exports');
+  const pct = ((d.dupeCount/d.total)*100).toFixed(1);
+  $('ded-info').textContent = `Removed ${d.dupeCount} duplicates (${pct}%) — ${d.uniqueCount} unique emails remain`;
+  show('ded-info');
+  toast(`Removed ${d.dupeCount} duplicates`,'ok');
+}
+
+// ── SPF / DKIM ─────────────────────────────────────────────────
+async function spfRun() {
+  const text = val('spf-domains');
+  if (!text.trim()) return toast('Enter domains', 'wa');
+  const domains = text.split('\n').map(l=>l.trim()).filter(Boolean);
+  const d = await api('/tools/spf-dkim', {domains});
+  if (!d||d.error) return toast(d?.error||'Error','er');
+  $('spf-tbody').innerHTML = d.results.map(r => `
+    <tr>
+      <td style="color:var(--blue2)">${r.domain}</td>
+      <td>${r.spf?.found ? `<span class="tag ${r.spf.pass?'tag-ok':'tag-wa'}">${r.spf.pass?'PASS':'WEAK'}</span>` : '<span class="tag tag-er">MISSING</span>'}</td>
+      <td>${r.dkim?.found ? `<span class="tag tag-ok">FOUND <span style="color:var(--text2)">${r.dkim.selector}</span></span>` : '<span class="tag tag-er">NOT FOUND</span>'}</td>
+      <td>${r.dmarc?.found ? `<span class="tag tag-ok">p=${r.dmarc.policy}</span>` : '<span class="tag tag-er">MISSING</span>'}</td>
+      <td>${r.mx?.found ? `<span class="tag tag-bl">${r.mx.records[0]?.host?.split('.').slice(-2).join('.')}</span>` : '<span class="tag tag-er">NO MX</span>'}</td>
+    </tr>`).join('');
+  toast(`Checked ${d.results.length} domains`,'ok');
+}
+
+// ── BLACKLIST ─────────────────────────────────────────────────
+async function blRun() {
+  const text = val('bl-domains');
+  if (!text.trim()) return toast('Enter domains/IPs', 'wa');
+  const domains = text.split('\n').map(l=>l.trim()).filter(Boolean);
+  toast('Checking blacklists — this may take a moment...','wa',5000);
+  const d = await api('/tools/blacklist', {domains});
+  if (!d||d.error) return toast(d?.error||'Error','er');
+  $('bl-tbody').innerHTML = d.results.map(r => `
+    <tr>
+      <td style="color:var(--blue2)">${r.domain}</td>
+      <td>${r.isClean?'<span class="tag tag-ok">✓ CLEAN</span>':'<span class="tag tag-er">⚠ LISTED</span>'}</td>
+      <td>${r.blacklisted.length ? r.blacklisted.map(b=>`<span class="tag tag-er" style="margin:1px">${b.split('.')[0]}</span>`).join(' ') : '—'}</td>
+      <td style="color:var(--text2)">${r.clean.length}/${r.total}</td>
+    </tr>`).join('');
+  toast(`Checked ${d.results.length} domains against blacklists`,'ok');
+}
+
+// ── INBOX SCANNER ─────────────────────────────────────────────
+async function scanRun() {
+  const accsText = val('scan-accs');
+  const kwText   = val('scan-kw');
+  if (!accsText||!kwText) return toast('Fill accounts and keywords', 'wa');
+
+  const accounts = accsText.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{
+    const [email,password] = l.split('|').map(s=>s.trim());
+    return {email,password};
+  }).filter(a=>a.email&&a.password);
+
+  const keywords  = kwText.split('\n').map(l=>l.trim()).filter(Boolean);
+  const maxMessages = parseInt(val('scan-max')||'100');
+  const manualHost = val('scan-imap');
+  const manualImap = manualHost ? {host:manualHost,port:993,tls:true} : null;
+
+  if (!accounts.length) return toast('No valid account lines', 'wa');
+
+  S.scan = {matches:[],txt:''};
+  $('scan-log').innerHTML = '';
+  $('scan-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:20px">Scanning...</td></tr>';
+  $('scan-mcount').textContent = '0 found';
+  hide('scan-run-btn'); show('scan-stop-btn'); hide('scan-export-btn');
+
+  try {
+    await consumeSSE('/inbox/scan', {accounts,keywords,maxMessages,...(manualImap?{manualImap}:{})}, msg => {
+      if (msg.type==='start') log('scan-log',`Scanning ${msg.total} accounts for: ${keywords.join(', ')}`,'in');
+      else if (msg.type==='account_start') {
+        setP('scan',(msg.index/msg.total)*100,`${msg.email}...`);
+        log('scan-log',`→ ${msg.email}`,'in');
+      } else if (msg.type==='account_info') log('scan-log',`  ${msg.email}: ${msg.messageCount} msgs, checking ${msg.scanning}`,'dm');
+      else if (msg.type==='match') {
+        const m = msg.match;
+        S.scan.matches.push(m); S.stats.match++; updateStats();
+        S.scan.txt += `Account: ${m.account}\nFrom: ${m.from}\nDate: ${m.date}\nSubject: ${m.subject}\nKeywords: ${m.matchedKeywords.join(', ')}\n\n---\n\n`;
+        $('scan-mcount').textContent = `${S.scan.matches.length} found`;
+        show('scan-export-btn');
+        log('scan-log',`⚡ MATCH [${m.matchedKeywords.join(',')}] "${m.subject}"`,'ok');
+        const tbody = $('scan-tbody');
+        if (tbody.querySelector('td[colspan]')) tbody.innerHTML = '';
+        tbody.innerHTML += `<tr>
+          <td title="${m.account}">${m.account.length>22?m.account.slice(0,22)+'…':m.account}</td>
+          <td title="${m.from}">${(m.from||'—').slice(0,22)}</td>
+          <td title="${m.subject}">${m.subject.slice(0,32)}</td>
+          <td>${m.matchedKeywords.map(k=>`<span class="tag tag-wa">${k}</span>`).join(' ')}</td>
+          <td>${m.date||'—'}</td>
+        </tr>`;
+      }
+      else if (msg.type==='account_done') {
+        setP('scan',((msg.index+1)/accounts.length)*100,`${msg.email} done`);
+        log('scan-log',`✓ ${msg.email} — ${msg.matchCount} matches`,'ok');
+      }
+      else if (msg.type==='account_error') log('scan-log',`✗ ${msg.email} — ${msg.error}`,'er');
+      else if (msg.type==='done') {
+        setP('scan',100,'Done',true);
+        if (!msg.matchCount) $('scan-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:20px">No matches found</td></tr>';
+        log('scan-log',`─── Complete: ${msg.matchCount} matches in ${msg.totalScanned} accounts ───`,'in');
+        toast(`Scan done: ${msg.matchCount} matches`, msg.matchCount?'ok':'wa');
+      }
+    });
+  } catch(e) { if(e.name!=='AbortError') toast(e.message,'er'); }
+  show('scan-run-btn'); hide('scan-stop-btn');
+}
+
+// ── TEMPLATES ─────────────────────────────────────────────────
+let previewTimer = null;
+
+function debouncePreview() {
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(refreshPreview, 400);
+}
+
+function refreshPreview() {
+  const html = val('tpl-html');
+  const frame = $('tpl-preview-frame');
+  if (!frame) return;
+  const preview = html
+    .replace(/{{name}}/g,'Preview User')
+    .replace(/{{email}}/g,'preview@example.com')
+    .replace(/{{first_name}}/g,'Preview');
+  const doc = frame.contentDocument || frame.contentWindow.document;
+  doc.open(); doc.write(preview); doc.close();
+}
+
+function previewHtml(sourceId) {
+  const html = val(sourceId);
+  $('preview-iframe').srcdoc = html;
+  $('preview-modal').classList.add('open');
+}
+
+async function saveTpl() {
+  const name = val('tpl-name');
+  const html  = val('tpl-html');
+  if (!name||!html) return toast('Name and HTML required', 'wa');
+  const d = await api('/templates/save', {name, subject:val('tpl-subj'), html, tags: val('tpl-tags').split(',').map(t=>t.trim()).filter(Boolean)});
+  if (d?.ok) toast('Template saved!','ok');
+  else toast('Save failed','er');
+}
+
+async function loadTemplates() {
+  const d = await api('/templates', {}, 'GET');
+  if (!d) return;
+  const list = d.templates || [];
+  $('tpl-list-body').innerHTML = list.length ? list.map(t=>`
+    <div class="tpl-item">
+      <div>
+        <div class="tpl-item-name">${t.name}</div>
+        <div class="tpl-item-meta">${t.subject||'—'} · ${new Date(t.updatedAt).toLocaleDateString()} · ${t.tags?.join(', ')||'no tags'}</div>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="editTpl(${JSON.stringify(t).replace(/"/g,'&quot;')})">Edit</button>
+      <button class="btn btn-outline btn-sm" onclick="useTpl(${JSON.stringify(t).replace(/"/g,'&quot;')})">Use</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteTpl('${t.id}',this)">✕</button>
+    </div>`).join('') : '<p class="xs" style="text-align:center;padding:20px">No saved templates</p>';
+}
+
+function editTpl(t) {
+  $('tpl-name').value = t.name||'';
+  $('tpl-subj').value = t.subject||'';
+  $('tpl-tags').value = (t.tags||[]).join(', ');
+  $('tpl-html').value = t.html||'';
+  tab(document.querySelector('.tabs .tab-btn'),'tpl-editor');
+  refreshPreview();
+}
+
+async function deleteTpl(id, btn) {
+  btn.disabled = true;
+  const d = await api(`/templates/${id}`, {}, 'DELETE');
+  if (d?.ok) { toast('Deleted','ok'); loadTemplates(); }
+}
+
+async function loadTplInto(targetId) {
+  S.tplTarget = targetId;
+  const d = await api('/templates', {}, 'GET');
+  if (!d) return;
+  const list = d.templates||[];
+  $('tpl-load-list').innerHTML = list.length ? list.map(t=>`
+    <div class="tpl-item" style="cursor:pointer" onclick="insertTpl(${JSON.stringify(t).replace(/"/g,'&quot;')})">
+      <div><div class="tpl-item-name">${t.name}</div><div class="tpl-item-meta">${t.subject||'—'}</div></div>
+      <span class="tag tag-bl">SELECT</span>
+    </div>`).join('') : '<p class="xs" style="text-align:center;padding:20px">No templates saved</p>';
+  $('tpl-load-modal').classList.add('open');
+}
+
+function insertTpl(t) {
+  if (S.tplTarget) {
+    $(S.tplTarget).value = t.html||'';
+    if (S.tplTarget.includes('subj')) return;
+    toast(`Template "${t.name}" loaded`,'ok');
+  }
+  closeModal('tpl-load-modal');
+}
+
+function useTpl(t) {
+  $('bulk-html').value = t.html||'';
+  $('bulk-subj').value = t.subject||'';
+  $('pers-html').value = t.html||'';
+  $('pers-subj').value = t.subject||'';
+  toast(`"${t.name}" applied to Bulk and Personalized senders`,'ok');
+}
+
+// ── DEVICE PANEL ──────────────────────────────────────────────
+function openDevPanel()  { $('dev-panel').classList.add('open'); refreshDevPanel(); }
+function closeDevPanel() { $('dev-panel').classList.remove('open'); }
+
+async function refreshDevPanel() {
+  if (!S.token) return;
+  const d = await api('/license/devices', {}, 'GET');
+  if (!d) return;
+
+  $('dp-total').textContent   = d.total;
+  $('dp-online').textContent  = d.online;
+  $('dp-flagged').textContent = d.devices.filter(x=>x.flagged).length;
+  $('sb-online-count').textContent = d.online;
+
+  $('dp-devices').innerHTML = d.devices.map(dev => `
+    <div class="device-card ${dev.isSelf?'self':''} ${dev.flagged?'flagged':''}">
+      <div class="dc-top">
+        <div class="dc-name">${dev.deviceName || dev.os+' / '+dev.browser}</div>
+        ${dev.online
+          ? `<div class="dc-online"><div class="pulse-dot" style="width:6px;height:6px"></div> Online</div>`
+          : `<div class="dc-online dc-offline">Offline</div>`}
+        ${dev.isSelf ? '<span class="tag tag-bl" style="font-size:9px">YOU</span>' : ''}
+        ${dev.flagged ? '<span class="tag tag-er" style="font-size:9px">FLAGGED</span>' : ''}
+        ${dev.revoked ? '<span class="tag" style="background:rgba(96,120,152,.15);color:var(--text2);font-size:9px">REVOKED</span>' : ''}
+      </div>
+      <div class="dc-info">
+        <div>IP: <span style="color:var(--text0)">${dev.ip}</span> ${dev.flagged?'🚩':''}</div>
+        <div>OS: ${dev.os} · Browser: ${dev.browser}</div>
+        <div>Location: ${dev.geo?.city||'—'}, ${dev.geo?.country||'—'}</div>
+        <div>ISP: ${dev.geo?.isp||'—'}</div>
+        <div>First seen: ${new Date(dev.firstSeen).toLocaleString()}</div>
+        <div>Last seen: ${new Date(dev.lastSeen).toLocaleString()}</div>
+      </div>
+      <div class="dc-actions">
+        ${!dev.isSelf&&!dev.revoked ? `<button class="btn btn-danger btn-sm" onclick="revokeDevice('${dev.deviceId}')">Revoke</button>` : ''}
+        <button class="btn btn-outline btn-sm" onclick="flagDevice('${dev.deviceId}',${!dev.flagged})">${dev.flagged?'Unflag':'🚩 Flag'}</button>
+        <button class="btn btn-ghost btn-sm" onclick="renameDevice('${dev.deviceId}','${(dev.deviceName||'').replace(/'/g,"\\'")}')">✏</button>
+      </div>
+    </div>`).join('');
+}
+
+async function revokeDevice(id) {
+  if (!confirm('Revoke this device? It will be logged out immediately.')) return;
+  const d = await api('/license/devices/revoke', {deviceId:id});
+  if (d?.ok) { toast('Device revoked','ok'); refreshDevPanel(); }
+}
+
+async function flagDevice(id, flagged) {
+  const d = await api('/license/devices/flag', {deviceId:id, flagged});
+  if (d?.ok) { toast(flagged?'Device flagged':'Device unflagged', 'ok'); refreshDevPanel(); }
+}
+
+async function renameDevice(id, current) {
+  const name = prompt('Rename device:', current);
+  if (!name) return;
+  const d = await api('/license/devices/rename', {deviceId:id, name});
+  if (d?.ok) { toast('Renamed','ok'); refreshDevPanel(); }
+}
+
+// ── DEVICE PANEL AUTO REFRESH ─────────────────────────────────
+setInterval(() => { if ($('dev-panel').classList.contains('open')) refreshDevPanel(); }, 15000);
+
+// ── INIT ──────────────────────────────────────────────────────
+(async function init() {
+  // Generate persistent device ID
+  let did = localStorage.getItem('bm_device_id');
+  if (!did) { did = crypto.randomUUID(); localStorage.setItem('bm_device_id', did); }
+  S.deviceId = did;
+
+  // Try to restore session
+  const restored = await checkExistingSession();
+  if (!restored) {
+    // Show gate
+    $('gate').style.display = 'flex';
+  }
+
+  // Live textarea counters
+  [['bulk-recip','bulk-rcount'],['pers-leads','pers-lcount'],['val-emails','val-icount']].forEach(([ta,cnt])=>{
+    const el = $(ta);
+    if (el) el.addEventListener('input', () => {
+      const n = el.value.split('\n').map(l=>l.trim()).filter(l=>l.includes('@')).length;
+      const c = $(cnt); if(c) c.textContent = n + ' emails';
+    });
+  });
+
+  // Enter key on gate
+  $('gate-key').addEventListener('keydown', e => { if (e.key==='Enter') activateGate(); });
+})();
+</script>
+</body>
+</html>

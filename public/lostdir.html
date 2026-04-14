@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Blue Mailer — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --void:#03060d;--bg1:#080e1a;--bg2:#0c1424;--bg3:#101c30;--bg4:#152238;
+  --panel:#0a1220;--glass:rgba(12,20,36,.9);
+  --border:#1a2e48;--border2:#243d5e;--border3:#2e5080;
+  --blue:#1a7fff;--blue2:#4da3ff;--blue3:#0055bb;
+  --cyan:#00c8ff;--cyan2:#0099cc;
+  --green:#00e87a;--green2:#00b860;
+  --red:#ff3c5a;--red2:#cc2244;
+  --yellow:#ffcc00;--orange:#ff8c42;--purple:#8b5cf6;
+  --text0:#ddeeff;--text1:#8baec8;--text2:#4a6880;--text3:#2a4060;
+  --mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+  --r:8px;--r2:12px;--shadow:0 16px 48px rgba(0,0,0,.8);
+  --glow:0 0 24px rgba(26,127,255,.18);
+}
+html,body{height:100%;font-family:var(--sans);background:var(--void);color:var(--text0);}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border3);border-radius:2px}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(26,127,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(26,127,255,.025) 1px,transparent 1px);
+  background-size:48px 48px;pointer-events:none;z-index:0;
+}
+body::after{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(26,127,255,.05) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+/* ── LOGIN ───────────────────────────────────────────── */
+#login-screen{
+  position:fixed;inset:0;z-index:9000;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--void);
+}
+.login-box{
+  width:400px;max-width:95vw;
+  background:var(--glass);border:1px solid var(--border2);
+  border-radius:var(--r2);padding:36px;
+  box-shadow:var(--shadow),var(--glow);
+  backdrop-filter:blur(20px);
+  animation:fadeUp .35s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.login-title{
+  font-family:var(--mono);font-size:11px;letter-spacing:.3em;
+  color:var(--text2);text-transform:uppercase;margin-bottom:8px;
+}
+.login-head{
+  font-family:var(--mono);font-size:28px;font-weight:700;
+  color:var(--blue2);letter-spacing:-.02em;margin-bottom:4px;
+  text-shadow:0 0 30px rgba(77,163,255,.4);
+}
+.login-head span{color:var(--red);}
+.login-sub{font-size:11px;color:var(--text2);font-family:var(--mono);margin-bottom:28px;letter-spacing:.1em;}
+.lbl{font-size:10.5px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:block;}
+.inp{
+  width:100%;background:var(--bg1);border:1px solid var(--border2);
+  border-radius:var(--r);color:var(--text0);font-family:var(--mono);
+  font-size:13px;padding:11px 14px;outline:none;
+  transition:border-color .15s,box-shadow .15s;
+}
+.inp:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,127,255,.1);}
+.login-btn{
+  width:100%;margin-top:16px;
+  background:linear-gradient(135deg,var(--red2),var(--red));
+  border:1px solid var(--red);border-radius:var(--r);
+  color:#fff;font-size:13px;font-weight:600;font-family:var(--sans);
+  padding:12px;cursor:pointer;transition:all .15s;letter-spacing:.04em;
+}
+.login-btn:hover{filter:brightness(1.15);transform:translateY(-1px);}
+.login-btn:disabled{opacity:.4;pointer-events:none;}
+.login-err{
+  margin-top:10px;padding:9px 12px;
+  background:rgba(255,60,90,.08);border:1px solid rgba(255,60,90,.2);
+  border-radius:var(--r);color:var(--red);font-size:11.5px;font-family:var(--mono);
+  display:none;
+}
+
+/* ── APP LAYOUT ──────────────────────────────────────── */
+#app{display:flex;height:100vh;position:relative;z-index:1;display:none;}
+
+/* ── SIDEBAR ─────────────────────────────────────────── */
+#sb{
+  width:210px;min-width:210px;
+  background:var(--bg1);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;position:relative;
+  overflow:hidden;
+}
+#sb::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--red),var(--orange),transparent);
+}
+.sb-logo{padding:18px 16px 14px;border-bottom:1px solid var(--border);}
+.sb-logo-name{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--blue2);}
+.sb-logo-name span{color:var(--red);}
+.sb-logo-badge{
+  display:inline-block;margin-top:4px;
+  font-size:9px;font-family:var(--mono);letter-spacing:.15em;
+  background:rgba(255,60,90,.1);border:1px solid rgba(255,60,90,.2);
+  color:var(--red);padding:2px 8px;border-radius:3px;text-transform:uppercase;
+}
+.sb-nav-wrap{flex:1;overflow-y:auto;padding:8px 0;}
+.sb-sec{padding:14px 14px 4px;font-size:9px;font-family:var(--mono);letter-spacing:.2em;color:var(--text3);text-transform:uppercase;}
+.nav{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 12px;margin:1px 6px;
+  border-radius:var(--r);cursor:pointer;
+  font-size:12.5px;color:var(--text1);
+  border:1px solid transparent;transition:all .12s;
+  position:relative;
+}
+.nav:hover{background:var(--bg3);color:var(--text0);}
+.nav.active{background:rgba(255,60,90,.08);border-color:rgba(255,60,90,.2);color:var(--red);}
+.nav.active::before{content:'';position:absolute;left:-6px;top:50%;transform:translateY(-50%);width:2px;height:16px;background:var(--red);border-radius:1px;}
+.nav-ico{width:16px;text-align:center;font-size:14px;}
+.sb-bottom{
+  padding:10px 6px 14px;border-top:1px solid var(--border);
+}
+.admin-badge{
+  display:flex;align-items:center;gap:8px;padding:8px 10px;
+  background:rgba(255,60,90,.05);border:1px solid rgba(255,60,90,.15);
+  border-radius:var(--r);font-size:11px;color:var(--red);font-family:var(--mono);
+}
+.logout-btn{
+  width:100%;margin-top:6px;padding:7px 10px;
+  background:transparent;border:1px solid var(--border);
+  border-radius:var(--r);color:var(--text2);font-size:11.5px;
+  cursor:pointer;transition:all .12s;font-family:var(--sans);
+}
+.logout-btn:hover{background:var(--bg2);color:var(--red);border-color:rgba(255,60,90,.3);}
+
+/* ── MAIN ────────────────────────────────────────────── */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{
+  height:50px;min-height:50px;background:var(--bg1);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 22px;gap:12px;
+}
+.topbar-title{font-size:14px;font-weight:600;color:var(--text0);}
+.topbar-sub{font-size:11px;color:var(--text2);font-family:var(--mono);}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:14px;}
+#content{flex:1;overflow-y:auto;padding:24px;}
+.page{display:none;}
+.page.active{display:block;animation:pgIn .16s ease both;}
+@keyframes pgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── CARDS ───────────────────────────────────────────── */
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:16px;overflow:hidden;}
+.card:hover{border-color:var(--border2);}
+.card-head{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.card-title{font-size:11px;font-family:var(--mono);font-weight:700;color:var(--text0);letter-spacing:.08em;text-transform:uppercase;}
+.card-body{padding:18px;}
+.card-body.p0{padding:0;}
+
+/* ── STATS ───────────────────────────────────────────── */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
+.stat{background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;}
+.stat:hover{border-color:var(--border2);box-shadow:var(--glow);}
+.stat-lbl{font-size:9.5px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;}
+.stat-val{font-size:24px;font-family:var(--mono);font-weight:700;line-height:1;}
+.c-blue{color:var(--blue2);}.c-green{color:var(--green);}.c-red{color:var(--red);}.c-yellow{color:var(--yellow);}.c-orange{color:var(--orange);}
+.stat-meta{font-size:10px;color:var(--text2);margin-top:5px;font-family:var(--mono);}
+
+/* ── FORMS ───────────────────────────────────────────── */
+.fg{display:flex;flex-direction:column;gap:5px;}
+label{font-size:10.5px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.08em;}
+input[type=text],input[type=password],input[type=number],input[type=email],select,textarea{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  color:var(--text0);font-size:12.5px;font-family:var(--sans);
+  padding:8px 11px;outline:none;width:100%;transition:border-color .12s,box-shadow .12s;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(26,127,255,.1);}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='%234a6880'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;}
+.fgrid{display:grid;gap:12px;margin-bottom:12px;}
+.c2{grid-template-columns:1fr 1fr;}
+.c3{grid-template-columns:1fr 1fr 1fr;}
+
+/* ── BUTTONS ─────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--r);font-size:12.5px;font-family:var(--sans);font-weight:500;cursor:pointer;transition:all .12s;border:1px solid transparent;white-space:nowrap;}
+.btn:disabled{opacity:.35;pointer-events:none;}
+.btn-primary{background:var(--blue);color:#fff;border-color:var(--blue);}
+.btn-primary:hover{background:var(--blue2);}
+.btn-danger{background:var(--red2);color:#fff;border-color:var(--red2);}
+.btn-danger:hover{background:var(--red);}
+.btn-success{background:var(--green2);color:#001f10;border-color:var(--green2);font-weight:600;}
+.btn-success:hover{background:var(--green);}
+.btn-outline{background:transparent;color:var(--text1);border-color:var(--border2);}
+.btn-outline:hover{background:var(--bg3);color:var(--text0);border-color:var(--blue);}
+.btn-ghost{background:transparent;color:var(--text2);border:none;}
+.btn-ghost:hover{color:var(--text0);background:var(--bg3);border-radius:var(--r);}
+.btn-sm{padding:4px 10px;font-size:11.5px;}
+.btn-lg{padding:10px 22px;font-size:13px;}
+.btn-full{width:100%;justify-content:center;}
+.btn-icon{width:28px;height:28px;padding:0;justify-content:center;border-radius:6px;}
+
+/* ── TABLE ───────────────────────────────────────────── */
+.tbl-wrap{overflow-x:auto;}
+table.tbl{width:100%;border-collapse:collapse;font-size:12px;}
+table.tbl th{padding:8px 14px;text-align:left;font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);border-bottom:1px solid var(--border);background:rgba(255,255,255,.01);}
+table.tbl td{padding:8px 14px;border-bottom:1px solid rgba(26,46,72,.4);color:var(--text1);font-family:var(--mono);font-size:11.5px;vertical-align:middle;}
+table.tbl tr:hover td{background:rgba(255,255,255,.015);}
+.tag{display:inline-block;padding:2px 7px;border-radius:3px;font-size:9.5px;font-family:var(--mono);font-weight:700;}
+.tag-ok{background:rgba(0,232,122,.1);color:var(--green);border:1px solid rgba(0,232,122,.18);}
+.tag-er{background:rgba(255,60,90,.1);color:var(--red);border:1px solid rgba(255,60,90,.18);}
+.tag-wa{background:rgba(255,204,0,.1);color:var(--yellow);border:1px solid rgba(255,204,0,.18);}
+.tag-bl{background:rgba(26,127,255,.1);color:var(--blue2);border:1px solid rgba(26,127,255,.18);}
+.tag-pu{background:rgba(139,92,246,.1);color:var(--purple);border:1px solid rgba(139,92,246,.18);}
+.tag-or{background:rgba(255,140,66,.1);color:var(--orange);border:1px solid rgba(255,140,66,.18);}
+
+/* ── MISC ────────────────────────────────────────────── */
+.flex{display:flex;}.flex-1{flex:1;}.gap8{gap:8px;}.gap12{gap:12px;}.gap16{gap:16px;}
+.items-center{align-items:center;}.items-end{align-items:flex-end;}
+.ml-auto{margin-left:auto;}.mt8{margin-top:8px;}.mt12{margin-top:12px;}.mt16{margin-top:16px;}
+.dn{display:none!important;}
+.mono{font-family:var(--mono);}
+.xs{font-size:11px;color:var(--text2);}
+.pg-title{font-size:18px;font-weight:700;color:var(--text0);margin-bottom:4px;}
+.pg-sub{font-size:12px;color:var(--text2);margin-bottom:20px;}
+.divider{border:none;border-top:1px solid var(--border);margin:14px 0;}
+.info-box{background:rgba(26,127,255,.06);border:1px solid rgba(26,127,255,.15);border-radius:var(--r);padding:10px 14px;font-size:12px;color:var(--blue2);font-family:var(--mono);}
+.warn-box{background:rgba(255,204,0,.06);border:1px solid rgba(255,204,0,.15);border-radius:var(--r);padding:10px 14px;font-size:12px;color:var(--yellow);}
+
+/* ── CREDITS BAR ─────────────────────────────────────── */
+.cred-bar{height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-top:5px;}
+.cred-fill{height:100%;border-radius:3px;transition:width .4s;}
+.cred-fill.ok{background:linear-gradient(90deg,var(--green2),var(--green));}
+.cred-fill.warn{background:linear-gradient(90deg,var(--yellow),var(--orange));}
+.cred-fill.low{background:linear-gradient(90deg,var(--red2),var(--red));}
+
+/* ── FEATURE CHECKBOXES ──────────────────────────────── */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;}
+.feat-check{
+  display:flex;align-items:center;gap:7px;padding:7px 10px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  cursor:pointer;transition:border-color .12s;font-size:11.5px;font-family:var(--mono);
+  color:var(--text1);
+}
+.feat-check:hover{border-color:var(--border2);color:var(--text0);}
+.feat-check.on{border-color:rgba(0,232,122,.25);background:rgba(0,232,122,.04);color:var(--green);}
+.feat-check input{display:none;}
+
+/* ── MODAL ───────────────────────────────────────────── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:3000;display:none;align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:var(--bg1);border:1px solid var(--border2);border-radius:var(--r2);padding:26px;width:540px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow);}
+.modal-title{font-size:15px;font-weight:600;margin-bottom:18px;font-family:var(--mono);display:flex;align-items:center;gap:8px;}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;}
+
+/* ── TOAST ───────────────────────────────────────────── */
+#toasts{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:6px;z-index:9999;}
+.toast{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:10px 16px;font-size:12.5px;color:var(--text0);box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;max-width:320px;animation:tIn .2s ease;}
+.toast.ok{border-left:3px solid var(--green);}
+.toast.er{border-left:3px solid var(--red);}
+.toast.wa{border-left:3px solid var(--yellow);}
+@keyframes tIn{from{transform:translateX(20px);opacity:0}to{transform:none;opacity:1}}
+
+/* ── PULSE DOT ───────────────────────────────────────── */
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--green);position:relative;display:inline-block;}
+.pulse-dot::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1px solid var(--green);animation:pr 1.5s ease-in-out infinite;}
+@keyframes pr{0%{transform:scale(1);opacity:.5}100%{transform:scale(2.2);opacity:0}}
+
+/* scanlines */
+#app::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.02) 0px,rgba(0,0,0,.02) 1px,transparent 1px,transparent 2px);pointer-events:none;z-index:9990;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-title">⬡ BLUE MAILER ADMIN</div>
+    <div class="login-head">ADMIN<span>PANEL</span></div>
+    <div class="login-sub">v3.1 // MANAGEMENT CONSOLE</div>
+    <div class="fg" style="margin-bottom:8px">
+      <label class="lbl">Admin Password</label>
+      <input id="pw" type="password" class="inp" placeholder="Enter admin password" autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div id="login-err" class="login-err"></div>
+    <button class="login-btn" onclick="doLogin()">ACCESS ADMIN CONSOLE</button>
+    <p style="margin-top:12px;font-size:10.5px;color:var(--text3);font-family:var(--mono);text-align:center">Default password: admin123 · Change after first login</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <!-- SIDEBAR -->
+  <aside id="sb">
+    <div class="sb-logo">
+      <div class="sb-logo-name">BLUE<span>MAILER</span></div>
+      <div class="sb-logo-badge">⬡ ADMIN CONSOLE</div>
+    </div>
+    <div class="sb-nav-wrap">
+      <div class="sb-sec">Dashboard</div>
+      <div class="nav active" data-page="dash"><span class="nav-ico">⬛</span>Overview</div>
+      <div class="sb-sec">Licenses</div>
+      <div class="nav" data-page="licenses"><span class="nav-ico">🔑</span>Token Manager</div>
+      <div class="nav" data-page="create"><span class="nav-ico">➕</span>Create Token</div>
+      <div class="sb-sec">Monitoring</div>
+      <div class="nav" data-page="devices"><span class="nav-ico">📡</span>All Devices</div>
+      <div class="nav" data-page="cache"><span class="nav-ico">💾</span>Email Cache</div>
+      <div class="sb-sec">Settings</div>
+      <div class="nav" data-page="settings"><span class="nav-ico">⚙</span>Settings</div>
+    </div>
+    <div class="sb-bottom">
+      <div class="admin-badge">🔴 ADMIN SESSION</div>
+      <button class="logout-btn" onclick="doLogout()">↩ Logout</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div id="main">
+    <div class="topbar">
+      <div>
+        <span class="topbar-title" id="tb-title">Overview</span>
+        <span class="topbar-sub" id="tb-sub"> // admin dashboard</span>
+      </div>
+      <div class="topbar-right">
+        <span class="xs mono" id="tb-time" style="color:var(--text3)"></span>
+        <div class="flex items-center gap8">
+          <div class="pulse-dot"></div>
+          <span class="xs mono">ADMIN LIVE</span>
+        </div>
+      </div>
+    </div>
+    <div id="content">
+
+      <!-- DASH PAGE -->
+      <div class="page active" id="page-dash">
+        <div class="pg-title">Admin Overview</div>
+        <div class="pg-sub">Real-time system status and statistics</div>
+        <div class="stats-row" id="dash-stats">
+          <div class="stat"><div class="stat-lbl">Total Licenses</div><div class="stat-val c-blue" id="s-lic">—</div><div class="stat-meta">registered keys</div></div>
+          <div class="stat"><div class="stat-lbl">Active</div><div class="stat-val c-green" id="s-active">—</div><div class="stat-meta">enabled licenses</div></div>
+          <div class="stat"><div class="stat-lbl">Live Sessions</div><div class="stat-val c-yellow" id="s-sessions">—</div><div class="stat-meta">online now</div></div>
+          <div class="stat"><div class="stat-lbl">Total Devices</div><div class="stat-val" id="s-devices">—</div><div class="stat-meta">registered</div></div>
+          <div class="stat"><div class="stat-lbl">Email Cache</div><div class="stat-val c-orange" id="s-cache">—</div><div class="stat-meta">entries</div></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">LICENSE STATUS</span>
+            <button class="btn btn-primary btn-sm ml-auto" onclick="navTo('create')">+ New Token</button>
+            <button class="btn btn-outline btn-sm" onclick="loadDash()">↺ Refresh</button>
+          </div>
+          <div class="card-body p0">
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <thead><tr><th>Key</th><th>Tier</th><th>Devices</th><th>Sessions</th><th>Credits</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="dash-lic-tbody"><tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3)">Loading...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LICENSES PAGE -->
+      <div class="page" id="page-licenses">
+        <div class="pg-title">Token Manager</div>
+        <div class="pg-sub">Edit features, limits, credits and status for each license token</div>
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">ALL TOKENS</span>
+            <button class="btn btn-primary btn-sm ml-auto" onclick="navTo('create')">+ Create Token</button>
+            <button class="btn btn-outline btn-sm" onclick="loadLicenses()">↺ Refresh</button>
+          </div>
+          <div class="card-body p0">
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <thead>
+                  <tr>
+                    <th>License Key</th><th>Tier / Label</th><th>Devices</th>
+                    <th>Features</th><th>Credits</th><th>Status</th><th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="lic-tbody"><tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3)">Loading...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CREATE PAGE -->
+      <div class="page" id="page-create">
+        <div class="pg-title">Create New Token</div>
+        <div class="pg-sub">Generate a new license token with custom tier, features, and device limits</div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">TOKEN DETAILS</span></div>
+          <div class="card-body">
+            <div class="fgrid c3" style="margin-bottom:12px">
+              <div class="fg"><label>Tier Name</label><input id="c-tier" type="text" placeholder="Premium, Business..."/></div>
+              <div class="fg"><label>Label (display)</label><input id="c-label" type="text" placeholder="PREMIUM"/></div>
+              <div class="fg"><label>Color (hex)</label><input id="c-color" type="text" placeholder="#1e90ff" value="#1a7fff"/></div>
+            </div>
+            <div class="fgrid c3" style="margin-bottom:12px">
+              <div class="fg"><label>Max Devices</label><input id="c-devices" type="number" value="5" min="1"/></div>
+              <div class="fg"><label>Expires (days, 0=never)</label><input id="c-expires" type="number" value="0" min="0"/></div>
+              <div class="fg"><label>Note / Client Name</label><input id="c-note" type="text" placeholder="Client or description"/></div>
+            </div>
+            <div class="divider"></div>
+            <div style="margin-bottom:8px"><label>FEATURES</label></div>
+            <div class="feat-grid" id="feat-grid">
+              <!-- populated by JS -->
+            </div>
+            <div class="divider"></div>
+            <div class="fgrid c3" style="margin-bottom:0">
+              <div class="fg">
+                <label>Enable Credits</label>
+                <select id="c-cred-en">
+                  <option value="0">No — Unlimited</option>
+                  <option value="1">Yes — Track usage</option>
+                </select>
+              </div>
+              <div class="fg"><label>Starting Credits</label><input id="c-credits" type="number" value="1000" min="0"/></div>
+              <div class="fg flex items-end">
+                <button class="btn btn-success btn-full btn-lg" onclick="createToken()">⚡ Generate Token</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card dn" id="create-result-card">
+          <div class="card-head"><span class="card-title">✓ TOKEN CREATED</span></div>
+          <div class="card-body">
+            <div class="info-box" style="margin-bottom:12px">Copy this license key — it will not be shown again in this view.</div>
+            <div id="created-key-display" style="background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:14px;font-family:var(--mono);font-size:13px;color:var(--blue2);word-break:break-all;cursor:pointer;"></div>
+            <button class="btn btn-outline btn-sm mt8" onclick="copyCreatedKey()">📋 Copy Key</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEVICES PAGE -->
+      <div class="page" id="page-devices">
+        <div class="pg-title">All Devices</div>
+        <div class="pg-sub">Every registered device across all license keys</div>
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">DEVICE REGISTRY</span>
+            <span class="xs ml-auto" id="dev-count-lbl">—</span>
+            <button class="btn btn-outline btn-sm" style="margin-left:8px" onclick="loadDevices()">↺ Refresh</button>
+          </div>
+          <div class="card-body p0">
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <thead><tr><th>Device Name</th><th>License / Tier</th><th>IP / Location</th><th>OS / Browser</th><th>Status</th><th>Last Seen</th><th>Actions</th></tr></thead>
+                <tbody id="dev-tbody"><tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3)">Loading...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CACHE PAGE -->
+      <div class="page" id="page-cache">
+        <div class="pg-title">Email Validation Cache</div>
+        <div class="pg-sub">Previously validated emails — avoid re-scanning. Cache TTL: 30 days.</div>
+        <div class="stats-row" style="grid-template-columns:repeat(4,1fr)">
+          <div class="stat"><div class="stat-lbl">Total Cached</div><div class="stat-val c-blue" id="cache-tot">—</div><div class="stat-meta">emails</div></div>
+          <div class="stat"><div class="stat-lbl">Valid</div><div class="stat-val c-green" id="cache-valid">—</div><div class="stat-meta">good emails</div></div>
+          <div class="stat"><div class="stat-lbl">Invalid</div><div class="stat-val c-red" id="cache-inv">—</div><div class="stat-meta">bad / no MX</div></div>
+          <div class="stat"><div class="stat-lbl">Disposable</div><div class="stat-val c-yellow" id="cache-disp">—</div><div class="stat-meta">temp domains</div></div>
+        </div>
+        <div class="flex gap12" style="margin-bottom:16px">
+          <div class="card flex-1" style="margin-bottom:0">
+            <div class="card-head"><span class="card-title">CACHE ACTIONS</span></div>
+            <div class="card-body">
+              <div class="flex gap8 items-end">
+                <div class="fg" style="width:160px">
+                  <label>Clear older than (days)</label>
+                  <input id="cache-days" type="number" value="30" min="0" placeholder="0 = all"/>
+                </div>
+                <button class="btn btn-danger" onclick="clearCache()">🗑 Clear Cache</button>
+                <button class="btn btn-outline" onclick="loadCache()">↺ Refresh</button>
+              </div>
+              <div class="flex gap8 mt12">
+                <button class="btn btn-success btn-sm" onclick="exportCache('valid')">⬇ Export Valid</button>
+                <button class="btn btn-danger btn-sm" onclick="exportCache('invalid')">⬇ Export Invalid</button>
+                <button class="btn btn-outline btn-sm" onclick="exportCache('all')">⬇ Export All</button>
+              </div>
+            </div>
+          </div>
+          <div class="card flex-1" style="margin-bottom:0">
+            <div class="card-head"><span class="card-title">TOP DOMAINS</span></div>
+            <div class="card-body p0">
+              <div style="max-height:160px;overflow-y:auto" id="cache-domains"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS PAGE -->
+      <div class="page" id="page-settings">
+        <div class="pg-title">Admin Settings</div>
+        <div class="pg-sub">Manage admin credentials and system configuration</div>
+        <div class="card" style="max-width:440px">
+          <div class="card-head"><span class="card-title">CHANGE PASSWORD</span></div>
+          <div class="card-body">
+            <div class="fg" style="margin-bottom:10px">
+              <label>New Password</label>
+              <input id="new-pw" type="password" placeholder="Min 6 characters"/>
+            </div>
+            <div class="fg" style="margin-bottom:14px">
+              <label>Confirm Password</label>
+              <input id="conf-pw" type="password" placeholder="Repeat new password"/>
+            </div>
+            <button class="btn btn-primary" onclick="changePw()">💾 Update Password</button>
+          </div>
+        </div>
+        <div class="card" style="max-width:440px">
+          <div class="card-head"><span class="card-title">DATA FILES</span></div>
+          <div class="card-body">
+            <p class="xs" style="margin-bottom:12px">All data is stored in the <span class="mono" style="color:var(--blue2)">data/</span> directory on the server. Files update in real-time.</p>
+            <div class="flex gap8" style="flex-wrap:wrap">
+              <span class="tag tag-bl">licenses.json</span>
+              <span class="tag tag-bl">devices.json</span>
+              <span class="tag tag-bl">sessions.json</span>
+              <span class="tag tag-bl">email_cache.json</span>
+              <span class="tag tag-bl">usage.json</span>
+              <span class="tag tag-bl">templates.json</span>
+              <span class="tag tag-er">admin.json</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- EDIT LICENSE MODAL -->
+<div class="modal-bg" id="edit-modal">
+  <div class="modal">
+    <div class="modal-title">🔑 Edit Token</div>
+    <input type="hidden" id="edit-key"/>
+    <div class="fgrid c3" style="margin-bottom:12px">
+      <div class="fg"><label>Tier Name</label><input id="e-tier" type="text"/></div>
+      <div class="fg"><label>Label</label><input id="e-label" type="text"/></div>
+      <div class="fg"><label>Color</label><input id="e-color" type="text"/></div>
+    </div>
+    <div class="fgrid c2" style="margin-bottom:12px">
+      <div class="fg"><label>Max Devices</label><input id="e-devices" type="number" min="1"/></div>
+      <div class="fg"><label>Status</label>
+        <select id="e-active">
+          <option value="1">Active</option>
+          <option value="0">Disabled</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg" style="margin-bottom:12px"><label>Note</label><input id="e-note" type="text" placeholder="Client / description"/></div>
+    <div style="margin-bottom:8px"><label>FEATURES</label></div>
+    <div class="feat-grid" id="e-feat-grid"></div>
+    <div class="divider"></div>
+    <div class="fgrid c2" style="margin-bottom:0">
+      <div class="fg"><label>Credits System</label>
+        <select id="e-cred-en">
+          <option value="0">Disabled — Unlimited</option>
+          <option value="1">Enabled — Track usage</option>
+        </select>
+      </div>
+      <div class="fg"><label>Total Credits (budget)</label><input id="e-credits" type="number" min="0"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('edit-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEdit()">💾 Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- CREDITS MODAL -->
+<div class="modal-bg" id="credits-modal">
+  <div class="modal" style="width:380px">
+    <div class="modal-title">💰 Manage Credits</div>
+    <input type="hidden" id="cred-key"/>
+    <div id="cred-status" class="info-box" style="margin-bottom:14px"></div>
+    <div class="fgrid c2" style="margin-bottom:12px">
+      <div class="fg"><label>Amount</label><input id="cred-amount" type="number" value="500" min="1"/></div>
+      <div class="fg"><label>Operation</label>
+        <select id="cred-mode">
+          <option value="add">Add credits</option>
+          <option value="set">Set total budget</option>
+          <option value="reset">Reset usage to 0</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('credits-modal')">Cancel</button>
+      <button class="btn btn-success" onclick="applyCredits()">Apply</button>
+    </div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+
+<script>
+'use strict';
+
+// ── STATE ──────────────────────────────────────────────────────
+let ADMIN_TOKEN = sessionStorage.getItem('bm_admin_token') || null;
+let lastCreatedKey = '';
+
+const ALL_FEATURES = [
+  { id: 'send_bulk',     label: 'Bulk Send' },
+  { id: 'send_personal', label: 'Personalized' },
+  { id: 'smtp_test',     label: 'SMTP Test' },
+  { id: 'validate',      label: 'Validator' },
+  { id: 'sort',          label: 'Sorter' },
+  { id: 'dedupe',        label: 'Deduper' },
+  { id: 'spf_dkim',      label: 'SPF/DKIM' },
+  { id: 'inbox_scan',    label: 'Inbox Scan' },
+  { id: 'blacklist',     label: 'Blacklist' },
+  { id: 'templates',     label: 'Templates' }
+];
+
+// ── HELPERS ────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const val = id => $(id)?.value || '';
+
+function toast(msg, type='ok', dur=3500) {
+  const icons = { ok: '✓', er: '✗', wa: '⚠' };
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<span>${icons[type]||'ℹ'}</span><span>${msg}</span>`;
+  $('toasts').appendChild(el);
+  setTimeout(() => el.remove(), dur);
+}
+
+function closeModal(id) { $(id).classList.remove('open'); }
+
+function dl(text, name) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text||''], { type: 'text/plain' }));
+  a.download = name + '.txt'; a.click();
+}
+
+// ── API ────────────────────────────────────────────────────────
+async function api(path, body, method='POST') {
+  const r = await fetch('/api' + path, {
+    method,
+    headers: { 'Content-Type': 'application/json', 'x-admin-token': ADMIN_TOKEN || '' },
+    ...(method !== 'GET' ? { body: JSON.stringify(body) } : {})
+  });
+  if (r.status === 401) { doLogout(); return null; }
+  return r.json();
+}
+
+// ── LOGIN ──────────────────────────────────────────────────────
+async function doLogin() {
+  const pw = val('pw');
+  if (!pw) return;
+  const btn = document.querySelector('.login-btn');
+  btn.disabled = true; btn.textContent = 'VERIFYING...';
+  $('login-err').style.display = 'none';
+
+  try {
+    const r = await fetch('/api/admin/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw })
+    });
+    const d = await r.json();
+    if (d.ok) {
+      ADMIN_TOKEN = d.token;
+      sessionStorage.setItem('bm_admin_token', d.token);
+      $('login-screen').style.display = 'none';
+      $('app').style.display = 'flex';
+      initApp();
+    } else {
+      $('login-err').textContent = d.error || 'Invalid password.';
+      $('login-err').style.display = 'block';
+    }
+  } catch {
+    $('login-err').textContent = 'Cannot reach server.';
+    $('login-err').style.display = 'block';
+  }
+  btn.disabled = false; btn.textContent = 'ACCESS ADMIN CONSOLE';
+}
+
+function doLogout() {
+  sessionStorage.removeItem('bm_admin_token');
+  ADMIN_TOKEN = null;
+  $('app').style.display = 'none';
+  $('login-screen').style.display = 'flex';
+  $('pw').value = '';
+}
+
+async function tryAutoLogin() {
+  if (!ADMIN_TOKEN) return;
+  const d = await api('/admin/stats', {}, 'GET');
+  if (d) {
+    $('login-screen').style.display = 'none';
+    $('app').style.display = 'flex';
+    initApp();
+  } else {
+    ADMIN_TOKEN = null;
+  }
+}
+
+// ── NAVIGATION ─────────────────────────────────────────────────
+const PAGE_META = {
+  dash:     ['Overview',      '// admin dashboard'],
+  licenses: ['Token Manager', '// manage licenses'],
+  create:   ['Create Token',  '// new license key'],
+  devices:  ['All Devices',   '// device registry'],
+  cache:    ['Email Cache',   '// validation cache'],
+  settings: ['Settings',      '// admin config']
+};
+
+function navTo(pg) {
+  document.querySelectorAll('.nav').forEach(el => el.classList.toggle('active', el.dataset.page === pg));
+  document.querySelectorAll('.page').forEach(el => el.classList.toggle('active', el.id === 'page-' + pg));
+  const [t, s] = PAGE_META[pg] || ['', ''];
+  $('tb-title').textContent = t;
+  $('tb-sub').textContent = s;
+
+  // Load data for page
+  if (pg === 'dash')     loadDash();
+  if (pg === 'licenses') loadLicenses();
+  if (pg === 'devices')  loadDevices();
+  if (pg === 'cache')    loadCache();
+  if (pg === 'create')   buildFeatGrid('feat-grid', []);
+}
+
+document.querySelectorAll('.nav[data-page]').forEach(el => {
+  el.addEventListener('click', () => navTo(el.dataset.page));
+});
+
+// ── INIT ───────────────────────────────────────────────────────
+function initApp() {
+  buildFeatGrid('feat-grid', []);
+  loadDash();
+  setInterval(() => {
+    const pg = document.querySelector('.page.active')?.id?.replace('page-','');
+    if (pg === 'dash') loadDash();
+  }, 30000);
+  setInterval(() => {
+    $('tb-time').textContent = new Date().toLocaleTimeString('en', { hour12: false });
+  }, 1000);
+}
+
+// ── FEATURE GRID BUILDER ────────────────────────────────────────
+function buildFeatGrid(gridId, selected = []) {
+  const grid = $(gridId);
+  if (!grid) return;
+  grid.innerHTML = ALL_FEATURES.map(f => `
+    <label class="feat-check ${selected.includes(f.id) ? 'on' : ''}" id="fc-${gridId}-${f.id}">
+      <input type="checkbox" ${selected.includes(f.id) ? 'checked' : ''} onchange="toggleFeat('${gridId}','${f.id}',this)"/>
+      <span>${selected.includes(f.id) ? '✓' : '○'}</span> ${f.label}
+    </label>`).join('');
+}
+
+function toggleFeat(gridId, fid, cb) {
+  const lbl = $(`fc-${gridId}-${fid}`);
+  if (!lbl) return;
+  lbl.classList.toggle('on', cb.checked);
+  lbl.querySelector('span').textContent = cb.checked ? '✓' : '○';
+}
+
+function getSelectedFeats(gridId) {
+  return ALL_FEATURES.filter(f => {
+    const el = $(`fc-${gridId}-${f.id}`);
+    return el?.querySelector('input')?.checked;
+  }).map(f => f.id);
+}
+
+function selectAllFeats(gridId) {
+  ALL_FEATURES.forEach(f => {
+    const el = $(`fc-${gridId}-${f.id}`);
+    if (el) { el.classList.add('on'); el.querySelector('input').checked = true; el.querySelector('span').textContent = '✓'; }
+  });
+}
+
+// ── DASH ───────────────────────────────────────────────────────
+async function loadDash() {
+  const d = await api('/admin/stats', {}, 'GET');
+  if (!d) return;
+
+  $('s-lic').textContent      = d.totalLicenses;
+  $('s-active').textContent   = d.activeLicenses;
+  $('s-sessions').textContent = d.onlineSessions;
+  $('s-devices').textContent  = d.totalDevices;
+  $('s-cache').textContent    = d.emailCache.total;
+
+  $('dash-lic-tbody').innerHTML = d.licenses.map(l => {
+    const credPct = l.creditsEnabled && l.creditsTotal > 0 ? Math.min(100, (l.creditsUsed / l.creditsTotal) * 100) : 0;
+    const credCls = credPct > 80 ? 'low' : credPct > 50 ? 'warn' : 'ok';
+    return `
+    <tr>
+      <td style="max-width:140px">
+        <div class="mono" style="color:var(--blue2);font-size:10.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer" onclick="copyText('${l.key}')" title="${l.key}">${l.key.slice(0,22)}…</div>
+      </td>
+      <td>
+        <span class="tag" style="background:${l.color}22;color:${l.color};border-color:${l.color}44">${l.label||l.tier}</span>
+        <div style="font-size:10px;color:var(--text2);margin-top:2px">${l.note||''}</div>
+      </td>
+      <td><span style="color:var(--text0)">${l.deviceCount}</span> / <span style="color:var(--text2)">${l.maxDevices}</span></td>
+      <td>${l.activeSessions > 0 ? `<span class="flex items-center gap8"><div class="pulse-dot" style="width:6px;height:6px"></div>${l.activeSessions}</span>` : '<span style="color:var(--text3)">0</span>'}</td>
+      <td style="min-width:100px">
+        ${l.creditsEnabled
+          ? `<div style="font-size:10.5px;color:var(--text1)">${l.creditsUsed}/${l.creditsTotal}</div>
+             <div class="cred-bar"><div class="cred-fill ${credCls}" style="width:${credPct.toFixed(1)}%"></div></div>`
+          : '<span class="xs" style="color:var(--text3)">Unlimited</span>'}
+      </td>
+      <td>${l.active ? '<span class="tag tag-ok">ACTIVE</span>' : '<span class="tag tag-er">DISABLED</span>'}</td>
+      <td>
+        <div class="flex gap8">
+          <button class="btn btn-outline btn-sm btn-icon" onclick="openEdit('${l.key}')" title="Edit">✏</button>
+          <button class="btn btn-outline btn-sm btn-icon" onclick="openCredits('${l.key}',${l.creditsTotal||0},${l.creditsUsed||0})" title="Credits">💰</button>
+          <button class="btn btn-danger btn-sm btn-icon" onclick="deleteToken('${l.key}')" title="Delete">✕</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3)">No licenses found</td></tr>';
+}
+
+// ── LICENSES PAGE ──────────────────────────────────────────────
+async function loadLicenses() {
+  const d = await api('/admin/licenses', {}, 'GET');
+  if (!d) return;
+
+  $('lic-tbody').innerHTML = d.licenses.map(l => {
+    const featCount = (l.features || []).length;
+    const credPct = l.creditsEnabled && l.creditsTotal > 0 ? Math.min(100, (l.creditsUsed / l.creditsTotal) * 100) : 0;
+    return `
+    <tr>
+      <td>
+        <div class="mono" style="color:var(--blue2);font-size:10.5px;cursor:pointer" onclick="copyText('${l.key}')" title="Click to copy">${l.key.slice(0,18)}…</div>
+        <div class="xs" style="color:var(--text3)">${new Date(l.createdAt).toLocaleDateString()}</div>
+      </td>
+      <td>
+        <span class="tag" style="background:${l.color}22;color:${l.color};border-color:${l.color}44">${l.label||l.tier}</span>
+        <div class="xs" style="margin-top:2px;color:var(--text2)">${l.note||'—'}</div>
+      </td>
+      <td>${l.deviceCount} / ${l.maxDevices}</td>
+      <td>
+        <span class="tag tag-bl">${featCount} features</span>
+        <div class="xs" style="margin-top:2px">${(l.features||[]).slice(0,3).join(', ')}${featCount>3?'…':''}</div>
+      </td>
+      <td style="min-width:110px">
+        ${l.creditsEnabled
+          ? `<div style="font-size:10.5px">${l.creditsUsed}/${l.creditsTotal} used</div>
+             <div class="cred-bar"><div class="cred-fill ${credPct>80?'low':credPct>50?'warn':'ok'}" style="width:${credPct.toFixed(1)}%"></div></div>`
+          : '<span class="xs" style="color:var(--text3)">∞ Unlimited</span>'}
+      </td>
+      <td>${l.active ? '<span class="tag tag-ok">ACTIVE</span>' : '<span class="tag tag-er">DISABLED</span>'}</td>
+      <td>
+        <div class="flex gap8">
+          <button class="btn btn-outline btn-sm" onclick="openEdit('${l.key}')">✏ Edit</button>
+          <button class="btn btn-outline btn-sm" onclick="openCredits('${l.key}',${l.creditsTotal||0},${l.creditsUsed||0})">💰 Credits</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteToken('${l.key}')">✕</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3)">No licenses</td></tr>';
+}
+
+// ── CREATE TOKEN ───────────────────────────────────────────────
+async function createToken() {
+  const tier    = val('c-tier').trim();
+  const label   = val('c-label').trim();
+  const color   = val('c-color').trim();
+  const devices = val('c-devices');
+  const expires = val('c-expires');
+  const note    = val('c-note').trim();
+  const credEn  = val('c-cred-en') === '1';
+  const credits = val('c-credits');
+  const features = getSelectedFeats('feat-grid');
+
+  if (!tier) return toast('Enter a tier name', 'wa');
+
+  const d = await api('/admin/licenses/create', {
+    tier, label: label || tier.toUpperCase(), color: color || '#1a7fff',
+    maxDevices: parseInt(devices) || 5,
+    features,
+    creditsEnabled: credEn,
+    creditsTotal: credEn ? parseInt(credits) || 1000 : 0,
+    expiresAfterDays: parseInt(expires) > 0 ? parseInt(expires) : null,
+    note
+  });
+
+  if (d?.ok) {
+    lastCreatedKey = d.key;
+    $('created-key-display').textContent = d.key;
+    $('create-result-card').classList.remove('dn');
+    toast('Token created! Copy the key.', 'ok', 5000);
+    // Reset form
+    $('c-tier').value = ''; $('c-label').value = ''; $('c-note').value = '';
+    buildFeatGrid('feat-grid', []);
+  } else {
+    toast(d?.error || 'Failed to create token', 'er');
+  }
+}
+
+function copyCreatedKey() {
+  navigator.clipboard?.writeText(lastCreatedKey);
+  toast('Key copied!', 'ok');
+}
+
+// ── EDIT MODAL ─────────────────────────────────────────────────
+async function openEdit(key) {
+  const d = await api('/admin/licenses', {}, 'GET');
+  if (!d) return;
+  const lic = d.licenses.find(l => l.key === key);
+  if (!lic) return;
+
+  $('edit-key').value = key;
+  $('e-tier').value   = lic.tier || '';
+  $('e-label').value  = lic.label || '';
+  $('e-color').value  = lic.color || '#1a7fff';
+  $('e-devices').value = lic.maxDevices || 5;
+  $('e-active').value  = lic.active ? '1' : '0';
+  $('e-note').value    = lic.note || '';
+  $('e-cred-en').value = lic.creditsEnabled ? '1' : '0';
+  $('e-credits').value = lic.creditsTotal || 0;
+  buildFeatGrid('e-feat-grid', lic.features || []);
+  $('edit-modal').classList.add('open');
+}
+
+async function saveEdit() {
+  const key = val('edit-key');
+  const d = await api(`/admin/licenses/${key}`, {
+    tier:     val('e-tier'),
+    label:    val('e-label'),
+    color:    val('e-color'),
+    maxDevices: parseInt(val('e-devices')),
+    active:   val('e-active') === '1',
+    note:     val('e-note'),
+    features: getSelectedFeats('e-feat-grid'),
+    creditsEnabled: val('e-cred-en') === '1',
+    creditsTotal:   parseInt(val('e-credits')) || 0
+  }, 'PUT');
+
+  if (d?.ok) {
+    toast('License updated', 'ok');
+    closeModal('edit-modal');
+    loadLicenses(); loadDash();
+  } else {
+    toast(d?.error || 'Update failed', 'er');
+  }
+}
+
+// ── CREDITS MODAL ───────────────────────────────────────────────
+function openCredits(key, total, used) {
+  $('cred-key').value = key;
+  const remaining = Math.max(0, total - used);
+  $('cred-status').innerHTML = `
+    <div style="margin-bottom:4px">Total: <strong>${total}</strong> · Used: <strong>${used}</strong> · Remaining: <strong style="color:${remaining < 50 ? 'var(--red)' : 'var(--green)'}">${remaining}</strong></div>
+    <div style="font-size:10px;opacity:.7">Key: ${key.slice(0,20)}…</div>`;
+  $('credits-modal').classList.add('open');
+}
+
+async function applyCredits() {
+  const key    = val('cred-key');
+  const amount = val('cred-amount');
+  const mode   = val('cred-mode');
+  const d = await api(`/admin/licenses/${key}/credits`, { amount: parseInt(amount), mode });
+  if (d?.ok) {
+    toast(`Credits ${mode === 'reset' ? 'reset' : 'updated'}: ${d.creditsTotal} total, ${d.creditsUsed} used`, 'ok');
+    closeModal('credits-modal');
+    loadDash(); loadLicenses();
+  } else {
+    toast(d?.error || 'Failed', 'er');
+  }
+}
+
+// ── DELETE TOKEN ────────────────────────────────────────────────
+async function deleteToken(key) {
+  if (!confirm(`Delete license key?\n${key}\n\nThis will revoke all sessions.`)) return;
+  const d = await api(`/admin/licenses/${key}`, {}, 'DELETE');
+  if (d?.ok) { toast('Token deleted', 'ok'); loadDash(); loadLicenses(); }
+  else toast(d?.error || 'Delete failed', 'er');
+}
+
+// ── DEVICES PAGE ────────────────────────────────────────────────
+async function loadDevices() {
+  const d = await api('/admin/devices', {}, 'GET');
+  if (!d) return;
+  $('dev-count-lbl').textContent = `${d.total} devices · ${d.online} online`;
+  $('dev-tbody').innerHTML = d.devices.length ? d.devices.map(dev => `
+    <tr>
+      <td>
+        <div style="font-weight:500;color:var(--text0)">${dev.deviceName || dev.os + '/' + dev.browser}</div>
+        <div class="xs mono" style="color:var(--text3)">${dev.deviceId.slice(0,12)}…</div>
+      </td>
+      <td>
+        <div class="xs mono" style="color:var(--blue2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:110px" title="${dev.licenseKey}">${dev.licenseKey.slice(0,12)}…</div>
+        <span class="tag tag-bl">${dev.licenseTier}</span>
+      </td>
+      <td>
+        <div style="color:var(--text0)">${dev.ip}</div>
+        <div class="xs">${dev.geo?.city||'—'}, ${dev.geo?.country||'—'}</div>
+      </td>
+      <td><div>${dev.os}</div><div class="xs">${dev.browser}</div></td>
+      <td>
+        ${dev.online ? '<span class="tag tag-ok">● ONLINE</span>' : '<span class="tag" style="color:var(--text3);border-color:var(--border)">OFFLINE</span>'}
+        ${dev.flagged  ? ' <span class="tag tag-er">FLAGGED</span>' : ''}
+        ${dev.revoked  ? ' <span class="tag" style="color:var(--text3);border-color:var(--border)">REVOKED</span>' : ''}
+      </td>
+      <td class="xs">${new Date(dev.lastSeen).toLocaleString()}</td>
+      <td>
+        ${!dev.revoked ? `<button class="btn btn-danger btn-sm" onclick="revokeDevice('${dev.deviceId}','${dev.licenseKey}')">Revoke</button>` : '<span class="xs" style="color:var(--text3)">Revoked</span>'}
+      </td>
+    </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text3)">No devices registered</td></tr>';
+}
+
+async function revokeDevice(deviceId, licenseKey) {
+  if (!confirm('Revoke this device? It will be logged out immediately.')) return;
+  const d = await api('/admin/devices/revoke', { deviceId, licenseKey });
+  if (d?.ok) { toast('Device revoked', 'ok'); loadDevices(); }
+  else toast(d?.error || 'Failed', 'er');
+}
+
+// ── EMAIL CACHE PAGE ────────────────────────────────────────────
+async function loadCache() {
+  const d = await api('/admin/email-cache', {}, 'GET');
+  if (!d) return;
+  $('cache-tot').textContent  = d.total;
+  $('cache-valid').textContent = d.valid;
+  $('cache-inv').textContent  = d.invalid;
+  $('cache-disp').textContent = d.disposable;
+
+  const maxDom = d.topDomains[0]?.total || 1;
+  $('cache-domains').innerHTML = d.topDomains.length ? d.topDomains.map(dom => `
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 14px;border-bottom:1px solid rgba(26,46,72,.3)">
+      <div style="min-width:140px;font-family:var(--mono);font-size:11px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${dom.domain}</div>
+      <div style="flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${(dom.total/maxDom*100).toFixed(1)}%;background:linear-gradient(90deg,var(--blue3),var(--blue2));border-radius:3px"></div>
+      </div>
+      <div style="font-family:var(--mono);font-size:10.5px;color:var(--text2);min-width:60px;text-align:right">
+        <span style="color:var(--green)">${dom.valid}</span>/<span style="color:var(--red)">${dom.invalid}</span>
+      </div>
+    </div>`).join('') : '<p style="padding:14px;text-align:center;color:var(--text3);font-size:11px">No cache data</p>';
+}
+
+async function clearCache() {
+  const days = parseInt(val('cache-days')) || 0;
+  if (!confirm(`Clear cache entries older than ${days} days?`)) return;
+  const d = await api('/admin/email-cache/clear', { olderThanDays: days });
+  if (d?.ok) { toast(`Cleared ${d.cleared} entries`, 'ok'); loadCache(); }
+  else toast('Failed', 'er');
+}
+
+async function exportCache(type) {
+  const d = await api(`/admin/email-cache/export/${type}`, {}, 'GET');
+  if (!d) return;
+  dl(d.emails.join('\n'), `emails_${type}_${Date.now()}`);
+  toast(`Exported ${d.count} emails`, 'ok');
+}
+
+// ── SETTINGS ────────────────────────────────────────────────────
+async function changePw() {
+  const np = val('new-pw'), cp = val('conf-pw');
+  if (!np) return toast('Enter new password', 'wa');
+  if (np !== cp) return toast('Passwords do not match', 'er');
+  if (np.length < 6) return toast('Min 6 characters', 'wa');
+  const d = await api('/admin/change-password', { newPassword: np });
+  if (d?.ok) { toast('Password updated', 'ok'); $('new-pw').value = ''; $('conf-pw').value = ''; }
+  else toast(d?.error || 'Failed', 'er');
+}
+
+// ── UTILS ───────────────────────────────────────────────────────
+function copyText(txt) {
+  navigator.clipboard?.writeText(txt);
+  toast('Copied!', 'ok', 1500);
+}
+
+// ── INIT ────────────────────────────────────────────────────────
+(async function init() {
+  if (ADMIN_TOKEN) {
+    await tryAutoLogin();
+  }
+  $('pw').addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
+})();
+</script>
+</body>
+</html>
