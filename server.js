@@ -48,13 +48,13 @@ if (!fs.existsSync(ADMIN_FILE)) {
 const BUILTIN_LICENSES = {
   "9f4b7e2a-6c13-4a8f-9d12-3b2e8f1d5a6c": {
     tier: "Premium", maxDevices: 10, label: "PREMIUM", color: "#1e90ff",
-    features: ["send_bulk","send_personal","smtp_test","validate","sort","dedupe","spf_dkim","inbox_scan","blacklist","templates"],
+    features: ["send_bulk","send_personal","smtp_test","validate","sort","dedupe","spf_dkim","inbox_scan","blacklist","templates","proj_lib"],
     creditsEnabled: false, creditsTotal: 0, active: true,
     createdAt: new Date().toISOString(), note: "Default Premium license"
   },
   "d3a8cfae-2b04-4f2e-8b34-7a9f0d6e1c2b": {
     tier: "Business", maxDevices: 5, label: "BUSINESS", color: "#00d4ff",
-    features: ["send_bulk","send_personal","smtp_test","validate","sort","dedupe","templates"],
+    features: ["send_bulk","send_personal","smtp_test","validate","sort","dedupe","templates","proj_lib"],
     creditsEnabled: false, creditsTotal: 0, active: true,
     createdAt: new Date().toISOString(), note: "Default Business license"
   },
@@ -83,6 +83,23 @@ if (!fs.existsSync(LICENSES_FILE)) {
   fs.writeFileSync(LICENSES_FILE, JSON.stringify(BUILTIN_LICENSES, null, 2));
 }
 
+// ─── Credit Rate Table ────────────────────────────────────────
+// Tune pricing here — never touch the logic below.
+// Each value is credits-per-item. Charge is always rounded UP,
+// with a minimum of 1 credit per request.
+const CREDIT_RATES = {
+  send_bulk:     0.1,   //  1 credit per 10 recipients
+  send_personal: 0.1,   //  1 credit per 10 leads
+  validate:      0.05,  //  1 credit per 20 emails validated
+  sort:          0.02,  //  1 credit per 50 emails sorted
+  dedupe:        0.02,  //  1 credit per 50 emails deduped
+  spf_dkim:      0.5,   //  1 credit per 2 domains
+  blacklist:     1.0,   //  1 credit per domain
+  inbox_scan:    2.0,   //  2 credits per inbox scanned
+  smtp_test:     0.5,   //  1 credit per 2 SMTP entries
+  default:       1.0,   //  fallback: 1 credit flat
+};
+
 // ─── Middleware ───────────────────────────────────────────────
 app.use(cors());
 app.use(express.json({ limit: "20mb" }));
@@ -109,24 +126,36 @@ function getCreditsUsed(licenseKey) {
   return usage[licenseKey]?.creditsUsed || 0;
 }
 
-function deductCredit(licenseKey, feature = "generic") {
+// Volume-aware credit deduction.
+// count    — number of items being processed (recipients, emails, domains …)
+// Returns  { ok: true, deducted: N } on success,
+//          { ok: false, cost: N, remaining: M } when balance is insufficient.
+function deductCredits(licenseKey, feature = "generic", count = 1) {
   const lic = getLicense(licenseKey);
-  if (!lic || !lic.creditsEnabled) return true; // unlimited
+  if (!lic || !lic.creditsEnabled) return { ok: true, deducted: 0 }; // unlimited
+
+  const rate = CREDIT_RATES[feature] ?? CREDIT_RATES.default;
+  const cost = Math.max(1, Math.ceil(count * rate));
 
   const usage = getUsage();
   if (!usage[licenseKey]) usage[licenseKey] = { creditsUsed: 0, history: [] };
 
-  const used = usage[licenseKey].creditsUsed;
-  if (used >= lic.creditsTotal) return false; // out of credits
+  const used      = usage[licenseKey].creditsUsed;
+  const remaining = (lic.creditsTotal || 0) - used;
+  if (remaining < cost) return { ok: false, cost, remaining };
 
-  usage[licenseKey].creditsUsed = used + 1;
-  usage[licenseKey].history.push({ feature, ts: new Date().toISOString() });
-  // Keep history to last 500 entries
+  usage[licenseKey].creditsUsed = used + cost;
+  usage[licenseKey].history.push({ feature, count, cost, ts: new Date().toISOString() });
   if (usage[licenseKey].history.length > 500) {
     usage[licenseKey].history = usage[licenseKey].history.slice(-500);
   }
   saveUsage(usage);
-  return true;
+  return { ok: true, deducted: cost };
+}
+
+// Backward-compat shim — flat 1-credit calls still work unchanged.
+function deductCredit(licenseKey, feature = "generic") {
+  return deductCredits(licenseKey, feature, 1).ok;
 }
 
 function addCredits(licenseKey, amount) {
@@ -140,33 +169,69 @@ function addCredits(licenseKey, amount) {
 // ─── Email Cache helpers ──────────────────────────────────────
 const EMAIL_CACHE_TTL_DAYS = 30;
 
-function getEmailCache() { return readJSON(EMAIL_CACHE_FILE); }
-function saveEmailCache(d) { writeJSON(EMAIL_CACHE_FILE, d); }
+// In-memory cache mirror — prevents concurrent file read/write corruption
+let _cacheMemory = null;
+let _cacheDirty  = false;
+let _cacheFlushTimer = null;
+
+function _loadCacheMemory() {
+  if (!_cacheMemory) _cacheMemory = readJSON(EMAIL_CACHE_FILE);
+  return _cacheMemory;
+}
+
+function _scheduleCacheFlush() {
+  if (_cacheFlushTimer) return;
+  _cacheFlushTimer = setTimeout(() => {
+    _cacheFlushTimer = null;
+    if (_cacheDirty && _cacheMemory) {
+      writeJSON(EMAIL_CACHE_FILE, _cacheMemory);
+      _cacheDirty = false;
+    }
+  }, 300); // batch all writes within 300 ms window
+}
+
+function getEmailCache() { return _loadCacheMemory(); }
+function saveEmailCache(d) {
+  _cacheMemory = d; _cacheDirty = true; _scheduleCacheFlush();
+}
 
 function checkEmailCache(email) {
-  const cache = getEmailCache();
+  const cache = _loadCacheMemory();
   const entry = cache[email];
   if (!entry) return null;
   const age = (Date.now() - new Date(entry.cachedAt).getTime()) / (1000 * 60 * 60 * 24);
-  if (age > EMAIL_CACHE_TTL_DAYS) { delete cache[email]; saveEmailCache(cache); return null; }
+  if (age > EMAIL_CACHE_TTL_DAYS) {
+    delete _cacheMemory[email]; _cacheDirty = true; _scheduleCacheFlush();
+    return null;
+  }
   return entry;
 }
 
-function cacheEmailResult(email, status, reason, domain) {
-  const cache = getEmailCache();
-  cache[email] = { status, reason, domain, cachedAt: new Date().toISOString() };
-  saveEmailCache(cache);
+// Batch-write multiple results at once — safe for concurrent callers
+function cacheEmailResults(results) {
+  // results: [{ email, status, reason, domain, licenseKey }]
+  const cache = _loadCacheMemory();
+  const now   = new Date().toISOString();
+  for (const r of results) {
+    cache[r.email] = { status: r.status, reason: r.reason || null, domain: r.domain, licenseKey: r.licenseKey, cachedAt: now };
+  }
+  _cacheMemory = cache; _cacheDirty = true; _scheduleCacheFlush();
+}
+
+// Keep single-write helper for back-compat (admin clear etc.)
+function cacheEmailResult(email, status, reason, domain, licenseKey) {
+  cacheEmailResults([{ email, status, reason, domain, licenseKey: licenseKey || null }]);
 }
 
 function clearEmailCache(olderThanDays = 0) {
-  const cache = getEmailCache();
+  const cache = _loadCacheMemory();
   const now = Date.now();
   let cleared = 0;
   for (const [email, entry] of Object.entries(cache)) {
     const age = (now - new Date(entry.cachedAt).getTime()) / (1000 * 60 * 60 * 24);
     if (age >= olderThanDays) { delete cache[email]; cleared++; }
   }
-  saveEmailCache(cache);
+  _cacheMemory = cache; _cacheDirty = true; _scheduleCacheFlush();
   return cleared;
 }
 
@@ -229,9 +294,14 @@ function getSession(token) {
   const sessions = readJSON(SESSIONS_FILE);
   const s = sessions[token];
   if (!s) return null;
-  s.lastSeen = new Date().toISOString();
-  sessions[token] = s;
-  writeJSON(SESSIONS_FILE, sessions);
+  // Fix 3: Only flush to disk if lastSeen is more than 30 seconds old —
+  // prevents hundreds of writes/minute under normal load.
+  const now = new Date();
+  if (!s.lastSeen || (now - new Date(s.lastSeen)) > 30000) {
+    s.lastSeen = now.toISOString();
+    sessions[token] = s;
+    writeJSON(SESSIONS_FILE, sessions);
+  }
   return s;
 }
 
@@ -253,15 +323,51 @@ function requireAuth(req, res, next) {
   next();
 }
 
+// Returns the item count for a feature from a parsed request body.
+// This runs synchronously inside the middleware (body is already parsed).
+function getVolumeForFeature(feature, body) {
+  switch (feature) {
+    case "send_bulk":
+      return [...new Set((body.recipients || []).map(r => r.trim().toLowerCase()))].length;
+    case "send_personal":
+      return parseLeads(body.leadsText || "").length;
+    case "validate":
+      return [...new Set(
+        (body.emailsText || "").split(/[\r\n]+/).map(l => l.trim().toLowerCase())
+          .filter(l => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(l))
+      )].length;
+    case "sort":
+      return parseEmails(body.emailsText || "").length;
+    case "dedupe":
+      return (body.emailsText || "").split(/[\r\n]+/).filter(l => l.trim().includes("@")).length;
+    case "spf_dkim":
+    case "blacklist":
+      return (body.domains || []).length;
+    case "inbox_scan":
+      return (body.accounts || []).length;
+    case "smtp_test":
+      return (body.entries || []).length;
+    default:
+      return 1;
+  }
+}
+
 function requireFeature(feature) {
   return (req, res, next) => {
     if (!req.license?.features.includes(feature)) {
       return res.status(403).json({ error: `Feature '${feature}' not available on your ${req.license?.tier || "current"} plan.` });
     }
-    // Credit check
     if (req.license.creditsEnabled) {
-      const ok = deductCredit(req.session.licenseKey, feature);
-      if (!ok) return res.status(402).json({ error: "No credits remaining. Please contact admin to top up." });
+      const count  = getVolumeForFeature(feature, req.body);
+      const result = deductCredits(req.session.licenseKey, feature, count);
+      if (!result.ok) {
+        return res.status(402).json({
+          error:     "Insufficient credits.",
+          need:      result.cost,
+          remaining: result.remaining,
+          hint:      `This job (${count} item${count !== 1 ? "s" : ""}) costs ${result.cost} credit${result.cost !== 1 ? "s" : ""}. Contact admin to top up.`
+        });
+      }
     }
     next();
   };
@@ -303,13 +409,20 @@ function parseEmails(text) {
 }
 
 function parseLeads(text) {
+  const seen = new Set();
   return text.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(line => {
     const parts = line.split(/[,|;]/);
     const email = parts[0].trim().toLowerCase();
     let name = parts[1] ? parts.slice(1).join(",").trim() : extractName(email);
     if (!name) name = "Friend";
     return { email, name };
-  }).filter(l => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(l.email));
+  }).filter(l => {
+    // Fix 2: Dedup by email — skip already-seen addresses
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(l.email)) return false;
+    if (seen.has(l.email)) return false;
+    seen.add(l.email);
+    return true;
+  });
 }
 
 function extractName(email) {
@@ -906,27 +1019,32 @@ app.post("/api/send/bulk", requireAuth, requireFeature("send_bulk"), async (req,
     auth:{user,pass}, tls:{rejectUnauthorized:false}, connectionTimeout:12000
   });
 
+  // Fix 1: Server-side dedup — prevent duplicate SMTP calls even if frontend is bypassed
+  const uniqueRecipients = [...new Set(recipients.map(r => r.trim().toLowerCase()))];
+  const dedupedCount = recipients.length - uniqueRecipients.length;
+  if (dedupedCount > 0) console.log(`[bulk] Removed ${dedupedCount} duplicate recipient(s).`);
+
   const fromAddr = `"${fromName||"Sender"}" <${user}>`;
   const sent=[], failed=[];
-  sseSend(res,{type:"start",total:recipients.length});
+  sseSend(res,{type:"start",total:uniqueRecipients.length,dedupedCount});
 
-  for (let i=0;i<recipients.length;i++) {
-    const email = recipients[i].trim();
+  for (let i=0;i<uniqueRecipients.length;i++) {
+    const email = uniqueRecipients[i];
     try {
       await transporter.sendMail({ from:fromAddr, to:email, subject, html:htmlBody, ...(replyTo?{replyTo}:{}) });
       sent.push(email);
-      sseSend(res,{type:"sent",index:i,email,total:recipients.length,sentCount:sent.length,failCount:failed.length});
+      sseSend(res,{type:"sent",index:i,email,total:uniqueRecipients.length,sentCount:sent.length,failCount:failed.length});
     } catch(err) {
       failed.push({email,error:err.message});
-      sseSend(res,{type:"failed",index:i,email,error:err.message,total:recipients.length,sentCount:sent.length,failCount:failed.length});
+      sseSend(res,{type:"failed",index:i,email,error:err.message,total:uniqueRecipients.length,sentCount:sent.length,failCount:failed.length});
     }
-    if (throttle>0&&(i+1)%throttle===0&&(i+1)<recipients.length) {
+    if (throttle>0&&(i+1)%throttle===0&&(i+1)<uniqueRecipients.length) {
       sseSend(res,{type:"throttle",delayMs}); await sleep(delayMs);
     }
   }
 
   const elapsed = "0.0";
-  sseSend(res,{type:"done",sent,failed,total:recipients.length,sentCount:sent.length,failCount:failed.length,elapsed});
+  sseSend(res,{type:"done",sent,failed,total:uniqueRecipients.length,sentCount:sent.length,failCount:failed.length,elapsed,dedupedCount});
   res.end();
 });
 
@@ -976,61 +1094,162 @@ app.post("/api/send/personalized", requireAuth, requireFeature("send_personal"),
 
 app.post("/api/emails/validate", requireAuth, requireFeature("validate"), async (req, res) => {
   sseSetup(res);
-  const { emailsText, concurrency=15 } = req.body;
-  if (!emailsText) { sseSend(res,{type:"error",message:"No emails."}); return res.end(); }
+  const licenseKey = req.session.licenseKey;
 
-  const emails  = emailsText.split(/[\r\n]+/).map(l=>l.trim().toLowerCase()).filter(l => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(l));
-  const unique  = [...new Set(emails)];
-  const mxCache = {};
-  const valid=[], invalid=[];
+  // Always guarantee the stream ends — even on unhandled errors.
+  // FIX: never include the full valid/invalid arrays in the done payload.
+  // Results are already streamed per-item; sending 10k emails in one
+  // res.write() call overflows Node's HTTP response buffer and crashes the stream.
+  const safeEnd = (extra = {}) => {
+    try { sseSend(res, { type: "done", ...extra }); } catch {}
+    try { res.end(); } catch {}
+  };
+
+  const { emailsText, concurrency = 15 } = req.body;
+  if (!emailsText) { return safeEnd({ error: "No emails." }); }
+
+  const emails = emailsText.split(/[\r\n]+/).map(l => l.trim().toLowerCase()).filter(l => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(l));
+  const unique = [...new Set(emails)];
+  if (!unique.length) { return safeEnd({ error: "No valid email addresses found." }); }
+
   const disposableDomains = new Set(["mailinator.com","guerrillamail.com","tempmail.com","10minutemail.com","throwaway.email","yopmail.com","sharklasers.com","guerrillamailblock.com","grr.la","guerrillamail.info","guerrillamail.biz","guerrillamail.de","guerrillamail.net","guerrillamail.org","spam4.me","trashmail.at","trashmail.io","trashmail.me","trashmail.net","trash-mail.at"]);
 
-  // Count how many are cached
-  const cached   = unique.filter(e => checkEmailCache(e) !== null).length;
+  // Count cache hits upfront so the client can show an accurate progress bar.
+  const cached    = unique.filter(e => checkEmailCache(e) !== null).length;
   const needsScan = unique.length - cached;
 
-  sseSend(res,{type:"start",total:unique.length,dedupedFrom:emails.length,cached,needsScan});
+  let validCount = 0, invalidCount = 0;
 
-  for (let i=0;i<unique.length;i+=concurrency) {
-    const batch = unique.slice(i, i+concurrency);
-    await Promise.all(batch.map(async (email, bi) => {
-      const idx=i+bi;
-      const domain = email.split("@")[1];
+  sseSend(res, { type: "start", total: unique.length, dedupedFrom: emails.length, cached, needsScan });
 
-      // Check cache first
-      const cachedResult = checkEmailCache(email);
-      if (cachedResult) {
-        if (cachedResult.status === "valid") valid.push(email);
-        else invalid.push({email, reason: cachedResult.reason, domain});
-        sseSend(res,{type:"result",index:idx,email,status:cachedResult.status,domain,fromCache:true,total:unique.length});
-        return;
-      }
-
-      const isDisposable = disposableDomains.has(domain);
-
-      if (mxCache[domain] === undefined) {
-        try {
-          const mx = await dns.resolveMx(domain);
-          mxCache[domain] = mx?.length > 0;
-        } catch { mxCache[domain]=false; }
-      }
-
-      const hasMX  = mxCache[domain];
-      const status = !hasMX ? "invalid" : isDisposable ? "disposable" : "valid";
-      const reason = !hasMX ? "no_mx" : "disposable";
-
-      // Save to cache
-      cacheEmailResult(email, status, status !== "valid" ? reason : null, domain);
-
-      if (status === "valid") valid.push(email);
-      else invalid.push({email, reason: !hasMX ? "no_mx" : "disposable", domain});
-
-      sseSend(res,{type:"result",index:idx,email,status,domain,hasMX,isDisposable,fromCache:false,total:unique.length});
-    }));
+  // ── Fast-path: everything is already cached ──────────────────────────────
+  // Skip the batch loop entirely and stream results without any DNS work.
+  // This also avoids the synchronous-flood problem where 10k cache hits fire
+  // thousands of res.write() calls with no event-loop yields.
+  if (needsScan === 0) {
+    for (let i = 0; i < unique.length; i++) {
+      const email  = unique[i];
+      const domain = email.split("@")[1] || "";
+      const hit    = checkEmailCache(email);
+      const status = hit ? hit.status : "invalid";
+      if (status === "valid") validCount++; else invalidCount++;
+      sseSend(res, { type: "result", index: i, email, status, domain, fromCache: true, total: unique.length });
+      // Yield every 200 emails so the TCP buffer can drain between writes.
+      if ((i + 1) % 200 === 0) await new Promise(resolve => setImmediate(resolve));
+    }
+    const validPercent = ((validCount / unique.length) * 100).toFixed(1);
+    return safeEnd({ total: unique.length, validCount, invalidCount, validPercent, dedupedFrom: emails.length, cached });
   }
 
-  sseSend(res,{type:"done",valid,invalid,total:unique.length,validCount:valid.length,invalidCount:invalid.length,validPercent:((valid.length/unique.length)*100).toFixed(1),dedupedFrom:emails.length,cached});
-  res.end();
+  // ── Normal path: mix of cache hits and live DNS checks ───────────────────
+  const mxCache = {};
+
+  try {
+    for (let i = 0; i < unique.length; i += concurrency) {
+      const batch   = unique.slice(i, i + concurrency);
+      const toCache = [];
+
+      await Promise.all(batch.map(async (email, bi) => {
+        const idx    = i + bi;
+        const domain = email.split("@")[1] || "";
+
+        try {
+          // ── Cache hit ──────────────────────────────────────────────────
+          const hit = checkEmailCache(email);
+          if (hit) {
+            if (hit.status === "valid") validCount++; else invalidCount++;
+            sseSend(res, { type: "result", index: idx, email, status: hit.status, domain, fromCache: true, total: unique.length });
+            return;
+          }
+
+          // ── Live DNS check ─────────────────────────────────────────────
+          const isDisposable = disposableDomains.has(domain);
+          if (mxCache[domain] === undefined) {
+            try {
+              const mx = await dns.resolveMx(domain);
+              mxCache[domain] = mx?.length > 0;
+            } catch { mxCache[domain] = false; }
+          }
+
+          const hasMX  = mxCache[domain];
+          const status = !hasMX ? "invalid" : isDisposable ? "disposable" : "valid";
+          const reason = !hasMX ? "no_mx" : "disposable";
+
+          toCache.push({ email, status, reason: status !== "valid" ? reason : null, domain, licenseKey });
+
+          if (status === "valid") validCount++; else invalidCount++;
+          sseSend(res, { type: "result", index: idx, email, status, domain, hasMX, isDisposable, fromCache: false, total: unique.length });
+        } catch (emailErr) {
+          invalidCount++;
+          sseSend(res, { type: "result", index: idx, email, status: "invalid", domain, fromCache: false, total: unique.length, error: emailErr.message });
+        }
+      }));
+
+      // Flush new results to cache in one write.
+      if (toCache.length) cacheEmailResults(toCache);
+
+      // Yield the event loop after every batch so the TCP send buffer can
+      // drain. Without this, all-cached batches resolve synchronously and
+      // thousands of res.write() calls stack up until the stream crashes.
+      await new Promise(resolve => setImmediate(resolve));
+    }
+
+    const validPercent = ((validCount / unique.length) * 100).toFixed(1);
+    safeEnd({ total: unique.length, validCount, invalidCount, validPercent, dedupedFrom: emails.length, cached });
+
+  } catch (fatalErr) {
+    const validPercent = unique.length > 0 ? ((validCount / unique.length) * 100).toFixed(1) : "0.0";
+    safeEnd({ total: unique.length, validCount, invalidCount, validPercent, dedupedFrom: emails.length, cached, error: fatalErr.message });
+  }
+});
+
+// ─── User cache export (own token only) ──────────────────────
+app.get("/api/emails/cache/my/export", requireAuth, (req, res) => {
+  const licenseKey = req.session.licenseKey;
+  const type = req.query.type || "all"; // 'valid' | 'invalid' | 'all'
+  const cache = getEmailCache();
+  const mine  = Object.entries(cache).filter(([, v]) => v.licenseKey === licenseKey);
+  let emails;
+  if (type === "valid")        emails = mine.filter(([, v]) => v.status === "valid").map(([e]) => e);
+  else if (type === "invalid") emails = mine.filter(([, v]) => v.status !== "valid").map(([e]) => e);
+  else                         emails = mine.map(([e]) => e);
+  res.json({ emails, count: emails.length, type });
+});
+
+// ─── User cache view (own token only) ────────────────────────
+app.get("/api/emails/cache/my", requireAuth, (req, res) => {
+  const licenseKey = req.session.licenseKey;
+  const cache  = getEmailCache();
+  const mine   = Object.entries(cache).filter(([, v]) => v.licenseKey === licenseKey);
+  const valid  = mine.filter(([, v]) => v.status === "valid").map(([e]) => e);
+  const invalid = mine.filter(([, v]) => v.status === "invalid").map(([e, v]) => ({ email: e, reason: v.reason, domain: v.domain }));
+  const disposable = mine.filter(([, v]) => v.status === "disposable").map(([e]) => e);
+
+  // Domain breakdown
+  const domains = {};
+  for (const [, v] of mine) {
+    if (!domains[v.domain]) domains[v.domain] = { valid: 0, invalid: 0, total: 0 };
+    if (v.status === "valid") domains[v.domain].valid++;
+    else domains[v.domain].invalid++;
+    domains[v.domain].total++;
+  }
+  const topDomains = Object.entries(domains)
+    .map(([d, c]) => ({ domain: d, ...c }))
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 30);
+
+  // Most recent entries
+  const recent = mine
+    .sort((a, b) => new Date(b[1].cachedAt) - new Date(a[1].cachedAt))
+    .slice(0, 200)
+    .map(([email, v]) => ({ email, status: v.status, domain: v.domain, cachedAt: v.cachedAt }));
+
+  res.json({
+    total: mine.length, validCount: valid.length,
+    invalidCount: invalid.length + disposable.length,
+    disposableCount: disposable.length,
+    topDomains, recent, valid, invalid
+  });
 });
 
 // ╔══════════════════════════════════════════════════════════════╗
@@ -1164,11 +1383,16 @@ app.post("/api/inbox/scan", requireAuth, requireFeature("inbox_scan"), async (re
     sseSend(res,{type:"account_start",index:ai,email,total:accounts.length});
     try {
       const imapInfo = manualImap || await detectImap(email);
-      const conn = await Imap.connect({
-        imap:{ user:email, password, host:imapInfo.host, port:imapInfo.port,
-               tls:imapInfo.tls, autotls:!imapInfo.tls?"required":"never",
-               authTimeout:20000, tlsOptions:{rejectUnauthorized:false} }
-      });
+      // Fix 6: Guard against IMAP servers that accept the TCP connection but
+      // never respond — without this the SSE stream hangs forever.
+      const conn = await Promise.race([
+        Imap.connect({
+          imap:{ user:email, password, host:imapInfo.host, port:imapInfo.port,
+                 tls:imapInfo.tls, autotls:!imapInfo.tls?"required":"never",
+                 authTimeout:20000, tlsOptions:{rejectUnauthorized:false} }
+        }),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("IMAP connect timeout (30s)")), 30000))
+      ]);
       await conn.openBox("INBOX");
       const messages = await conn.search(["ALL"],{ bodies:["TEXT","HEADER.FIELDS (FROM TO SUBJECT DATE)"], markSeen:false });
       const limit = Math.min(messages.length, maxMessages);
@@ -1179,7 +1403,7 @@ app.post("/api/inbox/scan", requireAuth, requireFeature("inbox_scan"), async (re
         if (!textPart) continue;
         try {
           const parsed  = await simpleParser(textPart.body);
-          const content = `${parsed.subject||""} ${parsed.text|""}`.toLowerCase();
+          const content = `${parsed.subject||""} ${parsed.text||""}`.toLowerCase();
           const matched = kws.filter(kw=>content.includes(kw));
           if (matched.length) {
             const match = { account:email, from:parsed.from?.text||"", date:parsed.date?new Date(parsed.date).toLocaleString():"", subject:parsed.subject||"(no subject)", matchedKeywords:matched };
@@ -1221,6 +1445,23 @@ app.get("*", (_, res) => res.sendFile(path.join(__dirname, "public", "index.html
 app.listen(PORT, () => {
   console.log(`\n  BLUE MAILER v3.1 running → http://localhost:${PORT}`);
   console.log(`  Admin panel           → http://localhost:${PORT}/admin\n`);
+});
+
+// Fix 5: Express error middleware — catches anything passed via next(err)
+// Must be defined AFTER all routes and have exactly 4 arguments.
+app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+  console.error("[express error]", err);
+  if (!res.headersSent) {
+    res.status(500).json({ error: "Internal server error.", detail: err.message });
+  }
+});
+
+// Fix 4: Prevent the process from crashing on unhandled async throws
+process.on("uncaughtException", (err) => {
+  console.error("[uncaughtException]", err);
+});
+process.on("unhandledRejection", (reason) => {
+  console.error("[unhandledRejection]", reason);
 });
 
 module.exports = app;

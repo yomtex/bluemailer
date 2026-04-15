@@ -14,13 +14,15 @@
       "spf_dkim",
       "inbox_scan",
       "blacklist",
-      "templates"
+      "templates",
+      "proj_lib"
     ],
     "creditsEnabled": true,
     "creditsTotal": 500,
     "active": true,
     "createdAt": "2026-04-14T09:37:08.957Z",
-    "note": "Default Premium license"
+    "note": "Default Premium license",
+    "updatedAt": "2026-04-15T08:04:34.136Z"
   },
   "d3a8cfae-2b04-4f2e-8b34-7a9f0d6e1c2b": {
     "tier": "Business",
@@ -36,29 +38,40 @@
       "dedupe",
       "spf_dkim",
       "inbox_scan",
-      "blacklist"
+      "blacklist",
+      "templates",
+      "proj_lib"
     ],
     "creditsEnabled": true,
     "creditsTotal": 50000,
     "active": true,
     "createdAt": "2026-04-14T09:37:08.960Z",
     "note": "Default Business license",
-    "updatedAt": "2026-04-14T09:56:37.888Z"
+    "updatedAt": "2026-04-15T08:04:07.088Z"
   },
   "a7b9f2c1-5e88-4d33-9c77-11b2e6f4a9d0": {
     "tier": "Basic",
     "maxDevices": 2,
-    "label": "BASIC",
+    "label": "PREMIUM",
     "color": "#607898",
     "features": [
       "send_bulk",
-      "smtp_test"
+      "send_personal",
+      "smtp_test",
+      "validate",
+      "sort",
+      "dedupe",
+      "spf_dkim",
+      "inbox_scan",
+      "blacklist",
+      "templates"
     ],
     "creditsEnabled": false,
     "creditsTotal": 0,
     "active": true,
     "createdAt": "2026-04-14T09:37:08.960Z",
-    "note": "Default Basic license"
+    "note": "Default Basic license",
+    "updatedAt": "2026-04-14T14:53:50.110Z"
   },
   "c2f98b4d-3a21-4bbf-8f0a-5e6d7c2b9a1f": {
     "tier": "Marketing",

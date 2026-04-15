@@ -18,6 +18,24 @@
         "firstSeen": "2026-04-14T05:22:59.964Z",
         "lastSeen": "2026-04-14T05:22:59.964Z",
         "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+      },
+      {
+        "deviceId": "1b3a2e21-d78a-45fd-b688-18eef5f63b37",
+        "deviceName": "Win32 / Chrome",
+        "ip": "::1",
+        "geo": {
+          "country": "Localhost",
+          "city": "Local",
+          "isp": "Local",
+          "flag": "🏠"
+        },
+        "os": "Windows",
+        "browser": "Chrome",
+        "flagged": false,
+        "revoked": false,
+        "firstSeen": "2026-04-15T03:46:44.628Z",
+        "lastSeen": "2026-04-15T03:46:44.628Z",
+        "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
       }
     ]
   },
@@ -40,6 +58,82 @@
         "firstSeen": "2026-04-14T09:43:47.114Z",
         "lastSeen": "2026-04-14T09:43:47.114Z",
         "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+      },
+      {
+        "deviceId": "edac9756-49de-4b02-bbf1-6ed7072c3533",
+        "deviceName": "Win32 / Chrome",
+        "ip": "::1",
+        "geo": {
+          "country": "Localhost",
+          "city": "Local",
+          "isp": "Local",
+          "flag": "🏠"
+        },
+        "os": "Windows",
+        "browser": "Chrome",
+        "flagged": false,
+        "revoked": false,
+        "firstSeen": "2026-04-14T14:49:01.804Z",
+        "lastSeen": "2026-04-14T14:49:01.804Z",
+        "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+      },
+      {
+        "deviceId": "a4eca0c2-a36b-42ec-925b-21969666b9f1",
+        "deviceName": "Win32 / Chrome",
+        "ip": "::1",
+        "geo": {
+          "country": "Localhost",
+          "city": "Local",
+          "isp": "Local",
+          "flag": "🏠"
+        },
+        "os": "Windows",
+        "browser": "Chrome",
+        "flagged": false,
+        "revoked": false,
+        "firstSeen": "2026-04-14T14:52:17.452Z",
+        "lastSeen": "2026-04-14T14:52:17.452Z",
+        "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0"
+      },
+      {
+        "deviceId": "93a7b129-b45f-4bd5-b8ff-a845b501121c",
+        "deviceName": "Win32 / Chrome",
+        "ip": "::1",
+        "geo": {
+          "country": "Localhost",
+          "city": "Local",
+          "isp": "Local",
+          "flag": "🏠"
+        },
+        "os": "Windows",
+        "browser": "Chrome",
+        "flagged": false,
+        "revoked": false,
+        "firstSeen": "2026-04-15T03:42:18.781Z",
+        "lastSeen": "2026-04-15T03:42:18.781Z",
+        "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+      }
+    ]
+  },
+  "a7b9f2c1-5e88-4d33-9c77-11b2e6f4a9d0": {
+    "list": [
+      {
+        "deviceId": "cff31353-c59d-410c-b2de-1e1ceb143756",
+        "deviceName": "Win32 / Chrome",
+        "ip": "::1",
+        "geo": {
+          "country": "Localhost",
+          "city": "Local",
+          "isp": "Local",
+          "flag": "🏠"
+        },
+        "os": "Windows",
+        "browser": "Chrome",
+        "flagged": false,
+        "revoked": false,
+        "firstSeen": "2026-04-14T14:54:01.886Z",
+        "lastSeen": "2026-04-14T14:54:01.886Z",
+        "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0"
       }
     ]
   }
