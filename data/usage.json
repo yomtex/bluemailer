@@ -1,14 +1,189 @@
 {
   "9f4b7e2a-6c13-4a8f-9d12-3b2e8f1d5a6c": {
-    "creditsUsed": 0,
-    "history": []
+    "creditsUsed": 488,
+    "history": [
+      {
+        "feature": "validate",
+        "count": 9747,
+        "cost": 488,
+        "ts": "2026-04-15T10:23:21.284Z"
+      }
+    ]
   },
   "d3a8cfae-2b04-4f2e-8b34-7a9f0d6e1c2b": {
-    "creditsUsed": 1,
+    "creditsUsed": 1052,
     "history": [
       {
         "feature": "validate",
         "ts": "2026-04-14T09:57:18.244Z"
+      },
+      {
+        "feature": "smtp_test",
+        "ts": "2026-04-14T10:21:19.798Z"
+      },
+      {
+        "feature": "smtp_test",
+        "ts": "2026-04-14T10:21:41.454Z"
+      },
+      {
+        "feature": "send_bulk",
+        "ts": "2026-04-14T10:36:27.222Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T10:37:16.856Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T10:38:54.361Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T10:39:08.334Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:17:42.771Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:18:14.472Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:27:53.660Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:28:23.181Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:28:24.202Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:29:36.255Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:32:25.626Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:33:09.613Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:33:41.840Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:35:30.368Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:43:12.890Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:43:57.940Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:44:40.476Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:48:36.977Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:48:47.210Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:49:10.885Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:49:32.063Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:49:38.758Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:50:23.244Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:50:42.619Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:50:49.249Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T14:50:57.180Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T15:02:36.157Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T15:12:36.014Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T15:13:26.386Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T15:16:38.576Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T18:09:04.662Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T18:20:14.159Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T18:21:16.610Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T18:22:05.504Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T18:22:11.321Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-14T18:33:49.518Z"
+      },
+      {
+        "feature": "validate",
+        "ts": "2026-04-15T02:39:19.589Z"
+      },
+      {
+        "feature": "validate",
+        "count": 10113,
+        "cost": 506,
+        "ts": "2026-04-15T10:17:26.275Z"
+      },
+      {
+        "feature": "validate",
+        "count": 10113,
+        "cost": 506,
+        "ts": "2026-04-15T10:22:38.926Z"
       }
     ]
   }

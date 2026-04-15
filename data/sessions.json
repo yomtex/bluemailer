@@ -4,7 +4,47 @@
     "deviceId": "fef53d16-7a0f-4e4a-a113-abfe849a5c73",
     "ip": "::1",
     "createdAt": "2026-04-14T09:43:47.123Z",
-    "lastSeen": "2026-04-14T09:58:51.344Z",
+    "lastSeen": "2026-04-15T03:10:52.630Z",
     "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+  },
+  "ec04cdc76911ed7c297cbe1f109833e9f3423248dcabb28da7320d45fd96443c": {
+    "licenseKey": "d3a8cfae-2b04-4f2e-8b34-7a9f0d6e1c2b",
+    "deviceId": "edac9756-49de-4b02-bbf1-6ed7072c3533",
+    "ip": "::1",
+    "createdAt": "2026-04-14T14:49:01.808Z",
+    "lastSeen": "2026-04-14T14:58:43.637Z",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+  },
+  "00a07810b60e9f8b8cc84013eb5a1fddd26ab7ab9ebdb482c6f6a59f1a97b8c5": {
+    "licenseKey": "d3a8cfae-2b04-4f2e-8b34-7a9f0d6e1c2b",
+    "deviceId": "a4eca0c2-a36b-42ec-925b-21969666b9f1",
+    "ip": "::1",
+    "createdAt": "2026-04-14T14:52:17.454Z",
+    "lastSeen": "2026-04-15T08:21:51.278Z",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0"
+  },
+  "f6493bbcd7b2ebdf3402244de7b47bdf84af699c729493abc02a4c2c970f080c": {
+    "licenseKey": "a7b9f2c1-5e88-4d33-9c77-11b2e6f4a9d0",
+    "deviceId": "cff31353-c59d-410c-b2de-1e1ceb143756",
+    "ip": "::1",
+    "createdAt": "2026-04-14T14:54:01.887Z",
+    "lastSeen": "2026-04-14T14:58:43.351Z",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0"
+  },
+  "73ecafce04be9657c4259a4802a282d534d5f926258d43600c5873c2c8aa422c": {
+    "licenseKey": "d3a8cfae-2b04-4f2e-8b34-7a9f0d6e1c2b",
+    "deviceId": "93a7b129-b45f-4bd5-b8ff-a845b501121c",
+    "ip": "::1",
+    "createdAt": "2026-04-15T03:42:18.785Z",
+    "lastSeen": "2026-04-15T11:07:56.599Z",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+  },
+  "8e9802536f4d7f3f89f70aa6f7147ed6264ab42e1212cedad3785fb78fa77ae1": {
+    "licenseKey": "9f4b7e2a-6c13-4a8f-9d12-3b2e8f1d5a6c",
+    "deviceId": "1b3a2e21-d78a-45fd-b688-18eef5f63b37",
+    "ip": "::1",
+    "createdAt": "2026-04-15T03:46:44.631Z",
+    "lastSeen": "2026-04-15T11:07:56.673Z",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
   }
 }

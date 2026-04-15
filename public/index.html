@@ -76,75 +76,23 @@ body::after{
   animation:gateIn .4s ease both;
 }
 @keyframes gateIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.gate-logo{
-  margin-bottom:36px;
-}
-.gate-logo-mark{
-  font-family:var(--mono);font-size:11px;letter-spacing:.3em;
-  color:var(--text2);text-transform:uppercase;margin-bottom:12px;
-}
-.gate-logo-title{
-  font-family:var(--mono);font-size:38px;font-weight:700;
-  color:var(--blue2);letter-spacing:-.02em;line-height:1;
-  text-shadow:0 0 40px rgba(77,163,255,.4),0 0 80px rgba(77,163,255,.15);
-}
+.gate-logo{margin-bottom:36px;}
+.gate-logo-mark{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--text2);text-transform:uppercase;margin-bottom:12px;}
+.gate-logo-title{font-family:var(--mono);font-size:38px;font-weight:700;color:var(--blue2);letter-spacing:-.02em;line-height:1;text-shadow:0 0 40px rgba(77,163,255,.4),0 0 80px rgba(77,163,255,.15);}
 .gate-logo-title span{color:var(--cyan);}
-.gate-logo-version{
-  font-family:var(--mono);font-size:11px;color:var(--text2);
-  letter-spacing:.2em;margin-top:8px;
-}
-.gate-lock{
-  width:64px;height:64px;margin:0 auto 28px;
-  border:2px solid var(--border2);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:24px;
-  background:radial-gradient(circle,rgba(26,127,255,.08) 0%,transparent 70%);
-  animation:lockPulse 2.5s ease-in-out infinite;
-}
+.gate-logo-version{font-family:var(--mono);font-size:11px;color:var(--text2);letter-spacing:.2em;margin-top:8px;}
+.gate-lock{width:64px;height:64px;margin:0 auto 28px;border:2px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;background:radial-gradient(circle,rgba(26,127,255,.08) 0%,transparent 70%);animation:lockPulse 2.5s ease-in-out infinite;}
 @keyframes lockPulse{0%,100%{box-shadow:0 0 0 0 rgba(26,127,255,.15)}50%{box-shadow:0 0 0 16px rgba(26,127,255,0)}}
-.gate-card{
-  background:var(--glass);
-  border:1px solid var(--border2);
-  border-radius:var(--r2);
-  padding:28px;
-  backdrop-filter:blur(20px);
-  box-shadow:var(--shadow),var(--glow);
-}
-.gate-label{
-  font-size:12px;font-family:var(--mono);color:var(--text2);
-  text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;text-align:left;
-}
-.gate-input{
-  width:100%;background:var(--bg1);
-  border:1px solid var(--border2);border-radius:var(--r);
-  color:var(--text0);font-family:var(--mono);font-size:13px;
-  padding:12px 14px;outline:none;
-  transition:border-color .15s,box-shadow .15s;
-  letter-spacing:.04em;
-}
+.gate-card{background:var(--glass);border:1px solid var(--border2);border-radius:var(--r2);padding:28px;backdrop-filter:blur(20px);box-shadow:var(--shadow),var(--glow);}
+.gate-label{font-size:12px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;text-align:left;}
+.gate-input{width:100%;background:var(--bg1);border:1px solid var(--border2);border-radius:var(--r);color:var(--text0);font-family:var(--mono);font-size:13px;padding:12px 14px;outline:none;transition:border-color .15s,box-shadow .15s;letter-spacing:.04em;}
 .gate-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,127,255,.12);}
-.gate-btn{
-  width:100%;margin-top:16px;
-  background:linear-gradient(135deg,var(--blue3),var(--blue));
-  border:1px solid var(--blue);border-radius:var(--r);
-  color:#fff;font-size:13.5px;font-weight:600;font-family:var(--sans);
-  padding:13px;cursor:pointer;
-  transition:all .15s;letter-spacing:.03em;
-}
+.gate-btn{width:100%;margin-top:16px;background:linear-gradient(135deg,var(--blue3),var(--blue));border:1px solid var(--blue);border-radius:var(--r);color:#fff;font-size:13.5px;font-weight:600;font-family:var(--sans);padding:13px;cursor:pointer;transition:all .15s;letter-spacing:.03em;}
 .gate-btn:hover{background:linear-gradient(135deg,var(--blue),var(--blue2));transform:translateY(-1px);box-shadow:0 8px 20px rgba(26,127,255,.3);}
 .gate-btn:active{transform:none;}
 .gate-btn:disabled{opacity:.4;pointer-events:none;}
-.gate-err{
-  margin-top:12px;padding:10px 14px;
-  background:rgba(255,60,90,.08);border:1px solid rgba(255,60,90,.2);border-radius:var(--r);
-  color:var(--red);font-size:12px;font-family:var(--mono);text-align:left;
-  display:none;
-}
-.gate-demo{
-  margin-top:16px;
-  font-size:11px;color:var(--text3);font-family:var(--mono);
-  cursor:pointer;transition:color .15s;
-}
+.gate-err{margin-top:12px;padding:10px 14px;background:rgba(255,60,90,.08);border:1px solid rgba(255,60,90,.2);border-radius:var(--r);color:var(--red);font-size:12px;font-family:var(--mono);text-align:left;display:none;}
+.gate-demo{margin-top:16px;font-size:11px;color:var(--text3);font-family:var(--mono);cursor:pointer;transition:color .15s;}
 .gate-demo:hover{color:var(--text2);}
 .gate-demo span{color:var(--blue);cursor:pointer;}
 
@@ -154,43 +102,15 @@ body::after{
 #app{display:flex;height:100vh;position:relative;z-index:1;}
 
 /* ── SIDEBAR ──────────────────────────────────────────────── */
-#sidebar{
-  width:220px;min-width:220px;
-  background:var(--bg1);
-  border-right:1px solid var(--border);
-  display:flex;flex-direction:column;
-  position:relative;overflow:hidden;
-}
+#sidebar{width:220px;min-width:220px;background:var(--bg1);border-right:1px solid var(--border);display:flex;flex-direction:column;position:relative;overflow:hidden;}
 .sb-nav-wrap{flex:1;overflow-y:auto;padding-bottom:4px;}
-#sidebar::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--blue),var(--cyan),transparent);
-}
-.sb-logo{
-  padding:18px 16px 14px;
-  border-bottom:1px solid var(--border);
-}
-.sb-logo-name{
-  font-family:var(--mono);font-size:15px;font-weight:700;
-  color:var(--blue2);letter-spacing:.04em;
-}
+#sidebar::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue),var(--cyan),transparent);}
+.sb-logo{padding:18px 16px 14px;border-bottom:1px solid var(--border);}
+.sb-logo-name{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--blue2);letter-spacing:.04em;}
 .sb-logo-name span{color:var(--cyan);}
 .sb-logo-ver{font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:2px;letter-spacing:.1em;}
-
-.sb-section{
-  padding:12px 12px 3px;
-  font-size:9.5px;font-family:var(--mono);letter-spacing:.16em;
-  color:var(--text3);text-transform:uppercase;
-}
-.nav{
-  display:flex;align-items:center;gap:9px;
-  padding:8px 12px;margin:1px 6px;
-  border-radius:var(--r);cursor:pointer;
-  font-size:12.5px;color:var(--text1);
-  border:1px solid transparent;
-  transition:all .12s;
-  position:relative;
-}
+.sb-section{padding:12px 12px 3px;font-size:9.5px;font-family:var(--mono);letter-spacing:.16em;color:var(--text3);text-transform:uppercase;}
+.nav{display:flex;align-items:center;gap:9px;padding:8px 12px;margin:1px 6px;border-radius:var(--r);cursor:pointer;font-size:12.5px;color:var(--text1);border:1px solid transparent;transition:all .12s;position:relative;}
 .nav:hover{background:var(--bg3);color:var(--text0);}
 .nav.active{background:rgba(26,127,255,.1);border-color:rgba(26,127,255,.2);color:var(--blue2);}
 .nav.active::before{content:'';position:absolute;left:-6px;top:50%;transform:translateY(-50%);width:2px;height:16px;background:var(--blue);border-radius:1px;}
@@ -198,44 +118,23 @@ body::after{
 .nav-badge{margin-left:auto;background:rgba(26,127,255,.15);color:var(--blue2);font-size:9px;font-family:var(--mono);padding:1px 5px;border-radius:3px;font-weight:700;}
 .nav.locked{opacity:.4;pointer-events:none;}
 .nav.locked::after{content:'🔒';margin-left:auto;font-size:9px;}
-
 .sb-bottom{margin-top:auto;padding:10px 6px 12px;border-top:1px solid var(--border);}
-.lic-pill{
-  display:flex;align-items:center;gap:8px;padding:9px 10px;
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  cursor:pointer;transition:border-color .15s;
-}
+.lic-pill{display:flex;align-items:center;gap:8px;padding:9px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:border-color .15s;}
 .lic-pill:hover{border-color:var(--border2);}
 .lic-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);flex-shrink:0;}
 .lic-dot.on{background:var(--green);box-shadow:0 0 6px rgba(0,232,122,.5);}
 .lic-info{flex:1;min-width:0;}
 .lic-tier{font-size:11.5px;font-weight:600;color:var(--text0);}
 .lic-key{font-size:9.5px;color:var(--text2);font-family:var(--mono);}
-.device-btn{
-  display:flex;align-items:center;gap:7px;padding:7px 10px;
-  background:transparent;border:1px solid var(--border);border-radius:var(--r);
-  color:var(--text1);font-size:11.5px;cursor:pointer;
-  margin-top:6px;transition:all .12s;width:100%;
-}
+.device-btn{display:flex;align-items:center;gap:7px;padding:7px 10px;background:transparent;border:1px solid var(--border);border-radius:var(--r);color:var(--text1);font-size:11.5px;cursor:pointer;margin-top:6px;transition:all .12s;width:100%;}
 .device-btn:hover{background:var(--bg2);border-color:var(--border2);color:var(--text0);}
 .device-online{display:flex;align-items:center;gap:5px;margin-left:auto;}
-.pulse-dot{
-  width:7px;height:7px;border-radius:50%;
-  background:var(--green);position:relative;
-}
-.pulse-dot::after{
-  content:'';position:absolute;inset:-3px;border-radius:50%;
-  border:1px solid var(--green);
-  animation:pulseRing 1.5s ease-in-out infinite;
-}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--green);position:relative;}
+.pulse-dot::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1px solid var(--green);animation:pulseRing 1.5s ease-in-out infinite;}
 @keyframes pulseRing{0%{transform:scale(1);opacity:.5}100%{transform:scale(2.2);opacity:0}}
 
 /* ── TOPBAR ───────────────────────────────────────────────── */
-#topbar{
-  height:50px;min-height:50px;
-  background:var(--bg1);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;padding:0 22px;gap:14px;
-}
+#topbar{height:50px;min-height:50px;background:var(--bg1);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 22px;gap:14px;}
 .tb-title{font-size:14px;font-weight:600;color:var(--text0);}
 .tb-sub{font-size:11px;color:var(--text2);font-family:var(--mono);margin-left:3px;}
 .tb-right{margin-left:auto;display:flex;align-items:center;gap:14px;}
@@ -253,25 +152,16 @@ body::after{
 @keyframes pgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 /* ── CARDS ────────────────────────────────────────────────── */
-.card{
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:var(--r2);margin-bottom:16px;overflow:hidden;
-}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:16px;overflow:hidden;}
 .card:hover{border-color:var(--border2);box-shadow:var(--glow);}
-.card-head{
-  padding:12px 18px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:10px;
-}
+.card-head{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
 .card-title{font-size:11.5px;font-family:var(--mono);font-weight:700;color:var(--text0);letter-spacing:.06em;text-transform:uppercase;}
 .card-body{padding:18px;}
 .card-body.p0{padding:0;}
 
 /* ── STATS GRID ───────────────────────────────────────────── */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
-.stat{
-  background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);
-  padding:16px 18px;transition:border-color .15s,box-shadow .15s;
-}
+.stat{background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;transition:border-color .15s,box-shadow .15s;}
 .stat:hover{border-color:var(--border2);box-shadow:var(--glow);}
 .stat-lbl{font-size:10px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;}
 .stat-val{font-size:26px;font-family:var(--mono);font-weight:700;line-height:1;}
@@ -283,16 +173,9 @@ body::after{
 
 /* ── QA GRID ──────────────────────────────────────────────── */
 .qa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
-.qa{
-  background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);
-  padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:13px;
-  transition:all .15s;
-}
+.qa{background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:13px;transition:all .15s;}
 .qa:hover{border-color:var(--blue);background:rgba(26,127,255,.06);transform:translateY(-2px);box-shadow:var(--glow);}
-.qa-ico{
-  width:40px;height:40px;border-radius:var(--r);background:var(--bg3);
-  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
-}
+.qa-ico{width:40px;height:40px;border-radius:var(--r);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
 .qa-tit{font-size:13px;font-weight:600;color:var(--text0);margin-bottom:2px;}
 .qa-desc{font-size:11px;color:var(--text2);}
 
@@ -303,12 +186,7 @@ body::after{
 .frow.c4{grid-template-columns:1fr 1fr 1fr 1fr;}
 .fg{display:flex;flex-direction:column;gap:5px;}
 label{font-size:10.5px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.08em;}
-input[type=text],input[type=email],input[type=password],input[type=number],select,textarea{
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  color:var(--text0);font-size:12.5px;font-family:var(--sans);
-  padding:9px 11px;outline:none;width:100%;
-  transition:border-color .12s,box-shadow .12s;
-}
+input[type=text],input[type=email],input[type=password],input[type=number],select,textarea{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text0);font-size:12.5px;font-family:var(--sans);padding:9px 11px;outline:none;width:100%;transition:border-color .12s,box-shadow .12s;}
 input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(26,127,255,.1);}
 textarea{resize:vertical;min-height:90px;line-height:1.6;font-family:var(--mono);font-size:12px;}
 select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='%234a6880'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;}
@@ -332,21 +210,12 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .btn-icon{width:30px;height:30px;padding:0;justify-content:center;}
 
 /* ── DROP ZONE ────────────────────────────────────────────── */
-.dz{
-  border:1.5px dashed var(--border2);border-radius:var(--r);
-  padding:14px;text-align:center;cursor:pointer;
-  transition:all .15s;font-size:12px;color:var(--text2);
-  background:rgba(255,255,255,.01);margin-bottom:10px;
-}
+.dz{border:1.5px dashed var(--border2);border-radius:var(--r);padding:14px;text-align:center;cursor:pointer;transition:all .15s;font-size:12px;color:var(--text2);background:rgba(255,255,255,.01);margin-bottom:10px;}
 .dz:hover,.dz.drag{border-color:var(--blue);background:rgba(26,127,255,.04);color:var(--blue2);}
 .dz input[type=file]{display:none;}
 
 /* ── LOG CONSOLE ──────────────────────────────────────────── */
-.log{
-  background:var(--void);border:1px solid var(--border);border-radius:var(--r);
-  padding:12px;font-family:var(--mono);font-size:11.5px;line-height:1.75;
-  height:200px;overflow-y:auto;color:var(--text1);
-}
+.log{background:var(--void);border:1px solid var(--border);border-radius:var(--r);padding:12px;font-family:var(--mono);font-size:11.5px;line-height:1.75;height:200px;overflow-y:auto;color:var(--text1);}
 .le{display:flex;gap:8px;}
 .le-ts{color:var(--text3);flex-shrink:0;user-select:none;}
 .c-ok{color:var(--green);}
@@ -397,40 +266,19 @@ table.tbl tr:hover td{background:rgba(255,255,255,.015);}
 .bar-cnt{width:60px;text-align:right;font-family:var(--mono);color:var(--text2);font-size:10.5px;}
 
 /* ── SMTP ROWS ────────────────────────────────────────────── */
-.smtp-row{
-  display:flex;align-items:center;gap:10px;
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:10px 13px;font-family:var(--mono);font-size:11.5px;margin-bottom:6px;
-  transition:border-color .12s;
-}
+.smtp-row{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:10px 13px;font-family:var(--mono);font-size:11.5px;margin-bottom:6px;transition:border-color .12s;}
 .smtp-row.ok{border-color:rgba(0,232,122,.25);background:rgba(0,232,122,.03);}
 .smtp-row.fail{border-color:rgba(255,60,90,.2);}
 
 /* ── DEVICE PANEL (SLIDE-IN) ──────────────────────────────── */
-#dev-panel{
-  position:fixed;top:0;right:0;bottom:0;width:380px;
-  background:var(--bg1);border-left:1px solid var(--border2);
-  z-index:2000;
-  transform:translateX(100%);
-  transition:transform .25s cubic-bezier(.4,0,.2,1);
-  display:flex;flex-direction:column;
-  box-shadow:-16px 0 48px rgba(0,0,0,.5);
-}
+#dev-panel{position:fixed;top:0;right:0;bottom:0;width:380px;background:var(--bg1);border-left:1px solid var(--border2);z-index:2000;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-16px 0 48px rgba(0,0,0,.5);}
 #dev-panel.open{transform:translateX(0);}
-.dp-head{
-  padding:18px 18px 14px;
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:10px;
-}
+.dp-head{padding:18px 18px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
 .dp-title{font-size:14px;font-weight:600;color:var(--text0);flex:1;}
 .dp-close{background:none;border:none;color:var(--text2);cursor:pointer;font-size:18px;padding:4px;transition:color .12s;}
 .dp-close:hover{color:var(--text0);}
 .dp-body{flex:1;overflow-y:auto;padding:16px;}
-.device-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:12px 14px;margin-bottom:10px;
-  transition:border-color .12s;
-}
+.device-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:10px;transition:border-color .12s;}
 .device-card:hover{border-color:var(--border2);}
 .device-card.self{border-color:rgba(26,127,255,.25);background:rgba(26,127,255,.04);}
 .device-card.flagged{border-color:rgba(255,60,90,.25);}
@@ -440,36 +288,20 @@ table.tbl tr:hover td{background:rgba(255,255,255,.015);}
 .dc-offline{color:var(--text3);}
 .dc-info{font-size:11px;font-family:var(--mono);color:var(--text2);line-height:1.8;}
 .dc-actions{display:flex;gap:6px;margin-top:10px;}
-.dp-stats{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;
-}
-.dp-stat{
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:10px 12px;text-align:center;
-}
+.dp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.dp-stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;text-align:center;}
 .dp-stat-val{font-size:20px;font-family:var(--mono);font-weight:700;}
 .dp-stat-lbl{font-size:9.5px;color:var(--text2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-top:2px;}
 
 /* ── TEMPLATE EDITOR ──────────────────────────────────────── */
 .tpl-editor-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;height:500px;}
 .tpl-editor-wrap textarea{height:100%;font-family:var(--mono);font-size:12px;resize:none;}
-.tpl-preview{
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  overflow:hidden;display:flex;flex-direction:column;
-}
-.tpl-preview-bar{
-  padding:6px 12px;background:var(--bg3);border-bottom:1px solid var(--border);
-  font-size:10.5px;font-family:var(--mono);color:var(--text2);
-  display:flex;align-items:center;gap:8px;
-}
+.tpl-preview{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;}
+.tpl-preview-bar{padding:6px 12px;background:var(--bg3);border-bottom:1px solid var(--border);font-size:10.5px;font-family:var(--mono);color:var(--text2);display:flex;align-items:center;gap:8px;}
 .tpl-preview-bar .dot{width:9px;height:9px;border-radius:50%;}
 .tpl-preview iframe{flex:1;border:none;background:#fff;}
 .tpl-list{display:flex;flex-direction:column;gap:8px;}
-.tpl-item{
-  display:flex;align-items:center;gap:10px;
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:10px 14px;
-}
+.tpl-item{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;}
 .tpl-item-name{font-size:12.5px;font-weight:500;color:var(--text0);flex:1;}
 .tpl-item-meta{font-size:10.5px;font-family:var(--mono);color:var(--text2);}
 
@@ -491,12 +323,7 @@ table.tbl tr:hover td{background:rgba(255,255,255,.015);}
 
 /* ── TOAST ────────────────────────────────────────────────── */
 #toasts{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:6px;z-index:9999;}
-.toast{
-  background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);
-  padding:10px 16px;font-size:12.5px;color:var(--text0);
-  box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;
-  max-width:300px;animation:tIn .2s ease;
-}
+.toast{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:10px 16px;font-size:12.5px;color:var(--text0);box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;max-width:300px;animation:tIn .2s ease;}
 .toast.ok{border-left:3px solid var(--green);}
 .toast.er{border-left:3px solid var(--red);}
 .toast.wa{border-left:3px solid var(--yellow);}
@@ -511,6 +338,31 @@ table.tbl tr:hover td{background:rgba(255,255,255,.015);}
 
 /* Scanlines */
 #app::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.025) 0px,rgba(0,0,0,.025) 1px,transparent 1px,transparent 2px);pointer-events:none;z-index:9990;}
+
+/* ── PROJECT LIBRARY ────────────────────────────────────── */
+.pt-filter-btn{padding:5px 14px;font-size:11.5px;font-family:var(--mono);background:var(--bg2);border:1px solid var(--border);border-radius:20px;color:var(--text2);cursor:pointer;transition:all .12px;}
+.pt-filter-btn:hover{border-color:var(--border2);color:var(--text0);}
+.pt-filter-btn.active{background:rgba(26,127,255,.12);border-color:rgba(26,127,255,.35);color:var(--blue2);}
+.pt-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;cursor:pointer;transition:all .16s;display:flex;flex-direction:column;}
+.pt-card:hover{border-color:var(--border2);box-shadow:var(--glow);transform:translateY(-2px);}
+.pt-card-banner{height:5px;width:100%;}
+.pt-card-body{padding:18px 18px 14px;flex:1;}
+.pt-card-ico{font-size:28px;margin-bottom:10px;}
+.pt-card-company{font-size:10px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;}
+.pt-card-title{font-size:14px;font-weight:600;color:var(--text0);margin-bottom:6px;line-height:1.3;}
+.pt-card-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px;}
+.pt-card-footer{padding:10px 18px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.015);}
+.pt-card-sender{font-size:11px;font-family:var(--mono);color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px;}
+.pt-card-date{font-size:10px;font-family:var(--mono);color:var(--text3);flex-shrink:0;}
+
+/* ── PROJECT DOCUMENT VIEW ───────────────────────────────── */
+.pt-starter-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .14s;text-align:center;}
+.pt-starter-card:hover{border-color:var(--blue);background:rgba(26,127,255,.05);transform:translateY(-2px);box-shadow:var(--glow);}
+.pt-starter-ico{font-size:32px;margin-bottom:10px;}
+.pt-starter-label{font-size:12px;font-weight:600;color:var(--text0);margin-bottom:4px;}
+.pt-starter-fmt{font-size:10px;font-family:var(--mono);color:var(--text2);}
+.pt-card-viewbtn{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1px solid var(--border2);border-radius:var(--r);padding:5px 11px;font-size:10.5px;font-family:var(--mono);color:var(--text1);cursor:pointer;transition:all .12s;}
+.pt-card-viewbtn:hover{background:var(--bg3);color:var(--text0);border-color:var(--blue);}
 </style>
 </head>
 <body>
@@ -558,6 +410,7 @@ table.tbl tr:hover td{background:rgba(255,255,255,.015);}
     <div class="nav feat" data-page="scanner" data-feat="inbox_scan"><span class="nav-ico">🔍</span>Inbox Scanner</div>
     <div class="sb-section">Content</div>
     <div class="nav feat" data-page="templates" data-feat="templates"><span class="nav-ico">📝</span>Templates</div>
+    <div class="nav feat" data-page="proj-templates" data-feat="proj_lib"><span class="nav-ico">🗂️</span>Project Library</div>
     </div><!-- /sb-nav-wrap -->
     <div class="sb-bottom">
       <button class="device-btn" onclick="openDevPanel()">
@@ -735,7 +588,10 @@ table.tbl tr:hover td{background:rgba(255,255,255,.015);}
             <div class="card">
               <div class="card-head">
                 <span class="card-title">HTML BODY</span>
-                <button class="btn btn-outline btn-sm ml-auto" onclick="loadTplInto('bulk-html')">📝 Load Template</button>
+                <div class="flex gap8 ml-auto">
+                  <button class="btn btn-outline btn-sm" onclick="loadProjInto('bulk')">🗂️ Load from Project</button>
+                  <button class="btn btn-outline btn-sm" onclick="loadTplInto('bulk-html')">📝 Load Template</button>
+                </div>
               </div>
               <div class="card-body">
                 <div class="dz" onclick="$('bulk-html-fup').click()"><input type="file" id="bulk-html-fup" accept=".html,.htm" onchange="loadTxt(this,'bulk-html')">📁 Upload .html file</div>
@@ -770,7 +626,7 @@ table.tbl tr:hover td{background:rgba(255,255,255,.015);}
       <!-- PERSONALIZED -->
       <div class="page" id="page-send-personal">
         <div class="pg-title">Personalized Email Sender</div>
-        <div class="pg-sub">Use <span class="mono" style="color:var(--cyan)">{{name}}</span> <span class="mono" style="color:var(--cyan)">{{email}}</span> <span class="mono" style="color:var(--cyan)">{{first_name}}</span> in subject & body</div>
+        <div class="pg-sub">Use <span class="mono" style="color:var(--cyan)">{{name}}</span> <span class="mono" style="color:var(--cyan)">{{email}}</span> <span class="mono" style="color:var(--cyan)">{{first_name}}</span> in subject &amp; body</div>
         <div class="card">
           <div class="card-head"><span class="card-title">SMTP</span><button class="btn btn-outline btn-sm ml-auto" onclick="loadGlobalSMTP('pers')">↓ Load Saved SMTP</button></div>
           <div class="card-body">
@@ -811,7 +667,10 @@ table.tbl tr:hover td{background:rgba(255,255,255,.015);}
             <div class="card">
               <div class="card-head">
                 <span class="card-title">HTML TEMPLATE</span>
-                <button class="btn btn-outline btn-sm ml-auto" onclick="loadTplInto('pers-html')">📝 Load Template</button>
+                <div class="flex gap8 ml-auto">
+                  <button class="btn btn-outline btn-sm" onclick="loadProjInto('pers')">🗂️ Load from Project</button>
+                  <button class="btn btn-outline btn-sm" onclick="loadTplInto('pers-html')">📝 Load Template</button>
+                </div>
               </div>
               <div class="card-body">
                 <div class="dz" onclick="$('pers-html-fup').click()"><input type="file" id="pers-html-fup" accept=".html" onchange="loadTxt(this,'pers-html')">📁 Upload .html</div>
@@ -872,6 +731,50 @@ table.tbl tr:hover td{background:rgba(255,255,255,.015);}
                 <div class="flex gap8 mt8 dn" id="val-exports">
                   <button class="btn btn-success btn-sm" onclick="dl(S.val.valid,'valid_emails')">⬇ Valid List</button>
                   <button class="btn btn-danger btn-sm" onclick="dl(S.val.invalid.map(x=>x.email||x),'invalid_emails')">⬇ Invalid List</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card" id="val-cache-panel" style="margin-top:4px">
+          <div class="card-head">
+            <span class="card-title">💾 MY VALIDATION CACHE</span>
+            <span class="xs" style="color:var(--cyan);margin-left:8px">emails already scanned by your token — instantly reused</span>
+            <div class="flex gap8 ml-auto">
+              <button class="btn btn-ghost btn-sm" onclick="exportMyCache('valid')">⬇ Valid</button>
+              <button class="btn btn-ghost btn-sm" onclick="exportMyCache('invalid')">⬇ Invalid</button>
+              <button class="btn btn-outline btn-sm" onclick="exportMyCache('all')">⬇ Export All</button>
+              <button class="btn btn-outline btn-sm" onclick="loadMyCache()">↺ Refresh</button>
+              <button class="btn btn-ghost btn-sm" onclick="$('val-cache-panel').classList.toggle('dn')">−</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">
+              <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;text-align:center">
+                <div style="font-size:22px;font-family:var(--mono);font-weight:700;color:var(--blue2)" id="mc-total">—</div>
+                <div style="font-size:9.5px;color:var(--text2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-top:3px">Cached Total</div>
+              </div>
+              <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;text-align:center">
+                <div style="font-size:22px;font-family:var(--mono);font-weight:700;color:var(--green)" id="mc-valid">—</div>
+                <div style="font-size:9.5px;color:var(--text2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-top:3px">Valid</div>
+              </div>
+              <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;text-align:center">
+                <div style="font-size:22px;font-family:var(--mono);font-weight:700;color:var(--red)" id="mc-invalid">—</div>
+                <div style="font-size:9.5px;color:var(--text2);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-top:3px">Invalid / Disposable</div>
+              </div>
+            </div>
+            <div class="flex gap16">
+              <div style="flex:1;min-width:0">
+                <div style="font-size:10px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Top Domains</div>
+                <div id="mc-domains" style="max-height:200px;overflow-y:auto"><p style="font-size:11px;color:var(--text3);text-align:center;padding:16px">Click Refresh to load</p></div>
+              </div>
+              <div style="flex:1.6;min-width:0">
+                <div style="font-size:10px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Recent Entries (last 200)</div>
+                <div style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--r)">
+                  <table class="tbl">
+                    <thead><tr><th>Email</th><th>Status</th><th>Domain</th><th>Cached At</th></tr></thead>
+                    <tbody id="mc-recent-tbody"><tr><td colspan="4" style="text-align:center;padding:16px;color:var(--text3)">Click Refresh to load</td></tr></tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -1081,7 +984,7 @@ table.tbl tr:hover td{background:rgba(255,255,255,.015);}
             </div>
           </div>
           <div class="card">
-            <div class="card-head"><span class="card-title">HTML EDITOR & LIVE PREVIEW</span>
+            <div class="card-head"><span class="card-title">HTML EDITOR &amp; LIVE PREVIEW</span>
               <div class="flex gap8 ml-auto">
                 <button class="btn btn-outline btn-sm" onclick="$('tpl-fup').click()">📁 Load File</button>
                 <input type="file" id="tpl-fup" accept=".html" style="display:none" onchange="loadTxt(this,'tpl-html');setTimeout(()=>refreshPreview(),100)">
@@ -1091,13 +994,13 @@ table.tbl tr:hover td{background:rgba(255,255,255,.015);}
             </div>
             <div class="card-body">
               <div class="tpl-editor-wrap">
-                <textarea id="tpl-html" oninput="debouncePreview()" placeholder="&lt;!DOCTYPE html&gt;&#10;&lt;html&gt;&#10;  &lt;body&gt;&#10;    &lt;h1&gt;Hello {{name}}!&lt;/h1&gt;&#10;    &lt;p&gt;This is your personalized email.&lt;/p&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;"></textarea>
+                <textarea id="tpl-html" oninput="debouncePreview()" placeholder="&lt;!DOCTYPE html&gt;&#10;&lt;html&gt;&#10;  &lt;body&gt;&#10;    &lt;h1&gt;Hello {{name}}!&lt;/h1&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;"></textarea>
                 <div class="tpl-preview">
                   <div class="tpl-preview-bar">
                     <div class="dot" style="background:#ff5f56"></div>
                     <div class="dot" style="background:#ffbd2e;margin-left:4px"></div>
                     <div class="dot" style="background:#27c93f;margin-left:4px"></div>
-                    <span style="margin-left:8px">Preview — <a href="/cdn-cgi/l/email-protection" preview@example.com</a></span>
+                    <span style="margin-left:8px">Preview — preview@example.com</span>
                   </div>
                   <iframe id="tpl-preview-frame" title="Template Preview"></iframe>
                 </div>
@@ -1112,6 +1015,61 @@ table.tbl tr:hover td{background:rgba(255,255,255,.015);}
               <div id="tpl-list-body" class="tpl-list"><p class="xs" style="text-align:center;padding:20px">No templates saved yet</p></div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- PROJECT TEMPLATES LIBRARY -->
+      <div class="page" id="page-proj-templates">
+
+        <!-- LOCKED BANNER (shown when no proj_lib access) -->
+        <div id="pt-locked-banner" class="dn" style="text-align:center;padding:72px 24px">
+          <div style="font-size:52px;margin-bottom:16px">🔒</div>
+          <div style="font-size:16px;font-weight:700;color:var(--text0);margin-bottom:8px">Premium &amp; Business Only</div>
+          <div style="font-size:12.5px;color:var(--text2);max-width:420px;margin:0 auto 24px;line-height:1.7">The Project Library is available on <span style="color:var(--blue2);font-weight:600">Premium</span> and <span style="color:var(--blue2);font-weight:600">Business</span> plans. Upgrade your license to create, manage, and share professional project documents.</div>
+          <div class="info-box" style="display:inline-block;font-size:11px">Contact your admin to upgrade your license tier</div>
+        </div>
+
+        <!-- MAIN LIBRARY (shown when access granted) -->
+        <div id="pt-main-wrap">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:16px;flex-wrap:wrap">
+            <div>
+              <div class="pg-title">Project Library</div>
+              <div class="pg-sub">Professional document templates — select a starter or create from scratch</div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;flex-shrink:0">
+              <input type="text" id="pt-search" placeholder="🔍  Search projects…" style="width:220px;font-size:12px" oninput="renderProjLib()">
+              <button class="btn btn-outline" onclick="openStarterModal()">⚡ Starters</button>
+              <button class="btn btn-primary" onclick="openProjModal()">＋ New Project</button>
+            </div>
+          </div>
+
+          <!-- FORMAT FILTER TABS -->
+          <div style="display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap" id="pt-filter-tabs">
+            <button class="pt-filter-btn active" data-fmt="all" onclick="setPtFilter(this)">All</button>
+            <button class="pt-filter-btn" data-fmt="Electrical" onclick="setPtFilter(this)">⚡ Electrical</button>
+            <button class="pt-filter-btn" data-fmt="Plumbing" onclick="setPtFilter(this)">🔧 Plumbing</button>
+            <button class="pt-filter-btn" data-fmt="HVAC" onclick="setPtFilter(this)">❄️ HVAC</button>
+            <button class="pt-filter-btn" data-fmt="Construction" onclick="setPtFilter(this)">🏗 Construction</button>
+            <button class="pt-filter-btn" data-fmt="Email Campaign" onclick="setPtFilter(this)">📤 Email Campaign</button>
+            <button class="pt-filter-btn" data-fmt="Invoice" onclick="setPtFilter(this)">🧾 Invoice</button>
+            <button class="pt-filter-btn" data-fmt="Proposal" onclick="setPtFilter(this)">📑 Proposal</button>
+            <button class="pt-filter-btn" data-fmt="Report" onclick="setPtFilter(this)">📊 Report</button>
+            <button class="pt-filter-btn" data-fmt="Other" onclick="setPtFilter(this)">📄 Other</button>
+          </div>
+
+          <!-- EMPTY STATE -->
+          <div id="pt-empty" style="display:none;text-align:center;padding:72px 24px">
+            <div style="font-size:52px;margin-bottom:16px;opacity:.4">🗂️</div>
+            <div style="font-size:15px;font-weight:600;color:var(--text1);margin-bottom:8px">No projects yet</div>
+            <div style="font-size:12px;color:var(--text2);margin-bottom:24px">Start from a pre-built template or create your own</div>
+            <div style="display:flex;gap:12px;justify-content:center">
+              <button class="btn btn-outline" onclick="openStarterModal()">⚡ Browse Starters</button>
+              <button class="btn btn-primary" onclick="openProjModal()">＋ Create from Scratch</button>
+            </div>
+          </div>
+
+          <!-- CARD GRID -->
+          <div id="pt-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px"></div>
         </div>
       </div>
 
@@ -1153,6 +1111,198 @@ table.tbl tr:hover td{background:rgba(255,255,255,.015);}
     <div class="modal-title">📝 Load Template</div>
     <div id="tpl-load-list" style="max-height:300px;overflow-y:auto"></div>
     <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('tpl-load-modal')">Cancel</button></div>
+  </div>
+</div>
+
+<!-- LOAD FROM PROJECT MODAL -->
+<div class="modal-bg" id="proj-load-modal">
+  <div class="modal">
+    <div class="modal-title">🗂️ Load from Project Library</div>
+    <div class="xs" style="margin-bottom:12px;color:var(--cyan)">Fills subject, from name, reply-to and generates the email HTML automatically</div>
+    <div id="proj-load-list" style="max-height:340px;overflow-y:auto"></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('proj-load-modal')">Cancel</button></div>
+  </div>
+</div>
+
+<!-- PROJECT TEMPLATE MODAL -->
+<div class="modal-bg" id="proj-modal">
+  <div class="modal" style="width:660px;max-width:97vw">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+      <div style="width:38px;height:38px;border-radius:10px;background:rgba(26,127,255,.12);border:1px solid rgba(26,127,255,.25);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0" id="proj-modal-ico">📄</div>
+      <div>
+        <div class="modal-title" style="margin:0" id="proj-modal-title">New Project</div>
+        <div style="font-size:11px;color:var(--text2);font-family:var(--mono)" id="proj-modal-sub">Fill in the details below</div>
+      </div>
+      <button class="btn btn-ghost btn-icon ml-auto" onclick="closeModal('proj-modal')" style="font-size:16px">✕</button>
+    </div>
+
+    <div class="tabs" style="margin-bottom:18px" id="proj-modal-tabs">
+      <div class="tab-btn active" onclick="tab(this,'pt-tab-details')">📋 Details</div>
+      <div class="tab-btn" onclick="tab(this,'pt-tab-branding')">🎨 Branding</div>
+      <div class="tab-btn" onclick="tab(this,'pt-tab-sender')">✉️ Sender</div>
+      <div class="tab-btn" onclick="tab(this,'pt-tab-doclink')">🔗 Document Link</div>
+    </div>
+
+    <!-- TAB: DETAILS -->
+    <div class="tab-pane active" id="pt-tab-details">
+      <div class="frow c2">
+        <div class="fg"><label>Company Name <span style="color:var(--red)">*</span></label><input id="pt-company" type="text" placeholder="Acme Corp"></div>
+        <div class="fg"><label>Project Title <span style="color:var(--red)">*</span></label><input id="pt-title" type="text" placeholder="Q4 Electrical Inspection"></div>
+      </div>
+      <div class="frow c2" style="margin-top:2px">
+        <div class="fg"><label>File Name / Reference No.</label><input id="pt-filename" type="text" placeholder="FILE-373647"></div>
+        <div class="fg"><label>Document Format</label>
+          <select id="pt-format">
+            <option>Electrical</option><option>Plumbing</option><option>HVAC</option>
+            <option>Construction</option><option>Email Campaign</option>
+            <option>Invoice</option><option>Proposal</option><option>Report</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="frow c2" style="margin-top:2px">
+        <div class="fg"><label>Release Date</label><input id="pt-release-date" type="date"></div>
+        <div class="fg"><label>Document Sub-format</label>
+          <select id="pt-doc-subformat">
+            <option value="PDF">PDF</option><option value="DOCX">DOCX</option>
+            <option value="XLSX">XLSX</option><option value="HTML">HTML</option><option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg" style="margin-top:2px">
+        <label>Description (shown on document view)</label>
+        <textarea id="pt-desc" style="min-height:68px" placeholder="Brief description of what documents are being shared…"></textarea>
+      </div>
+    </div>
+
+    <!-- TAB: BRANDING -->
+    <div class="tab-pane" id="pt-tab-branding">
+      <div class="fg">
+        <label>Cover / Banner Image URL</label>
+        <input id="pt-header-img" type="text" placeholder="https://cdn.example.com/banner.jpg" oninput="ptPreviewImg()">
+        <div class="xs" style="margin-top:4px">Used as the hero background on the document view page</div>
+      </div>
+      <div id="pt-img-preview" style="display:none;margin-top:14px;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;height:120px;position:relative">
+        <img id="pt-img-preview-el" src="" alt="Banner preview" style="width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.35) 0%,rgba(0,0,0,.6) 100%);display:flex;align-items:center;justify-content:center">
+          <span style="color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.04em" id="pt-banner-preview-title">Your Title Here</span>
+        </div>
+      </div>
+      <div class="fg" style="margin-top:12px">
+        <label>Brand Accent Colour</label>
+        <div style="display:flex;gap:10px;align-items:center">
+          <input type="color" id="pt-brand-color" value="#1a7fff" style="width:44px;height:36px;padding:2px;border-radius:var(--r);cursor:pointer;background:var(--bg2);border:1px solid var(--border)">
+          <input type="text" id="pt-brand-color-hex" value="#1a7fff" placeholder="#1a7fff" style="flex:1" oninput="$('pt-brand-color').value=this.value">
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: SENDER -->
+    <div class="tab-pane" id="pt-tab-sender">
+      <div class="frow c2">
+        <div class="fg"><label>Sender Name</label><input id="pt-sender-name" type="text" placeholder="Matthew Clover"></div>
+        <div class="fg"><label>Sender Email</label><input id="pt-sender-email" type="email" placeholder="mclover@example.com"></div>
+      </div>
+      <div class="frow c2" style="margin-top:2px">
+        <div class="fg"><label>Reply-To</label><input id="pt-replyto" type="email" placeholder="support@example.com"></div>
+        <div class="fg"><label>Department / Role</label><input id="pt-dept" type="text" placeholder="Electrical Dept."></div>
+      </div>
+      <div class="fg" style="margin-top:2px">
+        <label>Signature / Footer Text</label>
+        <textarea id="pt-signature" style="min-height:68px" placeholder="Best regards,&#10;Matthew Clover&#10;Electrical Dept."></textarea>
+      </div>
+    </div>
+
+    <!-- TAB: DOCUMENT LINK -->
+    <div class="tab-pane" id="pt-tab-doclink">
+      <div class="info-box" style="margin-bottom:14px;font-size:11.5px">
+        This link appears as the <strong>"VIEW DOCUMENTS"</strong> button on the document view page. Recipients click it to access the actual files.
+      </div>
+      <div class="fg">
+        <label>Document / File Link URL</label>
+        <input id="pt-doc-link" type="text" placeholder="https://drive.google.com/your-file or https://dropbox.com/…">
+      </div>
+      <div class="fg" style="margin-top:12px">
+        <label>Button Label</label>
+        <input id="pt-doc-btn-label" type="text" placeholder="VIEW DOCUMENTS" value="VIEW DOCUMENTS">
+      </div>
+      <div class="fg" style="margin-top:12px">
+        <label>Secondary / Signing Platform Link (optional)</label>
+        <input id="pt-sign-link" type="text" placeholder="https://docusign.com/… or https://hellosign.com/…">
+        <div class="xs" style="margin-top:4px">Shown below the main button as a signing/completion link</div>
+      </div>
+      <div style="margin-top:18px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 20px;text-align:center">
+        <div style="font-size:10px;font-family:var(--mono);color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Preview — Document View Card</div>
+        <div style="font-size:11px;color:var(--text1);margin-bottom:4px">Reference Number: <span id="pt-prev-ref" style="color:var(--text0)">FILE-000</span></div>
+        <div style="font-size:11px;color:var(--text1);margin-bottom:14px">Document Format: <span id="pt-prev-fmt" style="color:var(--text0)">PDF</span></div>
+        <a id="pt-prev-link" href="#" onclick="return false" style="display:inline-block;color:var(--blue2);font-size:13px;font-weight:700;font-family:var(--mono);letter-spacing:.06em;border-bottom:2px solid var(--blue2);padding-bottom:2px;text-decoration:none">VIEW DOCUMENTS</a>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="display:flex;gap:10px;justify-content:space-between">
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" id="pt-delete-btn" style="display:none;color:var(--red)" onclick="deleteProjTemplate()">🗑 Delete</button>
+        <button class="btn btn-outline btn-sm" id="pt-view-btn" style="display:none" onclick="viewProjDocument()">👁 Preview Doc View</button>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-outline" onclick="closeModal('proj-modal')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveProjTemplate()">💾 Save Project</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOCUMENT VIEW MODAL -->
+<div class="modal-bg" id="docview-modal">
+  <div class="modal" style="width:580px;max-width:97vw;padding:0;overflow:hidden">
+    <div id="dv-banner" style="height:160px;position:relative;background:linear-gradient(135deg,#0a1a3a,#1a3a6a);overflow:hidden">
+      <img id="dv-banner-img" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none">
+      <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.2) 0%,rgba(0,0,0,.65) 100%);padding:24px 28px;display:flex;flex-direction:column;justify-content:flex-end">
+        <div style="font-size:10px;font-family:var(--mono);color:rgba(255,255,255,.55);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px" id="dv-company">Company</div>
+        <div style="font-size:22px;font-weight:800;color:#fff;line-height:1.2;letter-spacing:-.01em" id="dv-title">Document Title</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.6);margin-top:6px;font-family:var(--mono)" id="dv-updated">Updated —</div>
+      </div>
+      <button onclick="closeModal('docview-modal')" style="position:absolute;top:12px;right:14px;background:rgba(0,0,0,.4);border:none;color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">✕</button>
+    </div>
+    <div style="padding:28px 32px 24px;background:#fff;color:#1a1a2e">
+      <div id="dv-desc" style="font-size:13px;color:#4a5568;margin-bottom:20px;line-height:1.6;display:none"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 24px;margin-bottom:22px;font-size:13px">
+        <div style="color:#718096">Reference Number:</div><div style="font-weight:600;color:#1a1a2e" id="dv-ref">—</div>
+        <div style="color:#718096">Document Format:</div><div style="font-weight:600;color:#1a1a2e" id="dv-fmt">—</div>
+        <div style="color:#718096">Release Date:</div><div style="font-weight:600;color:#1a1a2e" id="dv-date">—</div>
+        <div style="color:#718096">Prepared by:</div><div style="font-weight:600;color:#1a1a2e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="dv-sender">—</div>
+      </div>
+      <div id="dv-shared-msg" style="font-size:13px;color:#4a5568;margin-bottom:22px;display:none">
+        <span id="dv-sender-inline" style="font-weight:600;color:#1a1a2e"></span>
+        (<span id="dv-email-inline" style="color:#3182ce;text-decoration:underline;cursor:pointer"></span>)
+        shared the following documents with you
+      </div>
+      <div style="text-align:center;margin-bottom:18px">
+        <a id="dv-doc-link" href="#" target="_blank" style="display:inline-block;color:var(--blue);font-size:14px;font-weight:800;font-family:var(--mono);letter-spacing:.08em;border-bottom:2px solid var(--blue);padding-bottom:3px;text-decoration:none">VIEW DOCUMENTS</a>
+      </div>
+      <div id="dv-sign-wrap" style="display:none;margin-top:4px;border:1px solid #e2e8f0;border-radius:8px;padding:14px 18px;text-align:center">
+        <div style="font-size:10px;color:#a0aec0;font-family:monospace;letter-spacing:.08em;margin-bottom:8px">SIGNING PLATFORM</div>
+        <a id="dv-sign-link" href="#" target="_blank" style="font-size:12px;color:#3182ce;font-family:monospace">Open Signing Link →</a>
+      </div>
+    </div>
+    <div style="padding:14px 32px;background:#f7fafc;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:10px">
+      <button class="btn btn-outline btn-sm" onclick="copyDocLink()">📋 Copy Link</button>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('docview-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- STARTERS MODAL -->
+<div class="modal-bg" id="starters-modal">
+  <div class="modal" style="width:700px;max-width:97vw;max-height:88vh;overflow-y:auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+      <div>
+        <div class="modal-title" style="margin:0">⚡ Starter Templates</div>
+        <div style="font-size:11px;color:var(--text2);font-family:var(--mono);margin-top:3px">Click any template to add it to your library</div>
+      </div>
+      <button class="btn btn-ghost btn-icon" onclick="closeModal('starters-modal')" style="font-size:16px">✕</button>
+    </div>
+    <div id="starters-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px"></div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('starters-modal')">Close</button></div>
   </div>
 </div>
 
@@ -1250,28 +1400,49 @@ async function api(path, body, method='POST') {
 async function consumeSSE(path, body, onMsg) {
   const ctrl = new AbortController();
   S.currentAbort = ctrl;
-  const resp = await fetch('/api' + path, {
-    method:'POST',
-    headers:{'Content-Type':'application/json','x-session-token':S.token||''},
-    body: JSON.stringify(body),
-    signal: ctrl.signal
-  });
+  let resp;
+  try {
+    resp = await fetch('/api' + path, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-session-token':S.token||''},
+      body: JSON.stringify(body),
+      signal: ctrl.signal
+    });
+  } catch(fetchErr) {
+    S.currentAbort = null;
+    if (fetchErr.name !== 'AbortError') throw fetchErr;
+    return;
+  }
+  if (!resp.headers.get('content-type')?.includes('text/event-stream')) {
+    S.currentAbort = null;
+    try {
+      const errData = await resp.json();
+      onMsg({ type: 'error', message: errData.error || `Server error ${resp.status}` });
+    } catch { onMsg({ type: 'error', message: `Server error ${resp.status}` }); }
+    onMsg({ type: 'done', error: true, total: 0, validCount: 0, invalidCount: 0, validPercent: '0.0', valid: [], invalid: [], sent: [], failed: [] });
+    return;
+  }
   const reader = resp.body.getReader();
   const dec = new TextDecoder();
   let buf = '';
-  while (true) {
-    const {value, done} = await reader.read();
-    if (done) break;
-    buf += dec.decode(value, {stream:true});
-    const lines = buf.split('\n');
-    buf = lines.pop();
-    for (const line of lines) {
-      if (line.startsWith('data: ')) {
-        try { onMsg(JSON.parse(line.slice(6))); } catch {}
+  try {
+    while (true) {
+      const {value, done} = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, {stream:true});
+      const lines = buf.split('\n');
+      buf = lines.pop();
+      for (const line of lines) {
+        if (line.startsWith('data: ')) { try { onMsg(JSON.parse(line.slice(6))); } catch {} }
       }
     }
+    if (buf.startsWith('data: ')) { try { onMsg(JSON.parse(buf.slice(6))); } catch {} }
+  } catch(readErr) {
+    if (readErr.name !== 'AbortError') console.warn('SSE read error:', readErr.message);
+  } finally {
+    S.currentAbort = null;
+    try { reader.cancel(); } catch {}
   }
-  S.currentAbort = null;
 }
 
 function abortOp() {
@@ -1281,17 +1452,18 @@ function abortOp() {
 
 // ── NAVIGATION ───────────────────────────────────────────────
 const PAGE_META = {
-  dashboard:    ['Dashboard',        '// overview'],
-  smtp:         ['SMTP Tester',      '// verify credentials'],
-  'send-bulk':  ['Bulk Sender',      '// mass email'],
-  'send-personal':['Personalized',   '// {{name}} templates'],
-  validate:     ['Validator',        '// blue debounce'],
-  sorter:       ['Email Sorter',     '// domain grouping'],
-  dedupe:       ['Deduplicator',     '// remove duplicates'],
-  spf:          ['SPF / DKIM',       '// dns auth check'],
-  blacklist:    ['Blacklist Check',  '// dnsbl lookup'],
-  scanner:      ['Inbox Scanner',    '// imap keyword scan'],
-  templates:    ['Templates',        '// html editor']
+  dashboard:        ['Dashboard',        '// overview'],
+  smtp:             ['SMTP Tester',      '// verify credentials'],
+  'send-bulk':      ['Bulk Sender',      '// mass email'],
+  'send-personal':  ['Personalized',     '// {{name}} templates'],
+  validate:         ['Validator',        '// blue debounce'],
+  sorter:           ['Email Sorter',     '// domain grouping'],
+  dedupe:           ['Deduplicator',     '// remove duplicates'],
+  spf:              ['SPF / DKIM',       '// dns auth check'],
+  blacklist:        ['Blacklist Check',  '// dnsbl lookup'],
+  scanner:          ['Inbox Scanner',    '// imap keyword scan'],
+  templates:        ['Templates',        '// html editor'],
+  'proj-templates': ['Project Library',  '// document templates']
 };
 
 function navTo(pg) {
@@ -1300,6 +1472,13 @@ function navTo(pg) {
   const [t,s] = PAGE_META[pg]||['',''];
   $('tb-title').textContent = t;
   $('tb-sub').textContent   = s;
+  if (pg === 'validate') loadMyCache();
+  if (pg === 'proj-templates') renderProjLib();
+  if (pg === 'send-bulk' || pg === 'send-personal') {
+    const prefix = pg === 'send-bulk' ? 'bulk' : 'pers';
+    const hostEl = $(`${prefix}-host`);
+    if (hostEl && !hostEl.value) loadGlobalSMTP(prefix);
+  }
 }
 
 document.querySelectorAll('.nav[data-page]').forEach(el => {
@@ -1309,7 +1488,6 @@ document.querySelectorAll('.nav[data-page]').forEach(el => {
   });
 });
 
-// Lock nav items based on features
 function applyFeatureLocks() {
   document.querySelectorAll('.nav.feat[data-feat]').forEach(el => {
     const feat = el.dataset.feat;
@@ -1323,7 +1501,6 @@ function tab(btn, paneId) {
   const parent = btn.closest('.tabs') || btn.parentElement;
   parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  const content = parent.nextElementSibling || document.getElementById(paneId)?.parentElement;
   document.querySelectorAll(`[id^="${paneId.split('-')[0]}-"]`).forEach(p => {
     if (p.classList.contains('tab-pane')) p.classList.remove('active');
   });
@@ -1343,7 +1520,6 @@ async function activateGate() {
   const btn = document.querySelector('.gate-btn');
   btn.disabled = true; btn.textContent = 'VERIFYING...';
   $('gate-err').style.display = 'none';
-
   try {
     const r = await fetch('/api/license/activate', {
       method: 'POST',
@@ -1366,14 +1542,12 @@ async function activateGate() {
     $('gate-err').textContent = 'Cannot reach server. Is it running?';
     $('gate-err').style.display = 'block';
   }
-
   btn.disabled = false; btn.textContent = 'ACTIVATE LICENSE';
 }
 
 async function checkExistingSession() {
   const token = localStorage.getItem('bm_token');
   if (!token) return false;
-
   try {
     const r = await fetch('/api/session/verify', {
       method:'POST',
@@ -1395,27 +1569,20 @@ async function checkExistingSession() {
 function launchApp(data) {
   $('gate').style.display = 'none';
   $('app').style.display  = 'flex';
-
-  // Update license UI
   $('lic-dot').classList.add('on');
   $('lic-tier').textContent    = data.tier || data.label || '—';
   $('lic-tier').style.color    = data.color || 'var(--text0)';
   $('lic-key-hint').textContent = (localStorage.getItem('bm_license_key')||'').slice(0,12)+'...';
-
   $('dash-sub').textContent = `${data.tier} License — ${data.features?.length || 0} features enabled`;
-
-  // Update credits UI
   if (data.creditsEnabled && data.creditsRemaining !== null) {
     S.license = S.license || {};
     S.license.creditsTotal = data.creditsTotal;
     updateCreditsUI(data.creditsRemaining, data.creditsTotal);
   }
-
   applyFeatureLocks();
   loadGlobalSmtpFromStorage();
   startHeartbeat();
   refreshDevPanel();
-
   toast(`${data.tier} license activated — welcome!`, 'ok', 4000);
 }
 
@@ -1448,16 +1615,19 @@ function updateCreditsUI(remaining, total) {
   if (!wrap) return;
   wrap.style.display = 'flex'; sep.style.display = 'block';
   if (el) {
-    el.textContent = remaining;
-    el.style.color = remaining < 50 ? 'var(--red)' : remaining < 200 ? 'var(--yellow)' : 'var(--green)';
+    const remNum = typeof remaining === 'number' ? remaining : parseFloat(remaining) || 0;
+    el.textContent = remNum.toFixed(8);
+    el.style.color = remNum < 50 ? 'var(--red)' : remNum < 200 ? 'var(--yellow)' : 'var(--green)';
   }
   if (bar && total > 0) {
     bar.style.display = 'block';
-    const used = total - remaining;
-    const pct  = Math.min(100, (used / total) * 100).toFixed(1);
+    const totNum = typeof total === 'number' ? total : parseFloat(total) || 1;
+    const remNum = typeof remaining === 'number' ? remaining : parseFloat(remaining) || 0;
+    const used = totNum - remNum;
+    const pct  = Math.min(100, (used / totNum) * 100).toFixed(1);
     if (fill) { fill.style.width = pct + '%'; fill.style.background = pct > 80 ? 'var(--red)' : pct > 50 ? 'var(--yellow)' : 'var(--green)'; }
-    if (usedEl) usedEl.textContent = used;
-    if (totEl)  totEl.textContent  = total;
+    if (usedEl) usedEl.textContent = used.toFixed(8);
+    if (totEl)  totEl.textContent  = totNum.toFixed(8);
   }
 }
 
@@ -1466,7 +1636,7 @@ function saveGlobalSMTP() {
   const smtp = { host: val('g-smtp-host'), user: val('g-smtp-user'), pass: val('g-smtp-pass'), port: val('g-smtp-port') };
   if (!smtp.host || !smtp.user || !smtp.pass) return toast('Fill in all SMTP fields', 'wa');
   S.globalSmtp = smtp;
-  localStorage.setItem('bm_smtp', JSON.stringify({host:smtp.host,user:smtp.user,port:smtp.port}));
+  localStorage.setItem('bm_smtp', JSON.stringify({host:smtp.host,user:smtp.user,pass:smtp.pass,port:smtp.port}));
   toast('SMTP saved — available in all pages', 'ok');
   $('g-smtp-status').innerHTML = `<span style="color:var(--green)">✓ Saved: ${smtp.user}</span>`;
 }
@@ -1479,6 +1649,7 @@ function loadGlobalSmtpFromStorage() {
       $('g-smtp-host').value = d.host||'';
       $('g-smtp-user').value = d.user||'';
       $('g-smtp-port').value = d.port||'465';
+      if (d.pass) $('g-smtp-pass').value = d.pass;
       $('g-smtp-status').innerHTML = `<span style="color:var(--text2)">↑ Loaded: ${d.user}</span>`;
     } catch {}
   }
@@ -1495,7 +1666,7 @@ async function testGlobalSMTP() {
         if (msg.status==='ok') {
           $('g-smtp-status').innerHTML = `<span style="color:var(--green)">✓ Working!</span>`;
           S.globalSmtp = smtp;
-          localStorage.setItem('bm_smtp', JSON.stringify({host:smtp.host,user:smtp.user,port:smtp.port}));
+          localStorage.setItem('bm_smtp', JSON.stringify({host:smtp.host,user:smtp.user,pass:smtp.pass,port:smtp.port}));
           toast(`SMTP verified: ${smtp.user}`, 'ok');
         } else {
           $('g-smtp-status').innerHTML = `<span style="color:var(--red)">✗ Failed: ${msg.error}</span>`;
@@ -1513,8 +1684,8 @@ function loadGlobalSMTP(prefix) {
   $(`${prefix}-host`).value = d.host||'';
   $(`${prefix}-user`).value = d.user||'';
   $(`${prefix}-port`).value = d.port||'465';
-  // pass is not stored for security — user must enter it
-  toast('SMTP config loaded (re-enter password)', 'ok');
+  if (d.pass) { $(`${prefix}-pass`).value = d.pass; toast('SMTP loaded (password restored)', 'ok'); }
+  else toast('SMTP config loaded (re-enter password)', 'ok');
 }
 
 // ── SMTP TESTER ───────────────────────────────────────────────
@@ -1558,7 +1729,6 @@ async function smtpRun() {
   $('smtp-log').innerHTML = '';
   $('smtp-run-btn').disabled = true;
   let ok=0, fail=0;
-
   try {
     await consumeSSE('/smtp/test', {entries:smtpEntries}, msg => {
       if (msg.type==='progress') log('smtp-log',`Testing ${msg.user}@${msg.host}:${msg.port}...`,'in');
@@ -1602,7 +1772,7 @@ function setWorkingSmtp(w) {
   $('g-smtp-pass').value = w.pass;
   $('g-smtp-port').value = w.port;
   S.globalSmtp = w;
-  localStorage.setItem('bm_smtp', JSON.stringify({host:w.host,user:w.user,port:w.port}));
+  localStorage.setItem('bm_smtp', JSON.stringify({host:w.host,user:w.user,pass:w.pass,port:w.port}));
   $('g-smtp-status').innerHTML = `<span style="color:var(--green)">✓ Set: ${w.user}</span>`;
   toast(`SMTP set: ${w.user}`, 'ok');
 }
@@ -1615,14 +1785,15 @@ async function bulkSend() {
   const htmlBody  = val('bulk-html');
   const subject   = val('bulk-subj');
   if (!recipText||!htmlBody||!subject) return toast('Fill all required fields', 'wa');
-  const recipients = recipText.split('\n').map(l=>l.trim()).filter(l=>l.includes('@'));
+  const rawRecipients = recipText.split('\n').map(l=>l.trim()).filter(l=>l.includes('@'));
+  const recipients = [...new Set(rawRecipients.map(e=>e.toLowerCase()))];
+  const dupeCount = rawRecipients.length - recipients.length;
+  if (dupeCount > 0) toast(`Removed ${dupeCount} duplicate recipient${dupeCount>1?'s':''}`, 'wa');
   if (!recipients.length) return toast('No valid emails', 'wa');
-
   show('bulk-result-card'); hide('bulk-sum'); hide('bulk-exports');
   $('bulk-log').innerHTML = '';
   hide('bulk-send-btn'); show('bulk-stop-btn');
   S.bulk = {sent:[],failed:[]};
-
   try {
     await consumeSSE('/send/bulk', {
       smtp, recipients, subject, htmlBody,
@@ -1656,14 +1827,22 @@ async function persSend() {
   const smtp = { host:val('pers-host'),user:val('pers-user'),pass:val('pers-pass'),port:val('pers-port') };
   if (!smtp.host||!smtp.user||!smtp.pass) return toast('Fill SMTP', 'wa');
   if (!val('pers-leads')||!val('pers-html')||!val('pers-subj')) return toast('Fill all fields', 'wa');
-
+  const rawLines = val('pers-leads').split('\n').map(l=>l.trim()).filter(Boolean);
+  const seenEmails = new Set();
+  const dedupedLines = rawLines.filter(line => {
+    const email = line.split(/[,|;]/)[0].trim().toLowerCase();
+    if (seenEmails.has(email)) return false;
+    seenEmails.add(email); return true;
+  });
+  const dupeCount = rawLines.length - dedupedLines.length;
+  if (dupeCount > 0) toast(`Removed ${dupeCount} duplicate lead${dupeCount>1?'s':''}`, 'wa');
+  const leadsText = dedupedLines.join('\n');
   show('pers-result-card'); hide('pers-sum');
   $('pers-log').innerHTML = '';
   hide('pers-send-btn'); show('pers-stop-btn');
-
   try {
     await consumeSSE('/send/personalized', {
-      smtp, leadsText:val('pers-leads'), subject:val('pers-subj'),
+      smtp, leadsText, subject:val('pers-subj'),
       fromName:val('pers-from'), htmlTemplate:val('pers-html'),
       replyTo:val('pers-replyto'),
       throttle:parseInt(val('pers-throttle')||'5'),
@@ -1695,31 +1874,83 @@ async function valRun() {
   hide('val-run'); show('val-stop');
   S.val = {valid:[],invalid:[]};
   $('val-tot').textContent=$('val-ok').textContent=$('val-bad').textContent=0;
-
   try {
     await consumeSSE('/emails/validate', {emailsText, concurrency:parseInt(val('val-con')||'15')}, msg => {
-      if (msg.type==='start') log('val-log',`Validating ${msg.total} emails (${msg.dedupedFrom} incl dupes) | concurrency ${val('val-con')}`,'in');
-      else if (msg.type==='result') {
-        setP('val',((msg.index+1)/msg.total)*100,`${msg.index+1}/${msg.total}`);
+      if (msg.type==='error') { log('val-log', `✗ Error: ${msg.message}`, 'er'); toast(msg.message, 'er'); }
+      else if (msg.type==='start') {
+        const cacheNote = msg.cached > 0 ? ` · <span style="color:var(--cyan)">⚡ ${msg.cached} from cache</span>` : '';
+        log('val-log', `Validating <strong>${msg.total}</strong> emails${cacheNote}`, 'in');
+      } else if (msg.type==='result') {
+        const pct = ((msg.index+1)/msg.total)*100;
+        setP('val', pct, `${msg.index+1}/${msg.total}`);
         $('val-tot').textContent = msg.total;
+        const cacheTag = msg.fromCache ? ' <span style="color:var(--cyan);font-size:9px">[cache]</span>' : '';
         if (msg.status==='valid') {
           S.val.valid.push(msg.email); S.stats.val++; updateStats();
           $('val-ok').textContent = S.val.valid.length;
-          log('val-log',`✓ ${msg.email}`,'ok');
+          log('val-log', `✓ ${msg.email}${cacheTag}`, 'ok');
         } else {
-          S.val.invalid.push({email:msg.email,reason:msg.reason});
+          S.val.invalid.push({email:msg.email, reason:msg.reason});
           $('val-bad').textContent = S.val.invalid.length;
-          const reason = msg.isDisposable?'disposable':msg.reason;
-          log('val-log',`✗ ${msg.email} [${reason}]`,'er');
+          const reason = msg.status==='disposable' ? 'disposable' : (msg.reason||'invalid');
+          log('val-log', `✗ ${msg.email} [${reason}]${cacheTag}`, 'er');
         }
       } else if (msg.type==='done') {
-        setP('val',100,'Done',true); show('val-exports');
-        log('val-log',`─── ${msg.validPercent}% valid | ${msg.validCount} ok / ${msg.invalidCount} invalid ───`,'in');
-        toast(`Validation complete: ${msg.validPercent}% valid`,'ok');
+        setP('val',100,'Done',true);
+        if (!msg.error) {
+          show('val-exports');
+          const cacheNote = msg.cached > 0 ? ` (${msg.cached} from cache)` : '';
+          log('val-log', `─── ${msg.validPercent}% valid | ${msg.validCount} ok / ${msg.invalidCount} invalid${cacheNote} ───`, 'in');
+          toast(`Validation complete: ${msg.validPercent}% valid`, 'ok');
+          if (!$('val-cache-panel').classList.contains('dn')) loadMyCache();
+        }
       }
     });
   } catch(e) { if(e.name!=='AbortError') toast(e.message,'er'); }
   show('val-run'); hide('val-stop');
+}
+
+// ── MY CACHE VIEW ──────────────────────────────────────────────
+async function loadMyCache() {
+  const d = await api('/emails/cache/my', {}, 'GET');
+  if (!d) return;
+  $('mc-total').textContent   = d.total;
+  $('mc-valid').textContent   = d.validCount;
+  $('mc-invalid').textContent = d.invalidCount;
+  const maxDom = d.topDomains[0]?.total || 1;
+  $('mc-domains').innerHTML = d.topDomains.length
+    ? d.topDomains.map(dom => `
+      <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(26,46,72,.3)">
+        <div style="width:130px;font-family:var(--mono);font-size:10.5px;color:var(--text1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${dom.domain}">${dom.domain}</div>
+        <div style="flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden">
+          <div style="height:100%;width:${(dom.total/maxDom*100).toFixed(1)}%;background:linear-gradient(90deg,var(--blue3),var(--blue2));border-radius:3px"></div>
+        </div>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--green);min-width:24px;text-align:right">${dom.valid}</span>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--text3)">/</span>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--red);min-width:20px">${dom.invalid}</span>
+      </div>`).join('')
+    : '<p style="padding:12px;text-align:center;font-size:11px;color:var(--text3)">No cached emails yet</p>';
+  $('mc-recent-tbody').innerHTML = d.recent.length
+    ? d.recent.map(e => `
+      <tr>
+        <td style="color:var(--text0)">${e.email}</td>
+        <td>${e.status==='valid'
+          ? '<span class="tag tag-ok">VALID</span>'
+          : e.status==='disposable'
+            ? '<span class="tag tag-wa">DISPOSABLE</span>'
+            : '<span class="tag tag-er">INVALID</span>'}</td>
+        <td style="color:var(--text2)">${e.domain}</td>
+        <td class="xs">${new Date(e.cachedAt).toLocaleString()}</td>
+      </tr>`).join('')
+    : '<tr><td colspan="4" style="text-align:center;padding:16px;color:var(--text3)">No cached entries yet</td></tr>';
+}
+
+async function exportMyCache(type) {
+  const d = await api(`/emails/cache/my/export?type=${type}`, {}, 'GET');
+  if (!d || !d.emails) return toast('Export failed', 'er');
+  if (!d.emails.length) return toast(`No ${type} emails in cache`, 'wa');
+  dl(d.emails, `cache_${type}_${new Date().toISOString().slice(0,10)}`);
+  toast(`Exported ${d.count} ${type} email${d.count!==1?'s':''}`, 'ok');
 }
 
 // ── SORTER ─────────────────────────────────────────────────────
@@ -1800,32 +2031,25 @@ async function scanRun() {
   const accsText = val('scan-accs');
   const kwText   = val('scan-kw');
   if (!accsText||!kwText) return toast('Fill accounts and keywords', 'wa');
-
   const accounts = accsText.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{
     const [email,password] = l.split('|').map(s=>s.trim());
     return {email,password};
   }).filter(a=>a.email&&a.password);
-
-  const keywords  = kwText.split('\n').map(l=>l.trim()).filter(Boolean);
+  const keywords    = kwText.split('\n').map(l=>l.trim()).filter(Boolean);
   const maxMessages = parseInt(val('scan-max')||'100');
-  const manualHost = val('scan-imap');
-  const manualImap = manualHost ? {host:manualHost,port:993,tls:true} : null;
-
+  const manualHost  = val('scan-imap');
+  const manualImap  = manualHost ? {host:manualHost,port:993,tls:true} : null;
   if (!accounts.length) return toast('No valid account lines', 'wa');
-
   S.scan = {matches:[],txt:''};
   $('scan-log').innerHTML = '';
   $('scan-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:20px">Scanning...</td></tr>';
   $('scan-mcount').textContent = '0 found';
   hide('scan-run-btn'); show('scan-stop-btn'); hide('scan-export-btn');
-
   try {
     await consumeSSE('/inbox/scan', {accounts,keywords,maxMessages,...(manualImap?{manualImap}:{})}, msg => {
       if (msg.type==='start') log('scan-log',`Scanning ${msg.total} accounts for: ${keywords.join(', ')}`,'in');
-      else if (msg.type==='account_start') {
-        setP('scan',(msg.index/msg.total)*100,`${msg.email}...`);
-        log('scan-log',`→ ${msg.email}`,'in');
-      } else if (msg.type==='account_info') log('scan-log',`  ${msg.email}: ${msg.messageCount} msgs, checking ${msg.scanning}`,'dm');
+      else if (msg.type==='account_start') { setP('scan',(msg.index/msg.total)*100,`${msg.email}...`); log('scan-log',`→ ${msg.email}`,'in'); }
+      else if (msg.type==='account_info') log('scan-log',`  ${msg.email}: ${msg.messageCount} msgs, checking ${msg.scanning}`,'dm');
       else if (msg.type==='match') {
         const m = msg.match;
         S.scan.matches.push(m); S.stats.match++; updateStats();
@@ -1843,10 +2067,7 @@ async function scanRun() {
           <td>${m.date||'—'}</td>
         </tr>`;
       }
-      else if (msg.type==='account_done') {
-        setP('scan',((msg.index+1)/accounts.length)*100,`${msg.email} done`);
-        log('scan-log',`✓ ${msg.email} — ${msg.matchCount} matches`,'ok');
-      }
+      else if (msg.type==='account_done') { setP('scan',((msg.index+1)/accounts.length)*100,`${msg.email} done`); log('scan-log',`✓ ${msg.email} — ${msg.matchCount} matches`,'ok'); }
       else if (msg.type==='account_error') log('scan-log',`✗ ${msg.email} — ${msg.error}`,'er');
       else if (msg.type==='done') {
         setP('scan',100,'Done',true);
@@ -1871,10 +2092,7 @@ function refreshPreview() {
   const html = val('tpl-html');
   const frame = $('tpl-preview-frame');
   if (!frame) return;
-  const preview = html
-    .replace(/{{name}}/g,'Preview User')
-    .replace(/{{email}}/g,'preview@example.com')
-    .replace(/{{first_name}}/g,'Preview');
+  const preview = html.replace(/{{name}}/g,'Preview User').replace(/{{email}}/g,'preview@example.com').replace(/{{first_name}}/g,'Preview');
   const doc = frame.contentDocument || frame.contentWindow.document;
   doc.open(); doc.write(preview); doc.close();
 }
@@ -1941,7 +2159,6 @@ async function loadTplInto(targetId) {
 function insertTpl(t) {
   if (S.tplTarget) {
     $(S.tplTarget).value = t.html||'';
-    if (S.tplTarget.includes('subj')) return;
     toast(`Template "${t.name}" loaded`,'ok');
   }
   closeModal('tpl-load-modal');
@@ -1963,19 +2180,15 @@ async function refreshDevPanel() {
   if (!S.token) return;
   const d = await api('/license/devices', {}, 'GET');
   if (!d) return;
-
   $('dp-total').textContent   = d.total;
   $('dp-online').textContent  = d.online;
   $('dp-flagged').textContent = d.devices.filter(x=>x.flagged).length;
   $('sb-online-count').textContent = d.online;
-
   $('dp-devices').innerHTML = d.devices.map(dev => `
     <div class="device-card ${dev.isSelf?'self':''} ${dev.flagged?'flagged':''}">
       <div class="dc-top">
         <div class="dc-name">${dev.deviceName || dev.os+' / '+dev.browser}</div>
-        ${dev.online
-          ? `<div class="dc-online"><div class="pulse-dot" style="width:6px;height:6px"></div> Online</div>`
-          : `<div class="dc-online dc-offline">Offline</div>`}
+        ${dev.online ? `<div class="dc-online"><div class="pulse-dot" style="width:6px;height:6px"></div> Online</div>` : `<div class="dc-online dc-offline">Offline</div>`}
         ${dev.isSelf ? '<span class="tag tag-bl" style="font-size:9px">YOU</span>' : ''}
         ${dev.flagged ? '<span class="tag tag-er" style="font-size:9px">FLAGGED</span>' : ''}
         ${dev.revoked ? '<span class="tag" style="background:rgba(96,120,152,.15);color:var(--text2);font-size:9px">REVOKED</span>' : ''}
@@ -2014,24 +2227,15 @@ async function renameDevice(id, current) {
   if (d?.ok) { toast('Renamed','ok'); refreshDevPanel(); }
 }
 
-// ── DEVICE PANEL AUTO REFRESH ─────────────────────────────────
 setInterval(() => { if ($('dev-panel').classList.contains('open')) refreshDevPanel(); }, 15000);
 
 // ── INIT ──────────────────────────────────────────────────────
 (async function init() {
-  // Generate persistent device ID
   let did = localStorage.getItem('bm_device_id');
   if (!did) { did = crypto.randomUUID(); localStorage.setItem('bm_device_id', did); }
   S.deviceId = did;
-
-  // Try to restore session
   const restored = await checkExistingSession();
-  if (!restored) {
-    // Show gate
-    $('gate').style.display = 'flex';
-  }
-
-  // Live textarea counters
+  if (!restored) { $('gate').style.display = 'flex'; }
   [['bulk-recip','bulk-rcount'],['pers-leads','pers-lcount'],['val-emails','val-icount']].forEach(([ta,cnt])=>{
     const el = $(ta);
     if (el) el.addEventListener('input', () => {
@@ -2039,10 +2243,570 @@ setInterval(() => { if ($('dev-panel').classList.contains('open')) refreshDevPan
       const c = $(cnt); if(c) c.textContent = n + ' emails';
     });
   });
-
-  // Enter key on gate
   $('gate-key').addEventListener('keydown', e => { if (e.key==='Enter') activateGate(); });
 })();
+
+// ╔══════════════════════════════════════════════════════════════╗
+//  PROJECT LIBRARY
+// ╚══════════════════════════════════════════════════════════════╝
+
+// ── Project → Email integration ──────────────────────────────
+function projToEmailHtml(p) {
+  const accent = p.brandColor || '#1a7fff';
+  const banner = p.headerImg
+    ? `<div style="background:url('${p.headerImg}') center/cover no-repeat;height:180px;position:relative">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.25),rgba(0,0,0,.65));padding:28px 32px;display:flex;flex-direction:column;justify-content:flex-end">
+          <div style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:6px">${p.company||''}</div>
+          <div style="font-size:22px;font-weight:800;color:#fff;line-height:1.2">${p.title||''}</div>
+        </div>
+      </div>`
+    : `<div style="background:linear-gradient(135deg,#0a1a3a,${accent});height:180px;padding:28px 32px;display:flex;flex-direction:column;justify-content:flex-end">
+        <div style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:6px">${p.company||''}</div>
+        <div style="font-size:22px;font-weight:800;color:#fff;line-height:1.2">${p.title||''}</div>
+      </div>`;
+
+  const desc = p.desc ? `<p style="margin:0 0 20px;font-size:14px;line-height:1.7;color:#555">${p.desc}</p>` : '';
+
+  const metaRows = [
+    p.filename     ? `<tr><td style="color:#888;font-size:12px;padding:5px 0;width:140px;vertical-align:top">Reference No.</td><td style="font-size:12px;color:#333">${p.filename}</td></tr>` : '',
+    p.docSubformat ? `<tr><td style="color:#888;font-size:12px;padding:5px 0">Document Format</td><td style="font-size:12px;color:#333">${p.docSubformat}</td></tr>` : '',
+    p.releaseDate  ? `<tr><td style="color:#888;font-size:12px;padding:5px 0">Release Date</td><td style="font-size:12px;color:#333">${new Date(p.releaseDate).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</td></tr>` : '',
+    p.senderName   ? `<tr><td style="color:#888;font-size:12px;padding:5px 0">Prepared by</td><td style="font-size:12px;color:#333">${p.senderName}${p.dept ? ' · '+p.dept : ''}</td></tr>` : '',
+  ].filter(Boolean).join('');
+
+  const docBtn = `<div style="text-align:center;margin:28px 0 10px">
+      <a href="${p.docLink && p.docLink !== '#' ? p.docLink : '#'}" style="display:inline-block;padding:13px 36px;background:${accent};color:#fff;font-weight:700;font-size:13px;letter-spacing:.06em;text-decoration:none;border-radius:6px">${p.docBtnLabel||'VIEW DOCUMENTS'}</a>
+    </div>`;
+
+  const signLink = p.signLink
+    ? `<div style="text-align:center;margin-top:12px"><a href="${p.signLink}" style="color:${accent};font-size:12px;text-decoration:none">✍ Sign / Complete Document</a></div>` : '';
+
+  const signature = p.signature
+    ? `<div style="margin-top:28px;padding-top:16px;border-top:1px solid #eee;font-size:12px;color:#888;line-height:1.7;white-space:pre-line">${p.signature}</div>` : '';
+
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<style>body{margin:0;padding:0;background:#f4f6f9;font-family:Inter,Arial,sans-serif}</style>
+</head>
+<body>
+  <div style="max-width:580px;margin:32px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08)">
+    ${banner}
+    <div style="padding:28px 32px 24px">
+      ${desc}
+      ${metaRows ? `<table style="width:100%;border-collapse:collapse;margin-bottom:20px">${metaRows}</table>` : ''}
+      ${docBtn}
+      ${signLink}
+      ${signature}
+    </div>
+    <div style="padding:14px 32px;background:#f8f9fa;border-top:1px solid #eee;text-align:center">
+      <span style="font-size:11px;color:#aaa">Sent via Blue Mailer</span>
+    </div>
+  </div>
+</body>
+</html>`;
+}
+
+function loadProjInto(prefix) {
+  if (!ptHasAccess()) return toast('Project Library requires a higher plan', 'wa');
+  const list = loadProjTemplates();
+  if (!list.length) return toast('No projects yet — create one in Project Library first', 'wa');
+
+  const listEl = $('proj-load-list');
+  listEl.innerHTML = list.map(p => {
+    const color = PT_FORMAT_COLOR[p.format] || '#607898';
+    const ico   = PT_FORMAT_ICO[p.format]   || '📄';
+    return `<div class="tpl-item" style="cursor:pointer" onclick="insertProjInto('${p.id}','${prefix}')">
+      <div style="font-size:20px;flex-shrink:0">${ico}</div>
+      <div style="flex:1;min-width:0">
+        <div class="tpl-item-name">${p.title}</div>
+        <div class="tpl-item-meta">${p.company||'—'} · <span style="color:${color}">${p.format}</span>${p.senderName ? ' · '+p.senderName : ''}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+        <button class="btn btn-ghost btn-sm" style="font-size:11px;padding:4px 8px" onclick="event.stopPropagation();viewProjDocById('${p.id}')">👁 View</button>
+        <span class="tag tag-bl">USE</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  $('proj-load-modal').classList.add('open');
+}
+
+function insertProjInto(id, prefix) {
+  const p = loadProjTemplates().find(x => x.id === id);
+  if (!p) return;
+
+  // Fill subject (only if empty)
+  const subjEl = $(`${prefix}-subj`);
+  if (subjEl && !subjEl.value) subjEl.value = p.title || '';
+
+  // Fill from name (only if empty)
+  const fromEl = $(`${prefix}-from`);
+  if (fromEl && !fromEl.value) fromEl.value = p.senderName || p.dept || '';
+
+  // Fill reply-to (only if empty)
+  const replyEl = $(`${prefix}-replyto`);
+  if (replyEl && !replyEl.value) replyEl.value = p.senderEmail || p.replyto || '';
+
+  // Always generate and fill HTML body
+  const htmlEl = $(`${prefix}-html`);
+  if (htmlEl) htmlEl.value = projToEmailHtml(p);
+
+  closeModal('proj-load-modal');
+  toast(`Project "${p.title}" loaded into ${prefix === 'bulk' ? 'Bulk' : 'Personalized'} sender`, 'ok');
+}
+
+const PT_KEY = 'bm_proj_tpls';
+let _ptFilter = 'all';
+let _ptEditId  = null;
+
+const PT_FORMAT_ICO = {
+  'Electrical':     '⚡',
+  'Plumbing':       '🔧',
+  'HVAC':           '❄️',
+  'Construction':   '🏗',
+  'Email Campaign': '📤',
+  'Newsletter':     '📰',
+  'Invoice':        '🧾',
+  'Proposal':       '📑',
+  'Report':         '📊',
+  'Other':          '📄',
+};
+const PT_FORMAT_COLOR = {
+  'Electrical':     '#ffcc00',
+  'Plumbing':       '#00c8ff',
+  'HVAC':           '#4da3ff',
+  'Construction':   '#ff8c42',
+  'Email Campaign': '#1a7fff',
+  'Newsletter':     '#00e87a',
+  'Invoice':        '#8b5cf6',
+  'Proposal':       '#ff6b8a',
+  'Report':         '#00b860',
+  'Other':          '#607898',
+};
+
+// ── Sample starters ──────────────────────────────────────────
+const PT_STARTERS = [
+  { format:'Electrical', title:'Electrical Inspection Report', company:'',
+    filename:'FILE-EL-001', docSubformat:'PDF', desc:'Site electrical inspection summary including panel assessment, wiring compliance, and fault findings.',
+    senderName:'', senderEmail:'', dept:'Electrical Department',
+    docBtnLabel:'VIEW DOCUMENTS', releaseDate:'', brandColor:'#ffcc00',
+    headerImg:'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&q=80' },
+  { format:'Plumbing', title:'Plumbing Assessment & Repair Quote', company:'',
+    filename:'FILE-PL-001', docSubformat:'PDF', desc:'Full plumbing system assessment covering pipe condition, water pressure, drainage flow, and repair cost estimates.',
+    senderName:'', senderEmail:'', dept:'Plumbing Department',
+    docBtnLabel:'VIEW DOCUMENTS', releaseDate:'', brandColor:'#00c8ff',
+    headerImg:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80' },
+  { format:'HVAC', title:'HVAC Maintenance & Service Report', company:'',
+    filename:'FILE-HV-001', docSubformat:'PDF', desc:'Quarterly HVAC system maintenance report including filter status, refrigerant levels, airflow measurements, and service recommendations.',
+    senderName:'', senderEmail:'', dept:'HVAC Services',
+    docBtnLabel:'VIEW DOCUMENTS', releaseDate:'', brandColor:'#4da3ff',
+    headerImg:'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800&q=80' },
+  { format:'Construction', title:'Construction Progress Report', company:'',
+    filename:'FILE-CR-001', docSubformat:'PDF', desc:'Milestone-based construction progress update detailing completed phases, active work zones, material deliveries, and revised timelines.',
+    senderName:'', senderEmail:'', dept:'Project Management',
+    docBtnLabel:'VIEW DOCUMENTS', releaseDate:'', brandColor:'#ff8c42',
+    headerImg:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80' },
+  { format:'Construction', title:'Site Safety Compliance Report', company:'',
+    filename:'FILE-SF-001', docSubformat:'PDF', desc:'HSE compliance audit covering PPE adherence, hazard identification, risk assessments, and corrective action plans.',
+    senderName:'', senderEmail:'', dept:'Safety & Compliance',
+    docBtnLabel:'VIEW DOCUMENTS', releaseDate:'', brandColor:'#ff3c5a',
+    headerImg:'https://images.unsplash.com/photo-1590578736636-e90cdb2c0a2c?w=800&q=80' },
+  { format:'Invoice', title:'Service Invoice', company:'',
+    filename:'INV-001', docSubformat:'PDF', desc:'Invoice for professional services rendered. Please review all line items and use the link below to access the full invoice.',
+    senderName:'', senderEmail:'', dept:'Accounts / Finance',
+    docBtnLabel:'VIEW INVOICE', releaseDate:'', brandColor:'#8b5cf6',
+    headerImg:'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80' },
+  { format:'Proposal', title:'Project Proposal & Scope of Work', company:'',
+    filename:'PRJ-PROP-001', docSubformat:'PDF', desc:'Detailed project proposal including scope of work, delivery timeline, resource allocation, and pricing breakdown.',
+    senderName:'', senderEmail:'', dept:'Business Development',
+    docBtnLabel:'VIEW PROPOSAL', releaseDate:'', brandColor:'#ff6b8a',
+    headerImg:'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80' },
+  { format:'Report', title:'Monthly Operations Report', company:'',
+    filename:'RPT-OPS-001', docSubformat:'PDF', desc:'Monthly summary of operational KPIs, team performance metrics, resource utilization, and key decisions taken.',
+    senderName:'', senderEmail:'', dept:'Operations',
+    docBtnLabel:'VIEW REPORT', releaseDate:'', brandColor:'#00b860',
+    headerImg:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80' },
+  { format:'Email Campaign', title:'Email Campaign Brief', company:'',
+    filename:'MKT-001', docSubformat:'HTML', desc:'Campaign brief including target audience, messaging strategy, design assets, send schedule, and performance KPIs.',
+    senderName:'', senderEmail:'', dept:'Marketing',
+    docBtnLabel:'VIEW BRIEF', releaseDate:'', brandColor:'#1a7fff',
+    headerImg:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80' },
+  { format:'Electrical', title:'Solar Panel Installation Plan', company:'',
+    filename:'FILE-SOL-001', docSubformat:'PDF', desc:'Residential/commercial solar PV installation documentation including system sizing, wiring diagrams, and grid connection specs.',
+    senderName:'', senderEmail:'', dept:'Solar & Renewables',
+    docBtnLabel:'VIEW DOCUMENTS', releaseDate:'', brandColor:'#ffcc00',
+    headerImg:'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&q=80' },
+  { format:'Plumbing', title:'Water Damage Restoration Report', company:'',
+    filename:'FILE-WDR-001', docSubformat:'PDF', desc:'Assessment of water damage including source identification, affected area mapping, moisture readings, and restoration plan.',
+    senderName:'', senderEmail:'', dept:'Restoration Services',
+    docBtnLabel:'VIEW DOCUMENTS', releaseDate:'', brandColor:'#00c8ff',
+    headerImg:'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800&q=80' },
+  { format:'Other', title:'General Document Share', company:'',
+    filename:'FILE-001', docSubformat:'PDF', desc:'Shared document for your review. Click the link below to access the file.',
+    senderName:'', senderEmail:'', dept:'',
+    docBtnLabel:'VIEW DOCUMENTS', releaseDate:'', brandColor:'#607898',
+    headerImg:'' },
+];
+
+// ── Helpers ──────────────────────────────────────────────────
+function loadProjTemplates() {
+  try { return JSON.parse(localStorage.getItem(PT_KEY) || '[]'); } catch { return []; }
+}
+function saveProjTemplates(list) { localStorage.setItem(PT_KEY, JSON.stringify(list)); }
+
+function ptHasAccess() {
+  return S.features.includes('proj_lib');
+}
+
+function setPtFilter(btn) {
+  document.querySelectorAll('.pt-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _ptFilter = btn.dataset.fmt;
+  renderProjLib();
+}
+
+function renderProjLib() {
+  const locked = $('pt-locked-banner');
+  const main   = $('pt-main-wrap');
+
+  if (!ptHasAccess()) {
+    if (locked) locked.classList.remove('dn');
+    if (main)   main.classList.add('dn');
+    return;
+  }
+  if (locked) locked.classList.add('dn');
+  if (main)   main.classList.remove('dn');
+
+  const list    = loadProjTemplates();
+  const search  = ($('pt-search')?.value || '').toLowerCase();
+  const filtered = list.filter(p => {
+    const matchFmt = _ptFilter === 'all' || p.format === _ptFilter;
+    const matchSrc = !search || [p.company, p.title, p.filename, p.senderEmail, p.senderName, p.format].join(' ').toLowerCase().includes(search);
+    return matchFmt && matchSrc;
+  });
+
+  const grid  = $('pt-grid');
+  const empty = $('pt-empty');
+  if (!grid) return;
+
+  if (!list.length) {
+    grid.style.display = 'none';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  grid.style.display  = 'grid';
+
+  if (!filtered.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text2);font-size:13px">No projects match your filter</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => {
+    const color   = PT_FORMAT_COLOR[p.format] || '#607898';
+    const ico     = PT_FORMAT_ICO[p.format]   || '📄';
+    const dateStr = p.updatedAt ? new Date(p.updatedAt).toLocaleDateString() : '—';
+    const sender  = p.senderEmail || p.senderName || '—';
+    const desc    = p.desc ? `<div style="font-size:11px;color:var(--text2);line-height:1.5;margin-top:4px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${p.desc}</div>` : '';
+    const hasBanner = p.headerImg ? `<div style="height:80px;overflow:hidden;position:relative"><img src="${p.headerImg}" style="width:100%;height:100%;object-fit:cover"><div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent,rgba(8,14,26,.9))"></div></div>` : '';
+
+    return `<div class="pt-card">
+      ${hasBanner || `<div class="pt-card-banner" style="background:${color}"></div>`}
+      <div class="pt-card-body">
+        ${!hasBanner ? `<div class="pt-card-ico">${ico}</div>` : `<div style="font-size:20px;margin-bottom:6px;position:relative">${ico}</div>`}
+        <div class="pt-card-company">${p.company || '—'}</div>
+        <div class="pt-card-title">${p.title || 'Untitled'}</div>
+        <div class="pt-card-meta">
+          <span class="tag" style="font-size:9px;background:${color}18;border:1px solid ${color}33;color:${color}">${ico} ${p.format}</span>
+          ${p.filename ? `<span class="tag" style="font-size:9px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text2)">${p.filename}</span>` : ''}
+          ${p.docSubformat ? `<span class="tag tag-bl" style="font-size:9px">${p.docSubformat}</span>` : ''}
+        </div>
+        ${desc}
+      </div>
+      <div class="pt-card-footer">
+        <div class="pt-card-sender" title="${sender}">✉ ${sender}</div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <button class="pt-card-viewbtn" onclick="event.stopPropagation();viewProjDocById('${p.id}')">👁 View</button>
+          <button class="pt-card-viewbtn" onclick="event.stopPropagation();openProjModal('${p.id}')">✏️</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Open / populate modal ────────────────────────────────────
+function openProjModal(id) {
+  _ptEditId = id || null;
+  const modal = $('proj-modal');
+  const fmtEl = $('pt-format');
+
+  if (id) {
+    const p = loadProjTemplates().find(x => x.id === id);
+    if (!p) return;
+    $('proj-modal-title').textContent = 'Edit Project';
+    $('proj-modal-sub').textContent   = `${p.company || ''} · ${p.format}`;
+    $('proj-modal-ico').textContent   = PT_FORMAT_ICO[p.format] || '📄';
+    $('pt-company').value         = p.company      || '';
+    $('pt-title').value           = p.title        || '';
+    $('pt-filename').value        = p.filename     || '';
+    if (fmtEl) fmtEl.value        = p.format       || 'Electrical';
+    $('pt-desc').value            = p.desc         || '';
+    $('pt-release-date').value    = p.releaseDate   || '';
+    $('pt-doc-subformat').value   = p.docSubformat  || 'PDF';
+    $('pt-header-img').value      = p.headerImg     || '';
+    $('pt-brand-color').value     = p.brandColor    || '#1a7fff';
+    $('pt-brand-color-hex').value = p.brandColor    || '#1a7fff';
+    $('pt-sender-name').value     = p.senderName    || '';
+    $('pt-sender-email').value    = p.senderEmail   || '';
+    $('pt-replyto').value         = p.replyTo       || '';
+    $('pt-dept').value            = p.dept          || '';
+    $('pt-signature').value       = p.signature     || '';
+    $('pt-doc-link').value        = p.docLink       || '';
+    $('pt-doc-btn-label').value   = p.docBtnLabel   || 'VIEW DOCUMENTS';
+    $('pt-sign-link').value       = p.signLink      || '';
+    $('pt-delete-btn').style.display = 'inline-flex';
+    $('pt-view-btn').style.display   = 'inline-flex';
+    ptUpdateDocPreview();
+    ptPreviewImg();
+  } else {
+    $('proj-modal-title').textContent = 'New Project';
+    $('proj-modal-sub').textContent   = 'Fill in the details below';
+    $('proj-modal-ico').textContent   = '📄';
+    ['pt-company','pt-title','pt-filename','pt-desc','pt-header-img',
+     'pt-sender-name','pt-sender-email','pt-replyto','pt-dept','pt-signature',
+     'pt-doc-link','pt-sign-link'].forEach(fid => { const el = $(fid); if(el) el.value = ''; });
+    if (fmtEl) fmtEl.value = 'Electrical';
+    $('pt-doc-btn-label').value   = 'VIEW DOCUMENTS';
+    $('pt-release-date').value    = '';
+    $('pt-doc-subformat').value   = 'PDF';
+    $('pt-brand-color').value     = '#1a7fff';
+    $('pt-brand-color-hex').value = '#1a7fff';
+    $('pt-delete-btn').style.display = 'none';
+    $('pt-view-btn').style.display   = 'none';
+    $('pt-img-preview').style.display = 'none';
+  }
+
+  modal.querySelectorAll('.tab-btn').forEach((b,i)  => b.classList.toggle('active', i===0));
+  modal.querySelectorAll('.tab-pane').forEach((p,i) => p.classList.toggle('active', i===0));
+  modal.classList.add('open');
+}
+
+function ptPreviewImg() {
+  const src   = ($('pt-header-img')?.value || '').trim();
+  const wrap  = $('pt-img-preview');
+  const img   = $('pt-img-preview-el');
+  const title = $('pt-banner-preview-title');
+  if (!wrap || !img) return;
+  if (src) {
+    img.src = src;
+    wrap.style.display = 'block';
+    if (title) title.textContent = $('pt-title')?.value || 'Your Title Here';
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
+function ptUpdateDocPreview() {
+  const ref  = $('pt-filename')?.value || 'FILE-000';
+  const fmt  = $('pt-doc-subformat')?.value || 'PDF';
+  const lbl  = $('pt-doc-btn-label')?.value || 'VIEW DOCUMENTS';
+  const link = $('pt-doc-link')?.value || '#';
+  const el   = $('pt-prev-ref'); if (el) el.textContent = ref;
+  const el2  = $('pt-prev-fmt'); if (el2) el2.textContent = fmt;
+  const el3  = $('pt-prev-link'); if (el3) { el3.textContent = lbl; el3.href = link; }
+}
+
+// ── Save ─────────────────────────────────────────────────────
+function saveProjTemplate() {
+  const company = ($('pt-company')?.value || '').trim();
+  const title   = ($('pt-title')?.value   || '').trim();
+  if (!company || !title) { toast('Company Name and Title are required', 'wa'); return; }
+
+  const list = loadProjTemplates();
+  const now  = new Date().toISOString();
+  const proj = {
+    id:           _ptEditId || crypto.randomUUID(),
+    company, title,
+    filename:     ($('pt-filename')?.value      || '').trim(),
+    format:       $('pt-format')?.value          || 'Electrical',
+    desc:         ($('pt-desc')?.value           || '').trim(),
+    releaseDate:  $('pt-release-date')?.value    || '',
+    docSubformat: $('pt-doc-subformat')?.value   || 'PDF',
+    headerImg:    ($('pt-header-img')?.value     || '').trim(),
+    brandColor:   $('pt-brand-color')?.value     || '#1a7fff',
+    senderName:   ($('pt-sender-name')?.value    || '').trim(),
+    senderEmail:  ($('pt-sender-email')?.value   || '').trim(),
+    replyTo:      ($('pt-replyto')?.value        || '').trim(),
+    dept:         ($('pt-dept')?.value           || '').trim(),
+    signature:    ($('pt-signature')?.value      || '').trim(),
+    docLink:      ($('pt-doc-link')?.value       || '').trim(),
+    docBtnLabel:  ($('pt-doc-btn-label')?.value  || 'VIEW DOCUMENTS').trim(),
+    signLink:     ($('pt-sign-link')?.value      || '').trim(),
+    updatedAt: now,
+    createdAt: _ptEditId ? (list.find(x=>x.id===_ptEditId)?.createdAt || now) : now,
+  };
+
+  if (_ptEditId) {
+    const idx = list.findIndex(x => x.id === _ptEditId);
+    if (idx >= 0) list[idx] = proj; else list.push(proj);
+  } else {
+    list.unshift(proj);
+  }
+  saveProjTemplates(list);
+  closeModal('proj-modal');
+  renderProjLib();
+  toast(_ptEditId ? 'Project updated' : 'Project created', 'ok');
+}
+
+function deleteProjTemplate() {
+  if (!_ptEditId) return;
+  if (!confirm('Delete this project template? This cannot be undone.')) return;
+  saveProjTemplates(loadProjTemplates().filter(x => x.id !== _ptEditId));
+  closeModal('proj-modal');
+  renderProjLib();
+  toast('Project deleted', 'wa');
+}
+
+// ── Document View ────────────────────────────────────────────
+function openDocView(p) {
+  const modal = $('docview-modal');
+  const bannerImg = $('dv-banner-img');
+
+  if (p.headerImg) {
+    bannerImg.src = p.headerImg;
+    bannerImg.style.display = 'block';
+    $('dv-banner').style.background = 'transparent';
+  } else {
+    bannerImg.style.display = 'none';
+    $('dv-banner').style.background = `linear-gradient(135deg, #0a1a3a, ${p.brandColor || '#1a3a6a'})`;
+  }
+
+  $('dv-company').textContent = p.company || '';
+  $('dv-title').textContent   = p.title   || 'Untitled';
+  $('dv-updated').textContent = `Updated at ${new Date(p.updatedAt || Date.now()).toLocaleString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true,month:'2-digit',day:'2-digit',year:'numeric'})}`;
+
+  const descEl = $('dv-desc');
+  if (p.desc) { descEl.textContent = p.desc; descEl.style.display = 'block'; }
+  else { descEl.style.display = 'none'; }
+
+  $('dv-ref').textContent    = p.filename     || '—';
+  $('dv-fmt').textContent    = p.docSubformat || '—';
+  $('dv-date').textContent   = p.releaseDate  ? new Date(p.releaseDate).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : '—';
+  $('dv-sender').textContent = p.senderName   || p.dept || '—';
+
+  const sharedMsg = $('dv-shared-msg');
+  if (p.senderName && p.senderEmail) {
+    $('dv-sender-inline').textContent = p.senderName;
+    const emailEl = $('dv-email-inline');
+    emailEl.textContent = p.senderEmail;
+    emailEl.onclick = () => { navigator.clipboard?.writeText(p.senderEmail); toast('Email copied','ok'); };
+    sharedMsg.style.display = 'block';
+  } else {
+    sharedMsg.style.display = 'none';
+  }
+
+  const docLinkEl = $('dv-doc-link');
+  docLinkEl.textContent = p.docBtnLabel || 'VIEW DOCUMENTS';
+  docLinkEl.href  = p.docLink || '#';
+  const accentColor = p.brandColor || '#1a7fff';
+  docLinkEl.style.color       = accentColor;
+  docLinkEl.style.borderColor = accentColor;
+
+  const signWrap = $('dv-sign-wrap');
+  if (p.signLink) {
+    $('dv-sign-link').href = p.signLink;
+    signWrap.style.display = 'block';
+  } else {
+    signWrap.style.display = 'none';
+  }
+
+  modal.classList.add('open');
+}
+
+function viewProjDocById(id) {
+  const p = loadProjTemplates().find(x => x.id === id);
+  if (p) openDocView(p);
+}
+
+function viewProjDocument() {
+  const p = {
+    id: _ptEditId || 'preview',
+    company:      $('pt-company')?.value      || '',
+    title:        $('pt-title')?.value        || 'Untitled',
+    filename:     $('pt-filename')?.value     || 'FILE-000',
+    format:       $('pt-format')?.value       || 'Other',
+    desc:         $('pt-desc')?.value         || '',
+    releaseDate:  $('pt-release-date')?.value || '',
+    docSubformat: $('pt-doc-subformat')?.value|| 'PDF',
+    headerImg:    $('pt-header-img')?.value   || '',
+    brandColor:   $('pt-brand-color')?.value  || '#1a7fff',
+    senderName:   $('pt-sender-name')?.value  || '',
+    senderEmail:  $('pt-sender-email')?.value || '',
+    dept:         $('pt-dept')?.value         || '',
+    docLink:      $('pt-doc-link')?.value     || '#',
+    docBtnLabel:  $('pt-doc-btn-label')?.value|| 'VIEW DOCUMENTS',
+    signLink:     $('pt-sign-link')?.value    || '',
+    updatedAt:    new Date().toISOString(),
+  };
+  closeModal('proj-modal');
+  openDocView(p);
+}
+
+function copyDocLink() {
+  const link = $('dv-doc-link')?.href;
+  if (link && link !== location.href + '#') {
+    navigator.clipboard?.writeText(link).then(() => toast('Link copied!','ok'));
+  } else { toast('No document link set','wa'); }
+}
+
+// ── Starters modal ──────────────────────────────────────────
+function openStarterModal() {
+  const grid = $('starters-grid');
+  if (!grid) return;
+  grid.innerHTML = PT_STARTERS.map((s, i) => {
+    const color = PT_FORMAT_COLOR[s.format] || '#607898';
+    const ico   = PT_FORMAT_ICO[s.format]   || '📄';
+    return `<div class="pt-starter-card" onclick="addStarter(${i})">
+      ${s.headerImg ? `<div style="height:60px;border-radius:6px;overflow:hidden;margin-bottom:10px"><img src="${s.headerImg}" style="width:100%;height:100%;object-fit:cover"></div>` : `<div class="pt-starter-ico">${ico}</div>`}
+      <div class="pt-starter-label">${s.title}</div>
+      <div class="pt-starter-fmt" style="color:${color}">${ico} ${s.format}</div>
+    </div>`;
+  }).join('');
+  $('starters-modal').classList.add('open');
+}
+
+function addStarter(index) {
+  const s = PT_STARTERS[index];
+  if (!s) return;
+  const list = loadProjTemplates();
+  const now  = new Date().toISOString();
+  list.unshift({ ...s, id: crypto.randomUUID(), createdAt: now, updatedAt: now,
+    company: s.company || '', senderName: s.senderName || '', senderEmail: s.senderEmail || '',
+    docLink: s.docLink || '', signLink: s.signLink || '' });
+  saveProjTemplates(list);
+  closeModal('starters-modal');
+  renderProjLib();
+  toast(`Added: ${s.title}`, 'ok');
+}
+
+// ── Live form sync ───────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const picker = $('pt-brand-color');
+  if (picker) picker.addEventListener('input', () => {
+    const hex = $('pt-brand-color-hex');
+    if (hex) hex.value = picker.value;
+  });
+  ['pt-filename','pt-doc-subformat','pt-doc-btn-label','pt-doc-link'].forEach(id => {
+    const el = $(id);
+    if (el) el.addEventListener('input', ptUpdateDocPreview);
+  });
+  const titleInp = $('pt-title');
+  if (titleInp) titleInp.addEventListener('input', () => {
+    const t = $('pt-banner-preview-title');
+    if (t) t.textContent = titleInp.value || 'Your Title Here';
+  });
+});
 </script>
 </body>
 </html>
